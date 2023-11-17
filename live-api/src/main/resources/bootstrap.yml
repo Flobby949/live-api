@@ -1,0 +1,12 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: live-api
+  cloud:
+    nacos:
+      username: nacos
+      password: nacos
+      discovery:
+        server-addr: http://106.15.104.19:8848
+        namespace: test
