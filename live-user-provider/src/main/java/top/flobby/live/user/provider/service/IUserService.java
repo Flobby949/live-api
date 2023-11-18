@@ -1,15 +1,16 @@
-package top.flobby.live.user.interfaces;
+package top.flobby.live.user.provider.service;
 
 import top.flobby.live.user.interfaces.dto.UserDTO;
 
 /**
  * @author : Flobby
  * @program : live-api
- * @description : RPC接口
- * @create : 2023-11-17 15:49
+ * @description : service
+ * @create : 2023-11-18 14:44
  **/
 
-public interface IUserRpc {
+public interface IUserService {
+
     /**
      * 按用户 ID 获取
      *

@@ -1,7 +1,10 @@
 package top.flobby.live.user.provider.rpc;
 
+import jakarta.annotation.Resource;
 import org.apache.dubbo.config.annotation.DubboService;
 import top.flobby.live.user.interfaces.IUserRpc;
+import top.flobby.live.user.interfaces.dto.UserDTO;
+import top.flobby.live.user.provider.service.IUserService;
 
 /**
  * @author : Flobby
@@ -10,11 +13,14 @@ import top.flobby.live.user.interfaces.IUserRpc;
  * @create : 2023-11-17 15:50
  **/
 
-@DubboService(group = "test")
+@DubboService
 public class UserRpcImpl implements IUserRpc {
+
+    @Resource
+    private IUserService userService;
+
     @Override
-    public String test() {
-        System.out.println("this is dubbo test");
-        return "success";
+    public UserDTO getByUserId(Long userId) {
+        return userService.getByUserId(userId);
     }
 }

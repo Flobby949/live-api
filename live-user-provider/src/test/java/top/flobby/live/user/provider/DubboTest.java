@@ -38,7 +38,7 @@ class DubboTest {
         IUserRpc userRpc = (IUserRpc)
                 referMap.get(IUserRpc.class);
         for (int i = 0; i < 1000; i++) {
-            userRpc.test();
+            // userRpc.test();
         }
     }
 }
