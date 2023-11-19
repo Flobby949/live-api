@@ -54,3 +54,17 @@ h
 žlive-framework/live-framework-datasource-starter/src/main/java/top/flobby/live/framework/datasource/config/ShardingJdbcDatasourceAutoInitConnectionConfig.java,4\6\465fa9d505660899122867b9e4e44d3ae9b7b57a
 ×
 ¦live-framework/live-framework-datasource-starter/src/main/java/top/flobby/live/framework/datasource/starter/config/ShardingJdbcDatasourceAutoInitConnectionConfig.java,7\b\7b2ad80ae5b25b9920209c43a478ec9e63895c1b
+c
+3live-framework/live-framework-redis-starter/pom.xml,8\6\86e6792f2dcdf6e4d1112114c24ad0d24f27f414
+©
+ylive-framework/live-framework-redis-starter/src/main/java/top/flobby/live/framework/redis/starter/config/RedisConfig.java,3\5\35d680fa9adaf3c3ddeeaa052d82e82c49bdc309
+«
+{live-framework/live-framework-redis-starter/src/main/java/top/flobby/live/framework/redis/starter/config/MapperFactory.java,0\d\0dbb52c3b988561787b430fcbb4aa9614b2f3667
+Â
+‘live-framework/live-framework-redis-starter/src/main/java/top/flobby/live/framework/redis/starter/config/IGenericJackson2JsonRedisSerializer.java,a\e\aedac283c72e94ba5af28f377e79ce86c7f5142a
+ª
+zlive-framework/live-framework-redis-starter/src/main/java/top/flobby/live/framework/redis/starter/key/RedisKeyBuilder.java,b\6\b6da832ea5e31c25a69d9c5695344d70e70c699e
+·
+†live-framework/live-framework-redis-starter/src/main/java/top/flobby/live/framework/redis/starter/key/UserProviderCacheKeyBuilder.java,b\4\b4c39af5c5f2857ab1c15062639be4d645f59a49
+¬
+|live-framework/live-framework-redis-starter/src/main/java/top/flobby/live/framework/redis/starter/key/RedisKeyLoadMatch.java,b\1\b18271269794c5f856924c160aac612a9fb7691b

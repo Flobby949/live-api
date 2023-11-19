@@ -1,0 +1,6 @@
+dubbo:
+  application:
+    name: live-api-application
+    qos-enable: false
+  registry:
+    address: nacos://106.15.104.19:8848?namespace=test&&username=nacos&&password=nacos
