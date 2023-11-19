@@ -2,7 +2,10 @@ package top.flobby.live.user.provider.service.impl;
 
 import com.google.common.collect.Maps;
 import jakarta.annotation.Resource;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import top.flobby.live.common.interfaces.utils.ConvertBeanUtils;
@@ -17,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -47,7 +52,7 @@ public class UserServiceImpl implements IUserService {
         }
         userDTO = ConvertBeanUtils.convert(userMapper.selectById(userId), UserDTO.class);
         if (userDTO != null) {
-            redisTemplate.opsForValue().set(key, userDTO);
+            redisTemplate.opsForValue().set(key, userDTO, createRandomExpireTime(), TimeUnit.SECONDS);
         }
         return userDTO;
     }
@@ -105,9 +110,29 @@ public class UserServiceImpl implements IUserService {
             // 结合业务场景进行优化，是否要添加到缓存中
             Map<String, UserDTO> saveCacheMap = dbQueryResult.stream().collect(Collectors.toMap(x -> userProviderCacheKeyBuilder.buildUserInfoKey(x.getUserId()), x -> x));
             redisTemplate.opsForValue().multiSet(saveCacheMap);
+            // 管道写法，批量设置过期时间
+            redisTemplate.executePipelined(new SessionCallback<>() {
+                @Override
+                public <K, V> Object execute(RedisOperations<K, V> operations) throws DataAccessException {
+                    for (String redisKey : saveCacheMap.keySet()) {
+                        operations.expire((K) redisKey, createRandomExpireTime(), TimeUnit.SECONDS);
+                    }
+                    return null;
+                }
+            });
             userDTOList.addAll(dbQueryResult);
         }
         return userDTOList.stream()
                 .collect(Collectors.toMap(UserDTO::getUserId, userDTO -> userDTO));
+    }
+
+    /**
+     * 创建随机过期时间
+     * 30 min + 随机秒数
+     *
+     * @return int
+     */
+    private int createRandomExpireTime() {
+        return ThreadLocalRandom.current().nextInt(1000) + 60 * 30;
     }
 }
