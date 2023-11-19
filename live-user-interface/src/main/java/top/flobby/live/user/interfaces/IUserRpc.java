@@ -2,6 +2,9 @@ package top.flobby.live.user.interfaces;
 
 import top.flobby.live.user.interfaces.dto.UserDTO;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author : Flobby
  * @program : live-api
@@ -33,4 +36,6 @@ public interface IUserRpc {
      * @return boolean
      */
     boolean insertUser(UserDTO userDTO);
+
+    Map<Long, UserDTO> batchQueryUserInfo(List<Long> userIdList);
 }

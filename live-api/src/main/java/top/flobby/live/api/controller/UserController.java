@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 import top.flobby.live.user.interfaces.IUserRpc;
 import top.flobby.live.user.interfaces.dto.UserDTO;
 
+import java.util.Arrays;
+import java.util.Map;
+
 /**
  * @author : Flobby
  * @program : live-api
@@ -27,6 +30,11 @@ public class UserController {
     public UserDTO getUserInfo(Long userId) {
         log.info("userId:{}", userId);
         return userRpc.getByUserId(userId);
+    }
+
+    @GetMapping("batchQueryUserInfo")
+    public Map<Long, UserDTO> batchQueryUserInfo(String userIdStr) {
+        return userRpc.batchQueryUserInfo(Arrays.stream(userIdStr.split(",")).map(Long::valueOf).toList());
     }
 
     @GetMapping("/updateUserInfo")

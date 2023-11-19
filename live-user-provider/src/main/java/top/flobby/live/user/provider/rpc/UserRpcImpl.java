@@ -6,6 +6,9 @@ import top.flobby.live.user.interfaces.IUserRpc;
 import top.flobby.live.user.interfaces.dto.UserDTO;
 import top.flobby.live.user.provider.service.IUserService;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author : Flobby
  * @program : live-api
@@ -32,5 +35,10 @@ public class UserRpcImpl implements IUserRpc {
     @Override
     public boolean insertUser(UserDTO userDTO) {
         return userService.insertUser(userDTO);
+    }
+
+    @Override
+    public Map<Long, UserDTO> batchQueryUserInfo(List<Long> userIdList) {
+        return userService.batchQueryUserInfo(userIdList);
     }
 }

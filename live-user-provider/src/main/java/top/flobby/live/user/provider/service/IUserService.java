@@ -2,6 +2,9 @@ package top.flobby.live.user.provider.service;
 
 import top.flobby.live.user.interfaces.dto.UserDTO;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author : Flobby
  * @program : live-api
@@ -34,4 +37,12 @@ public interface IUserService {
      * @return boolean
      */
     boolean insertUser(UserDTO userDTO);
+
+    /**
+     * 批量查询用户信息
+     *
+     * @param userIdList 用户 ID 列表
+     * @return {@link Map}<{@link Long}, {@link UserDTO}>
+     */
+    Map<Long, UserDTO> batchQueryUserInfo(List<Long>userIdList);
 }

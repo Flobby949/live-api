@@ -1,14 +1,23 @@
 package top.flobby.live.user.provider.service.impl;
 
+import com.google.common.collect.Maps;
 import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import top.flobby.live.common.interfaces.utils.ConvertBeanUtils;
 import top.flobby.live.framework.redis.starter.key.UserProviderCacheKeyBuilder;
 import top.flobby.live.user.interfaces.dto.UserDTO;
 import top.flobby.live.user.provider.dao.mapper.UserMapper;
 import top.flobby.live.user.provider.dao.po.UserPO;
 import top.flobby.live.user.provider.service.IUserService;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
 
 /**
  * @author : Flobby
@@ -57,5 +66,48 @@ public class UserServiceImpl implements IUserService {
             return false;
         }
         return userMapper.insert(ConvertBeanUtils.convert(userDTO, UserPO.class)) > 0;
+    }
+
+    @Override
+    public Map<Long, UserDTO> batchQueryUserInfo(List<Long> userIdList) {
+        if (CollectionUtils.isEmpty(userIdList)) {
+            return Maps.newHashMap();
+        }
+        userIdList = userIdList.stream().filter(id -> id > 10000).toList();
+        if (CollectionUtils.isEmpty(userIdList)) {
+            return Maps.newHashMap();
+        }
+        // redis 批量查询
+        List<String> keyList = new ArrayList<>();
+        // 批量构造 redis key
+        userIdList.forEach(userId ->
+                keyList.add(userProviderCacheKeyBuilder.buildUserInfoKey(userId)));
+        // 取出在redis缓存中的对象，过滤空对象
+        List<UserDTO> userDTOList = redisTemplate
+                .opsForValue().multiGet(keyList).stream()
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+        // 全部命中
+        if (!CollectionUtils.isEmpty(userDTOList) && userDTOList.size() == userIdList.size()) {
+            return userDTOList.stream()
+                    .collect(Collectors.toMap(UserDTO::getUserId, userDTO -> userDTO));
+        }
+        // 获取不在缓存中的id
+        List<Long> userIdInCache = userDTOList.stream().map(UserDTO::getUserId).toList();
+        List<Long> userIdNotInCache = userIdList.stream().filter(x -> !userIdInCache.contains(x)).toList();
+        // 直接 userMapper.selectBatchIds(userIdList); 性能不好，union all 实现，采用多线程实现
+        Map<Long, List<Long>> userIdMap = userIdNotInCache.stream()
+                .collect(Collectors.groupingBy(userId -> userId % 100));
+        List<UserDTO> dbQueryResult = new CopyOnWriteArrayList<>();
+        userIdMap.values().parallelStream().forEach(ids ->
+                dbQueryResult.addAll(ConvertBeanUtils.convertList(userMapper.selectBatchIds(ids), UserDTO.class)));
+        if (!CollectionUtils.isEmpty(dbQueryResult)) {
+            // 结合业务场景进行优化，是否要添加到缓存中
+            Map<String, UserDTO> saveCacheMap = dbQueryResult.stream().collect(Collectors.toMap(x -> userProviderCacheKeyBuilder.buildUserInfoKey(x.getUserId()), x -> x));
+            redisTemplate.opsForValue().multiSet(saveCacheMap);
+            userDTOList.addAll(dbQueryResult);
+        }
+        return userDTOList.stream()
+                .collect(Collectors.toMap(UserDTO::getUserId, userDTO -> userDTO));
     }
 }
