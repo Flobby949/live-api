@@ -17,4 +17,20 @@ public interface IUserRpc {
      * @return {@link UserDTO}
      */
     UserDTO getByUserId(Long userId);
+
+    /**
+     * 更新用户信息
+     *
+     * @param userDTO 用户 dto
+     * @return boolean
+     */
+    boolean updateUserInfo(UserDTO userDTO);
+
+    /**
+     * 插入用户
+     *
+     * @param userDTO 用户 dto
+     * @return boolean
+     */
+    boolean insertUser(UserDTO userDTO);
 }

@@ -28,4 +28,21 @@ public class UserController {
         log.info("userId:{}", userId);
         return userRpc.getByUserId(userId);
     }
+
+    @GetMapping("/updateUserInfo")
+    public boolean updateUserInfo(Long userId, String nickName) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserId(userId);
+        userDTO.setNickName(nickName);
+        return userRpc.updateUserInfo(userDTO);
+    }
+
+    @GetMapping("/insertUser")
+    public boolean insertUser(Long userId) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserId(userId);
+        userDTO.setNickName("live-test");
+        userDTO.setSex(1);
+        return userRpc.insertUser(userDTO);
+    }
 }

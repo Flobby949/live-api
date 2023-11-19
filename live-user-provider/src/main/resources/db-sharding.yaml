@@ -1,25 +1,31 @@
 dataSources:
-  user:  ##新表，重建的分表
+  user_master:  ##新表，重建的分表
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    jdbcUrl: jdbc:mysql://rm-cn-4xl3e1zjr00016fo.rwlb.rds.aliyuncs.com:3306/live_user?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false
-    username: live
-    password: abc++123
-    idle-timeout: 5 #单位：分钟
-    minimum-idle: 100
-    pool-name: live-db-user
-    maximum-pool-size: 1000
-    connection-timeout: 30000
-    connection-init-sql: SELECT 1
-    connection-test-query: SELECT 1
+    jdbcUrl: jdbc:mysql://101.132.144.1:8000/live_user?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false
+    username: root
+    password: root
+  user_slave0:  ##新表，重建的分表
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbcUrl: jdbc:mysql://101.132.144.1:8001/live_user?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false
+    username: root
+    password: root
 
 rules:
+  - !READWRITE_SPLITTING
+    dataSources:
+      user_ds:
+        staticStrategy:
+          writeDataSourceName: user_master
+          readDataSourceNames:
+            - user_slave0
   - !SINGLE
-    defaultDataSource: user ## 不分表分分库的默认数据源
+    defaultDataSource: user_ds ## 不分表分分库的默认数据源
   - !SHARDING
     tables:
       t_user:
-        actualDataNodes: user.t_user_${(0..99).collect(){it.toString().padLeft(2,'0')}}
+        actualDataNodes: user_ds.t_user_${(0..99).collect(){it.toString().padLeft(2,'0')}}
         tableStrategy:
           standard:
             shardingColumn: user_id

@@ -26,8 +26,6 @@ Slive-user-provider/src/main/java/top/flobby/live/user/provider/rpc/UserRpcImpl.
 live-api/pom.xml,a\8\a80f2e2358cde2df6ef706f80732a38897540ae2
 q
 Alive-api/src/main/java/top/flobby/live/api/ApiWebApplication.java,d\7\d7cd2ddf5c9d8b6462fca0572eb92276c16df020
-y
-Ilive-api/src/main/java/top/flobby/live/api/controller/TestController.java,e\0\e088e2b4e87531d233131222ef03f6d57efd3fa8
 }
 Mlive-user-provider/src/test/java/top/flobby/live/user/provider/DubboTest.java,b\3\b330a727ef87926c8613e8a58dfb4c220388ae33
 Å

@@ -13,7 +13,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * @create : 2023-11-17 15:36
  **/
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "top.flobby.live")
 @EnableDubbo
 @EnableDiscoveryClient
 public class UserProviderApplication {
