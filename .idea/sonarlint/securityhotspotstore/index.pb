@@ -64,3 +64,11 @@ zlive-framework/live-framework-redis-starter/src/main/java/top/flobby/live/frame
 †live-framework/live-framework-redis-starter/src/main/java/top/flobby/live/framework/redis/starter/key/UserProviderCacheKeyBuilder.java,b\4\b4c39af5c5f2857ab1c15062639be4d645f59a49
 ¬
 |live-framework/live-framework-redis-starter/src/main/java/top/flobby/live/framework/redis/starter/key/RedisKeyLoadMatch.java,b\1\b18271269794c5f856924c160aac612a9fb7691b
+•
+elive-user-provider/src/main/java/top/flobby/live/user/provider/config/RocketMQProducerProperties.java,a\b\ab13e152895a8b4bebeeb983fac1a609e1c7043c
+‘
+alive-user-provider/src/main/java/top/flobby/live/user/provider/config/RocketMQProducerConfig.java,3\6\363edcce489c3f3fa0b440cd336a99576ee499ad
+•
+elive-user-provider/src/main/java/top/flobby/live/user/provider/config/RocketMQConsumerProperties.java,d\7\d79abb9a7787ceaca13d542c73b6fded49fb082a
+‘
+alive-user-provider/src/main/java/top/flobby/live/user/provider/config/RocketMQConsumerConfig.java,b\1\b13577e73b763c6fd1e581c34a9a519d88998c74

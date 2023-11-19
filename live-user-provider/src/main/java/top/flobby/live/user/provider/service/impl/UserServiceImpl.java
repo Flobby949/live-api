@@ -1,7 +1,10 @@
 package top.flobby.live.user.provider.service.impl;
 
+import com.alibaba.fastjson2.JSON;
 import com.google.common.collect.Maps;
 import jakarta.annotation.Resource;
+import org.apache.rocketmq.client.producer.MQProducer;
+import org.apache.rocketmq.common.message.Message;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -39,6 +42,8 @@ public class UserServiceImpl implements IUserService {
     private RedisTemplate<String, UserDTO> redisTemplate;
     @Resource
     private UserProviderCacheKeyBuilder userProviderCacheKeyBuilder;
+    @Resource
+    private MQProducer mqProducer;
 
     @Override
     public UserDTO getByUserId(Long userId) {
@@ -62,7 +67,21 @@ public class UserServiceImpl implements IUserService {
         if (userDTO == null || userDTO.getUserId() == null) {
             return false;
         }
-        return userMapper.updateById(ConvertBeanUtils.convert(userDTO, UserPO.class)) > 0;
+        userMapper.updateById(ConvertBeanUtils.convert(userDTO, UserPO.class));
+        String key = userProviderCacheKeyBuilder.buildUserInfoKey(userDTO.getUserId());
+        redisTemplate.delete(key);
+
+        try {
+            Message message = new Message();
+            message.setTopic("user-update-cache");
+            // 延迟级别，1 代表一秒
+            message.setDelayTimeLevel(1);
+            message.setBody(JSON.toJSONString(userDTO).getBytes());
+            mqProducer.send(message);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return true;
     }
 
     @Override

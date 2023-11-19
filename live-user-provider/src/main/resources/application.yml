@@ -32,3 +32,14 @@ dubbo:
   protocol:
     name: dubbo
     port: 9090
+
+live:
+  rmq:
+    producer:
+      name-srv: 106.14.246.27:9876
+      group-name: ${spring.application.name}
+      retry-times: 3
+      send-time-out: 3000
+    consumer:
+      group-name: ${spring.application.name}
+      name-srv: 106.14.246.27:9876
