@@ -1,4 +1,4 @@
-package top.flobby.live.common.interfaces.config;
+package top.flobby.live.framework.datasource.starter.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationRunner;
@@ -22,7 +22,7 @@ public class ShardingJdbcDatasourceAutoInitConnectionConfig {
     @Bean
     public ApplicationRunner runner(DataSource dataSource) {
         return args -> {
-            log.info("dataSource: {}", dataSource);
+            log.info("dataSource: " + dataSource);
             Connection connection = dataSource.getConnection();
         };
     }

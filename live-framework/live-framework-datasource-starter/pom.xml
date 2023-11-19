@@ -5,17 +5,22 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>top.flobby</groupId>
-        <artifactId>live</artifactId>
+        <artifactId>live-framework</artifactId>
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>live-common-interface</artifactId>
-    <description>将一些公用配置放在这个模块中</description>
-
+    <artifactId>live-framework-datasource-starter</artifactId>
+    <description>提前初始化Mysql连接池</description>
     <dependencies>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

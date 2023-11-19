@@ -22,6 +22,7 @@
         <module>live-user-provider</module>
         <module>live-api</module>
         <module>live-common-interface</module>
+        <module>live-framework</module>
     </modules>
 
     <packaging>pom</packaging>

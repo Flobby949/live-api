@@ -46,3 +46,11 @@ y
 Ilive-api/src/main/java/top/flobby/live/api/controller/UserController.java,d\8\d8cec634adb3917f16158a968bdb9d6bc331e8c0
 ±
 €live-common-interface/src/main/java/top/flobby/live/common/interfaces/config/ShardingJdbcDatasourceAutoInitConnectionConfig.java,7\8\78e25f54e5fa4bf453089cc9fc6d4c48bace67ad
+F
+live-framework/pom.xml,4\b\4b9f6cffbe6408259fa657183cba66c136166603
+h
+8live-framework/live-framework-datasource-starter/pom.xml,8\7\8768aa5684f922a3130a9ed0aa875cc807056d9b
+Ï
+žlive-framework/live-framework-datasource-starter/src/main/java/top/flobby/live/framework/datasource/config/ShardingJdbcDatasourceAutoInitConnectionConfig.java,4\6\465fa9d505660899122867b9e4e44d3ae9b7b57a
+×
+¦live-framework/live-framework-datasource-starter/src/main/java/top/flobby/live/framework/datasource/starter/config/ShardingJdbcDatasourceAutoInitConnectionConfig.java,7\b\7b2ad80ae5b25b9920209c43a478ec9e63895c1b

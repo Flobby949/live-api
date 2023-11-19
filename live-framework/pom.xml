@@ -9,14 +9,13 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>live-common-interface</artifactId>
-    <description>将一些公用配置放在这个模块中</description>
+    <packaging>pom</packaging>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-        </dependency>
-    </dependencies>
+    <artifactId>live-framework</artifactId>
+    <description>基础组件模块</description>
+
+    <modules>
+        <module>live-framework-datasource-starter</module>
+    </modules>
 
 </project>
