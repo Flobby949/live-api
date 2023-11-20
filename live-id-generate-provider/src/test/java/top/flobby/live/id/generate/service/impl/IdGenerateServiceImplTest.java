@@ -12,8 +12,16 @@ class IdGenerateServiceImplTest {
 
     @Test
     void getSeqId() {
-        Long seqId = idGenerateService.getSeqId(1);
-        System.out.println(seqId);
+        for (int i = 0; i < 200; i++) {
+            Long seqId = idGenerateService.getSeqId(1);
+            System.out.println(seqId);
+        }
+        // 多运行一会，让线程池中的线程都执行完
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test

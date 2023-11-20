@@ -7,6 +7,12 @@ spring:
     url: jdbc:mysql://rm-cn-4xl3e1zjr00016fo.rwlb.rds.aliyuncs.com:3306/live_common?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false
     username: live
     password: abc++123
+    hikari:
+      maximum-pool-size: 300
+      minimum-idle: 15
+      idle-timeout: 60000
+      connection-timeout: 4000
+      max-lifetime: 60000
 
 dubbo:
   application:
@@ -16,3 +22,8 @@ dubbo:
   protocol:
     name: dubbo
     port: 9098
+
+# mybatis-plus 打印日志
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
