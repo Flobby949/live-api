@@ -23,6 +23,8 @@
         <module>live-api</module>
         <module>live-common-interface</module>
         <module>live-framework</module>
+        <module>live-id-generate-provider</module>
+        <module>live-id-generate-interface</module>
     </modules>
 
     <packaging>pom</packaging>

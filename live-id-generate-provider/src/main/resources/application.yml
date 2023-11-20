@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: live-id-generate-provider
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #访问主库
+    url: jdbc:mysql://rm-cn-4xl3e1zjr00016fo.rwlb.rds.aliyuncs.com:3306/live_common?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false
+    username: live
+    password: abc++123
+
+dubbo:
+  application:
+    name: ${spring.application.name}
+  registry:
+    address: nacos://106.15.104.19:8848?namespace=test&&username=nacos&&password=nacos
+  protocol:
+    name: dubbo
+    port: 9098
