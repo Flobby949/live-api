@@ -55,6 +55,7 @@ public class IdGenerateConfigPO {
 
     /**
      * 是否有序（0 无序，1 有序）。
+     * false 无序，true 有序。
      */
     private Boolean isSeq;
 

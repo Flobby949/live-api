@@ -1,7 +1,9 @@
 
 O
-java:S2699"-Add at least one assertion to this test case.(”ùÆ¾ûÿÿÿÿ8†ª¤Ú¾1
+java:S2699"-Add at least one assertion to this test case.(”ùÆ¾ûÿÿÿÿ8ÊüÅ²¿1
 J
-java:S2699"-Add at least one assertion to this test case.(¸‘í£8½ÊÜ×¾1
+java:S2699"-Add at least one assertion to this test case.(¸‘í£8ÊüÅ²¿1
 A
-java:S2925"$Remove this use of "Thread.sleep()".(¬Æ„°8ÎÉ¤Ú¾1
+java:S2925"$Remove this use of "Thread.sleep()".(¬Æ„°8ËüÅ²¿1
+A
+java:S2925&"$Remove this use of "Thread.sleep()".(¬Æ„°8ËüÅ²¿1
