@@ -1,4 +1,4 @@
-package top.flobby.live.user.interfaces.dto;
+package top.flobby.live.user.dto;
 
 import lombok.Data;
 

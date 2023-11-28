@@ -1,6 +1,6 @@
 package top.flobby.live.user.provider.service;
 
-import top.flobby.live.user.interfaces.dto.UserDTO;
+import top.flobby.live.user.dto.UserDTO;
 
 import java.util.List;
 import java.util.Map;

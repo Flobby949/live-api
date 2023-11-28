@@ -3,7 +3,7 @@ package top.flobby.live.user.provider.rpc;
 import jakarta.annotation.Resource;
 import org.apache.dubbo.config.annotation.DubboService;
 import top.flobby.live.user.interfaces.IUserRpc;
-import top.flobby.live.user.interfaces.dto.UserDTO;
+import top.flobby.live.user.dto.UserDTO;
 import top.flobby.live.user.provider.service.IUserService;
 
 import java.util.List;

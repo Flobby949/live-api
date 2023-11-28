@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.flobby.live.user.interfaces.IUserRpc;
-import top.flobby.live.user.interfaces.dto.UserDTO;
+import top.flobby.live.user.dto.UserDTO;
 
 import java.util.Arrays;
 import java.util.Map;

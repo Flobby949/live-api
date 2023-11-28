@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import top.flobby.live.common.interfaces.utils.ConvertBeanUtils;
 import top.flobby.live.framework.redis.starter.key.UserProviderCacheKeyBuilder;
-import top.flobby.live.user.interfaces.dto.UserDTO;
+import top.flobby.live.user.dto.UserDTO;
 import top.flobby.live.user.provider.dao.mapper.UserMapper;
 import top.flobby.live.user.provider.dao.po.UserPO;
 import top.flobby.live.user.provider.service.IUserService;

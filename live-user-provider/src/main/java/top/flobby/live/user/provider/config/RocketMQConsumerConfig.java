@@ -12,7 +12,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import top.flobby.live.framework.redis.starter.key.UserProviderCacheKeyBuilder;
-import top.flobby.live.user.interfaces.dto.UserDTO;
+import top.flobby.live.user.dto.UserDTO;
 
 /**
  * @author : Flobby
