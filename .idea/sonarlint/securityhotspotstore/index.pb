@@ -36,8 +36,6 @@ Ylive-user-provider/src/main/java/top/flobby/live/user/provider/dao/mapper/UserM
 Xlive-user-provider/src/main/java/top/flobby/live/user/provider/service/IUserService.java,2\a\2a5c5bea7df3b135b24fafd80f06a290098d1e8e
 ê
 `live-user-provider/src/main/java/top/flobby/live/user/provider/service/impl/UserServiceImpl.java,3\e\3ec0133db1bedd2bbfb8050f53691ca2dbcb5101
-Ç
-Rlive-user-interface/src/main/java/top/flobby/live/user/interfaces/dto/UserDTO.java,9\0\90a907ab35d3825f7efc7b5447e6e0f9137bf50b
 M
 live-common-interface/pom.xml,1\f\1fc358abbbae5cf926bb9b4587d14688ecf2b415
 ë
@@ -108,8 +106,6 @@ Vlive-user-provider/src/main/java/top/flobby/live/user/provider/rpc/UserTagRpcIm
 [live-user-provider/src/main/java/top/flobby/live/user/provider/service/IUserTagService.java,3\7\370e0c361051216d1483a3d476633116dfff486b
 ì
 clive-user-provider/src/main/java/top/flobby/live/user/provider/service/impl/UserTagServiceImpl.java,f\5\f5a42c645a29dd3515ff1877c19c19be1a053a53
-ç
-]live-user-interface/src/main/java/top/flobby/live/user/interfaces/constants/UserTagsEnum.java,7\6\763ea61e04bcf7306f215f21398cfaf649ecdce6
 Ç
 Rlive-user-interface/src/main/java/top/flobby/live/user/constants/UserTagsEnum.java,3\8\3866431696f8bb177a353d34e50272af3f67e482
 w
