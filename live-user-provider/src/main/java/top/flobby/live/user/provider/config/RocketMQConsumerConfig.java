@@ -12,7 +12,11 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import top.flobby.live.framework.redis.starter.key.UserProviderCacheKeyBuilder;
-import top.flobby.live.user.dto.UserDTO;
+import top.flobby.live.user.constants.CacheAsyncDeleteEnum;
+import top.flobby.live.user.dto.UserCacheAsyncDeleteDTO;
+
+import static top.flobby.live.user.constants.Constant.CACHE_ASYNC_DELETE;
+import static top.flobby.live.user.constants.Constant.USER_ID;
 
 /**
  * @author : Flobby
@@ -28,7 +32,7 @@ public class RocketMQConsumerConfig implements InitializingBean {
     @Resource
     private RocketMQConsumerProperties rocketMQConsumerProperties;
     @Resource
-    private RedisTemplate<String, UserDTO> redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
     @Resource
     private UserProviderCacheKeyBuilder userProviderCacheKeyBuilder;
 
@@ -45,15 +49,27 @@ public class RocketMQConsumerConfig implements InitializingBean {
             defaultMQPushConsumer.setConsumerGroup(rocketMQConsumerProperties.getGroupName());
             defaultMQPushConsumer.setConsumeMessageBatchMaxSize(1);
             defaultMQPushConsumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET);
-            defaultMQPushConsumer.subscribe("user-update-cache", "*");
+            // 设置监听的主题和标签
+            defaultMQPushConsumer.subscribe(CACHE_ASYNC_DELETE, "*");
+            // 设置消息监听器
             defaultMQPushConsumer.setMessageListener((MessageListenerConcurrently) (list, consumeConcurrentlyContext) -> {
-                UserDTO userDTO = JSON.parseObject(new String(list.get(0).getBody()), UserDTO.class);
-                if (userDTO == null || userDTO.getUserId() == null) {
-                    log.error("用户id为空, 参数异常：{}", userDTO);
+                UserCacheAsyncDeleteDTO cacheAsyncDeleteDTO =
+                        JSON.parseObject(new String(list.get(0).getBody()), UserCacheAsyncDeleteDTO.class);
+                if (cacheAsyncDeleteDTO == null || cacheAsyncDeleteDTO.getCode() == null) {
+                    log.error("code 为空, 参数异常：{}", cacheAsyncDeleteDTO);
                     return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
                 }
-                redisTemplate.delete(userProviderCacheKeyBuilder.buildUserInfoKey(userDTO.getUserId()));
-                log.info("延迟双删处理, userId is {}", userDTO.getUserId());
+                // 区分不同的删除操作
+                Integer deleteCode = cacheAsyncDeleteDTO.getCode();
+                Long userId = JSON.parseObject(cacheAsyncDeleteDTO.getJson()).getLong(USER_ID);
+                if (CacheAsyncDeleteEnum.USER_INFO_DELETE.getCode().equals(deleteCode)) {
+                    // 删除用户信息
+                    redisTemplate.delete(userProviderCacheKeyBuilder.buildUserInfoKey(userId));
+                } else if (CacheAsyncDeleteEnum.USER_TAG_DELETE.getCode().equals(deleteCode)) {
+                    // 删除用户标签
+                    redisTemplate.delete(userProviderCacheKeyBuilder.buildUserTagKey(userId));
+                }
+                log.info("{} 延迟双删处理, userId is {}", CacheAsyncDeleteEnum.getDescByCode(deleteCode), userId);
                 return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
             });
             defaultMQPushConsumer.start();

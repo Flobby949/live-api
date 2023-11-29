@@ -8,10 +8,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import top.flobby.live.user.constants.UserTagsEnum;
+import top.flobby.live.user.provider.service.IUserService;
 import top.flobby.live.user.provider.service.IUserTagService;
-
-import java.util.concurrent.CountDownLatch;
 
 /**
  * @author : Flobby
@@ -27,6 +25,8 @@ import java.util.concurrent.CountDownLatch;
 public class UserProviderApplication implements CommandLineRunner {
 
     @Resource
+    private IUserService userService;
+    @Resource
     private IUserTagService userTagService;
 
     public static void main(String[] args) {
@@ -39,18 +39,26 @@ public class UserProviderApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         long userId = 10002L;
 
-        CountDownLatch countDownLatch = new CountDownLatch(1);
-        for (int i = 0; i < 100; i++) {
-            new Thread(() -> {
-                try {
-                    countDownLatch.await();
-                    log.info("设置金主标签：" + userTagService.setTag(userId, UserTagsEnum.IS_RICH));
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }).start();
-        }
-        countDownLatch.countDown();
+        // UserDTO userDTO = userService.getByUserId(userId);
+        // userDTO.setNickName("test-nick-name");
+        // userService.updateUserInfo(userDTO);
+        // System.out.println(userTagService.containsTag(userId, UserTagsEnum.IS_RICH));
+        // System.out.println(userTagService.setTag(userId, UserTagsEnum.IS_RICH));
+        // System.out.println(userTagService.containsTag(userId, UserTagsEnum.IS_RICH));
+        // System.out.println(userTagService.cancelTag(userId, UserTagsEnum.IS_RICH));
+        // System.out.println(userTagService.containsTag(userId, UserTagsEnum.IS_RICH));
+        // CountDownLatch countDownLatch = new CountDownLatch(1);
+        // for (int i = 0; i < 100; i++) {
+        //     new Thread(() -> {
+        //         try {
+        //             countDownLatch.await();
+        //             log.info("设置金主标签：" + userTagService.setTag(userId, UserTagsEnum.IS_RICH));
+        //         } catch (InterruptedException e) {
+        //             throw new RuntimeException(e);
+        //         }
+        //     }).start();
+        // }
+        // countDownLatch.countDown();
         // System.out.println(userTagService.setTag(userId, UserTagsEnum.IS_RICH));
         // System.out.println(userTagService.setTag(userId, UserTagsEnum.IS_RICH));
         // // System.out.println("是否包含金主标签：" + userTagService.containsTag(userId, UserTagsEnum.IS_RICH));

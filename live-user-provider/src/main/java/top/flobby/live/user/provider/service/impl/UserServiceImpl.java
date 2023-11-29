@@ -13,19 +13,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import top.flobby.live.common.interfaces.utils.ConvertBeanUtils;
 import top.flobby.live.framework.redis.starter.key.UserProviderCacheKeyBuilder;
+import top.flobby.live.user.constants.CacheAsyncDeleteEnum;
+import top.flobby.live.user.dto.UserCacheAsyncDeleteDTO;
 import top.flobby.live.user.dto.UserDTO;
 import top.flobby.live.user.provider.dao.mapper.UserMapper;
 import top.flobby.live.user.provider.dao.po.UserPO;
 import top.flobby.live.user.provider.service.IUserService;
+import top.flobby.live.user.utils.CommonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import static top.flobby.live.user.constants.Constant.CACHE_ASYNC_DELETE;
+import static top.flobby.live.user.constants.Constant.USER_ID;
 
 /**
  * @author : Flobby
@@ -57,7 +62,7 @@ public class UserServiceImpl implements IUserService {
         }
         userDTO = ConvertBeanUtils.convert(userMapper.selectById(userId), UserDTO.class);
         if (userDTO != null) {
-            redisTemplate.opsForValue().set(key, userDTO, createRandomExpireTime(), TimeUnit.SECONDS);
+            redisTemplate.opsForValue().set(key, userDTO, CommonUtils.createRandomExpireTime(), TimeUnit.SECONDS);
         }
         return userDTO;
     }
@@ -72,11 +77,16 @@ public class UserServiceImpl implements IUserService {
         redisTemplate.delete(key);
 
         try {
+            // 设置删除动作DTO，区分不同的删除动作
+            UserCacheAsyncDeleteDTO userCacheAsyncDeleteDTO = new UserCacheAsyncDeleteDTO();
+            userCacheAsyncDeleteDTO.setCode(CacheAsyncDeleteEnum.USER_INFO_DELETE.getCode());
+            userCacheAsyncDeleteDTO.setJson(JSON.toJSONString(Map.of(USER_ID, userDTO.getUserId())));
+            // 构造消息
             Message message = new Message();
-            message.setTopic("user-update-cache");
+            message.setTopic(CACHE_ASYNC_DELETE);
             // 延迟级别，1 代表一秒
             message.setDelayTimeLevel(1);
-            message.setBody(JSON.toJSONString(userDTO).getBytes());
+            message.setBody(JSON.toJSONString(userCacheAsyncDeleteDTO).getBytes());
             mqProducer.send(message);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -134,7 +144,7 @@ public class UserServiceImpl implements IUserService {
                 @Override
                 public <K, V> Object execute(RedisOperations<K, V> operations) throws DataAccessException {
                     for (String redisKey : saveCacheMap.keySet()) {
-                        operations.expire((K) redisKey, createRandomExpireTime(), TimeUnit.SECONDS);
+                        operations.expire((K) redisKey, CommonUtils.createRandomExpireTime(), TimeUnit.SECONDS);
                     }
                     return null;
                 }
@@ -145,13 +155,5 @@ public class UserServiceImpl implements IUserService {
                 .collect(Collectors.toMap(UserDTO::getUserId, userDTO -> userDTO));
     }
 
-    /**
-     * 创建随机过期时间
-     * 30 min + 随机秒数
-     *
-     * @return int
-     */
-    private int createRandomExpireTime() {
-        return ThreadLocalRandom.current().nextInt(1000) + 60 * 30;
-    }
+
 }

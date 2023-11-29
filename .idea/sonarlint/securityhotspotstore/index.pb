@@ -114,3 +114,11 @@ Glive-user-interface/src/main/java/top/flobby/live/user/dto/UserDTO.java,d\e\de
 Nlive-user-interface/src/main/java/top/flobby/live/user/constants/Constant.java,2\3\23c35fb5b1163cdb35a34994cf8d61301a53c439
 ~
 Nlive-user-interface/src/main/java/top/flobby/live/user/utils/TagInfoUtils.java,6\4\64f6ce8c68731da020cc0f62f3137237194e5bc5
+z
+Jlive-user-interface/src/main/java/top/flobby/live/user/dto/UserTagDTO.java,8\c\8c407e01d98bca92b5d8e49a24a74ba16246dc18
+‡
+Wlive-user-interface/src/main/java/top/flobby/live/user/dto/UserCacheAsyncDeleteDTO.java,2\d\2df9158962c235e09d1b273973ce0f92ab53e257
+Š
+Zlive-user-interface/src/main/java/top/flobby/live/user/constants/CacheAsyncDeleteEnum.java,8\d\8dfca6198e1573b0c61a1822ef51e114e566560d
+}
+Mlive-user-interface/src/main/java/top/flobby/live/user/utils/CommonUtils.java,2\3\2354de2a759c616ee939dbd75eecb5512dcb997f

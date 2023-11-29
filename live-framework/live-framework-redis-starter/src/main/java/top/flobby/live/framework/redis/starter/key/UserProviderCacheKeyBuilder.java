@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 @Conditional(RedisKeyLoadMatch.class)
 public class UserProviderCacheKeyBuilder extends RedisKeyBuilder {
     private static final String USER_INFO_KEY = "userInfo";
+    public static final String USER_TAG_KEY = "userTag";
     public static final String USER_TAG_LOCK_KEY = "userTagLock";
 
     public String buildUserInfoKey(Long userId) {
@@ -23,6 +24,11 @@ public class UserProviderCacheKeyBuilder extends RedisKeyBuilder {
 
     public String buildUserTagLockKey(Long userId) {
         return super.getPrefix() + USER_TAG_LOCK_KEY +
+                super.getSplitItem() + userId;
+    }
+
+    public String buildUserTagKey(Long userId) {
+        return super.getPrefix() + USER_TAG_KEY +
                 super.getSplitItem() + userId;
     }
 }

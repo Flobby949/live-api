@@ -1,5 +1,6 @@
 
-g	java:S1121"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8ÉØÃÍÁ1
-{
-java:S21420"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(ä ¹€8•¢ÃÍÁ1
-]	java:S1256"<This block of commented-out lines of code should be removed.(¹î»øÿÿÿÿ8—¢ÃÍÁ1
+\
+java:S1854(":Remove this useless assignment to local variable "userId".(©ùáëıÿÿÿÿ8ÌˆéÏÁ1
+M
+java:S1481("+Remove this unused "userId" local variable.(©ùáëıÿÿÿÿ8ÍˆéÏÁ1
+X	java:S125*"<This block of commented-out lines of code should be removed.(©Ìãğ8ÍˆéÏÁ1
