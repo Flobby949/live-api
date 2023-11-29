@@ -1,7 +1,5 @@
 
-L	java:S106%"+Replace this use of System.out by a logger.(ûó‘šıÿÿÿÿ8¿« ¢Á1
-G	java:S106&"+Replace this use of System.out by a logger.(ÀİÍÛ8À« ¢Á1
-G	java:S106'"+Replace this use of System.out by a logger.(š†ŒÕ8ªõ ¢Á1
-F	java:S106("+Replace this use of System.out by a logger.(›ÃáG8Í´¢¢Á1
-G	java:S106)"+Replace this use of System.out by a logger.(‚¬îä8†á£¢Á1
-G	java:S106*"+Replace this use of System.out by a logger.(–şÑÅ8ã›¬¢Á1
+g	java:S1121"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8ÉØÃÍÁ1
+{
+java:S21420"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(ä ¹€8•¢ÃÍÁ1
+]	java:S1256"<This block of commented-out lines of code should be removed.(¹î»øÿÿÿÿ8—¢ÃÍÁ1
