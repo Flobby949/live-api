@@ -1,4 +1,4 @@
-package top.flobby.live.common.interfaces.utils;
+package top.flobby.live.common.utils;
 
 import org.springframework.beans.BeanInstantiationException;
 import org.springframework.beans.BeanUtils;

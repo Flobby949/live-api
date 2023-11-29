@@ -10,7 +10,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
-import top.flobby.live.common.interfaces.utils.ConvertBeanUtils;
+import top.flobby.live.common.utils.ConvertBeanUtils;
 import top.flobby.live.framework.redis.starter.key.UserProviderCacheKeyBuilder;
 import top.flobby.live.user.constants.CacheAsyncDeleteEnum;
 import top.flobby.live.user.constants.UserTagsEnum;
