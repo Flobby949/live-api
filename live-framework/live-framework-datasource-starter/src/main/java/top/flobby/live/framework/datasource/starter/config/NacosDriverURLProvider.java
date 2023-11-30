@@ -72,7 +72,7 @@ public class NacosDriverURLProvider implements ShardingSphereDriverURLProvider {
         try {
             configService = NacosFactory.createConfigService(properties);
             String content = configService.getConfig(dataId, DEFAULT_GROUP, 6000);
-            logger.info(content);
+            // logger.info(content);
             return content.getBytes();
         } catch (NacosException e) {
             throw new RuntimeException(e);

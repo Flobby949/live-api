@@ -126,3 +126,7 @@ $live-user-provider/docker/Dockerfile,9\4\9498ebcbcfbd87aec2980f52e632ab8224716
 Ylive-common-interface/src/main/java/top/flobby/live/common/utils/IpLogConversionRule.java,6\a\6ae1ee4ba1029356b1e26d7b3f9477ee3567b06c
 ¿
 Žlive-framework/live-framework-datasource-starter/src/main/java/top/flobby/live/framework/datasource/starter/config/NacosDriverURLProvider.java,1\7\1754ba47cde2827af16094cfb2c1e20b2cbd5646
+J
+live-api/docker/Dockerfile,e\3\e3b931e9e7e1b2d9568db2c2fa019c1d2b080454
+[
++live-id-generate-provider/docker/Dockerfile,7\e\7ec29ebd852e8eb22973b18d1df037556b8c2826

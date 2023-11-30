@@ -9,8 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import top.flobby.live.id.generate.service.IdGenerateService;
 
-import java.util.HashSet;
-
 /**
  * @author : Flobby
  * @program : live-api
@@ -33,13 +31,13 @@ public class IdGenerateProvider implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        HashSet<Long> hashSet = new HashSet<>();
-        for (int i = 0; i < 500; i++) {
-            Long seqId = idGenerateService.getUnSeqId(2);
-            Thread.sleep(100);
-            System.out.print("idid" + seqId + "\t");
-            hashSet.add(seqId);
-        }
-        System.out.println("长度：" + hashSet.size());
+        // HashSet<Long> hashSet = new HashSet<>();
+        // for (int i = 0; i < 500; i++) {
+        //     Long seqId = idGenerateService.getUnSeqId(2);
+        //     Thread.sleep(100);
+        //     System.out.print("idid" + seqId + "\t");
+        //     hashSet.add(seqId);
+        // }
+        // System.out.println("长度：" + hashSet.size());
     }
 }

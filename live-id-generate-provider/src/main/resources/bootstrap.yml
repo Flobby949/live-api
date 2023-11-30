@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: live-id-generate-provider
   cloud:
     nacos:
       username: nacos
@@ -6,3 +8,14 @@ spring:
       discovery:
         server-addr: http://106.15.104.19:8848
         namespace: test
+      config:
+        import-check:
+          enabled: false
+        file-extension: yaml
+        server-addr: http://106.15.104.19:8848
+        namespace: test
+        # 开启监听和自动刷新
+        refresh-enabled: true
+  config:
+    import:
+      - optional:nacos:${spring.application.name}.${spring.cloud.nacos.config.file-extension}

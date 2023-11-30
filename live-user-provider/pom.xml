@@ -114,7 +114,7 @@
                     <imageTags>
                         <imageTag>${project.version}</imageTag>
                     </imageTags>
-                    <imageName>${project.build.finalName}</imageName>
+                    <imageName>${docker-tag-name}/${project.build.finalName}</imageName>
                     <!--指定 Dockerfile 文件的位置-->
                     <dockerDirectory>${project.basedir}/docker</dockerDirectory>
                     <!-- 指定 jar 包路径，这里对应 Dockerfile 中复制 jar 包到 docker 容器指定目录配置，也可以写到 Dockerfile 中 -->
