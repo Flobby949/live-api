@@ -130,3 +130,7 @@ J
 live-api/docker/Dockerfile,e\3\e3b931e9e7e1b2d9568db2c2fa019c1d2b080454
 [
 +live-id-generate-provider/docker/Dockerfile,7\e\7ec29ebd852e8eb22973b18d1df037556b8c2826
+D
+live-gateway/pom.xml,e\3\e34f94b037e0d00bdfa82aece0a64dc19f256338
+~
+Nlive-gateway/src/main/java/top/flobby/live/gateway/LiveGatewayApplication.java,4\7\4726923e57410eb1a9503ce2fa3d663e939b35e9

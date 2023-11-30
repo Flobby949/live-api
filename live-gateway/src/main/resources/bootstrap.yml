@@ -1,6 +1,8 @@
+server:
+  port: 8000
 spring:
   application:
-    name: live-api-application
+    name: live-gateway
   cloud:
     nacos:
       username: nacos
@@ -19,3 +21,8 @@ spring:
   config:
     import:
       - optional:nacos:${spring.application.name}.${spring.cloud.nacos.config.file-extension}
+
+logging:
+  level:
+    org.org.springframework.cloud.gateway: debug
+    reactor.netty.http.client: debug
