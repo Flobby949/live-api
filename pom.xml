@@ -39,6 +39,7 @@
         <sharding.jdbc.version>5.3.2</sharding.jdbc.version>
         <mybatis-plus.version>3.5.3</mybatis-plus.version>
         <rocketmq.version>4.8.0</rocketmq.version>
+        <arthas.file.path>E:/arthas/</arthas.file.path>
     </properties>
 
     <dependencies>

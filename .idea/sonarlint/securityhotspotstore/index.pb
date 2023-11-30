@@ -38,8 +38,6 @@ Xlive-user-provider/src/main/java/top/flobby/live/user/provider/service/IUserSer
 `live-user-provider/src/main/java/top/flobby/live/user/provider/service/impl/UserServiceImpl.java,3\e\3ec0133db1bedd2bbfb8050f53691ca2dbcb5101
 M
 live-common-interface/pom.xml,1\f\1fc358abbbae5cf926bb9b4587d14688ecf2b415
-‘
-alive-common-interface/src/main/java/top/flobby/live/common/interfaces/utils/ConvertBeanUtils.java,3\a\3aeab3bdee8094a56ce4c1ccbc5cc20175771895
 y
 Ilive-api/src/main/java/top/flobby/live/api/controller/UserController.java,d\8\d8cec634adb3917f16158a968bdb9d6bc331e8c0
 F
@@ -124,7 +122,5 @@ Zlive-user-interface/src/main/java/top/flobby/live/user/constants/CacheAsyncDele
 Mlive-user-interface/src/main/java/top/flobby/live/user/utils/CommonUtils.java,2\3\2354de2a759c616ee939dbd75eecb5512dcb997f
 T
 $live-user-provider/docker/Dockerfile,9\4\9498ebcbcfbd87aec2980f52e632ab8224716427
-”
-dlive-common-interface/src/main/java/top/flobby/live/common/interfaces/utils/IpLogConversionRule.java,1\d\1ddb5fc6342b2f74e315d2ceafa2209c7579f010
 ‰
 Ylive-common-interface/src/main/java/top/flobby/live/common/utils/IpLogConversionRule.java,6\a\6ae1ee4ba1029356b1e26d7b3f9477ee3567b06c
