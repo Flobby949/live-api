@@ -6,8 +6,7 @@ import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import top.flobby.live.common.annotation.LiveApplication;
 import top.flobby.live.user.provider.service.IUserService;
 import top.flobby.live.user.provider.service.IUserTagService;
 
@@ -19,9 +18,8 @@ import top.flobby.live.user.provider.service.IUserTagService;
  **/
 
 @Slf4j
-@SpringBootApplication(scanBasePackages = "top.flobby.live")
+@LiveApplication
 @EnableDubbo
-@EnableDiscoveryClient
 public class UserProviderApplication implements CommandLineRunner {
 
     @Resource
