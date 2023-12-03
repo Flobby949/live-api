@@ -1,2 +1,3 @@
 top.flobby.live.framework.redis.starter.config.RedisConfig
 top.flobby.live.framework.redis.starter.key.UserProviderCacheKeyBuilder
+top.flobby.live.framework.redis.starter.key.SmsProviderCacheKeyBuilder

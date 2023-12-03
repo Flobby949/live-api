@@ -1,0 +1,7 @@
+
+x
+java:S1104"[Make commonAsyncPool a static final constant or non-public and provide accessors if needed.(ïß§Ü8áö•ñÂ1
+R
+java:S1444"5Make this "public static commonAsyncPool" field final(ïß§Ü8áö•ñÂ1
+\
+java:S1118":Add a private constructor to hide the implicit public one.(—ò‹øÿÿÿÿ8çö•ñÂ1

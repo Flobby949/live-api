@@ -12,9 +12,10 @@ import lombok.ToString;
 public enum BusinessExceptionEnum {
 
     OTHER_ERROR("未知异常！"),
-    MEMBER_PHONE_EXIST("手机号已存在"),
-    MEMBER_PHONE_NOT_EXIST("手机号不存在"),
-    MEMBER_CODE_ERROR("验证码错误"),
+    PARAMS_ERROR("参数错误！"),
+    USER_PHONE_EXIST("手机号已存在"),
+    USER_PHONE_NOT_EXIST("手机号不存在"),
+    CODE_ERROR("验证码错误"),
     ;
 
     private final String desc;
