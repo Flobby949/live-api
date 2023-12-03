@@ -8,6 +8,7 @@ import cn.hutool.jwt.JWTUtil;
 import cn.hutool.jwt.RegisteredPayload;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -25,16 +26,19 @@ public class JwtUtil {
      */
     private static final String KEY = "live-api";
 
-    public static String createToken(Map<String, Object> payload) {
+    public static String createToken(Long userId) {
         DateTime now = DateTime.now();
         // 超时时间
         DateTime expTime = now.offsetNew(DateField.HOUR, 48);
+        Map<String, Object> payload = new HashMap<>();
         // 签发时间
         payload.put(RegisteredPayload.ISSUED_AT, now);
         // 过期时间
         payload.put(RegisteredPayload.EXPIRES_AT, expTime);
         // 生效时间
         payload.put(RegisteredPayload.NOT_BEFORE, now);
+        // 自定义载荷
+        payload.put("userId", userId);
         String token = JWTUtil.createToken(payload, KEY.getBytes());
         log.info("生成 JWT token：{}", token);
         return token;
@@ -59,7 +63,7 @@ public class JwtUtil {
     }
 
     // public static void main(String[] args) {
-    //     String token = createToken(Map.of("id", 1L, "name", "Flobby"));
+    //     String token = createToken(10001L);
     //     System.out.println(token);
     //     validate(token);
     //     getJSONObject(token);

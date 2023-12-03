@@ -3,6 +3,8 @@ package top.flobby.live.user.provider.service;
 import top.flobby.live.user.dto.UserLoginDTO;
 import top.flobby.live.user.dto.UserPhoneDTO;
 
+import java.util.List;
+
 /**
  * @author : Flobby
  * @program : live-api
@@ -27,4 +29,12 @@ public interface IUserPhoneService {
      * @return {@link UserPhoneDTO}
      */
     UserPhoneDTO queryByPhone(String phone);
+
+    /**
+     * 按用户ID查询
+     *
+     * @param userId 用户 ID
+     * @return {@link List}<{@link UserPhoneDTO}>
+     */
+    List<UserPhoneDTO> queryByUserId(Long userId);
 }

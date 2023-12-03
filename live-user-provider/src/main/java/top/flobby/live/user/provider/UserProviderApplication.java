@@ -7,8 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import top.flobby.live.common.annotation.LiveApplication;
-import top.flobby.live.user.provider.service.IUserService;
-import top.flobby.live.user.provider.service.IUserTagService;
+import top.flobby.live.user.provider.service.IUserPhoneService;
 
 /**
  * @author : Flobby
@@ -23,9 +22,7 @@ import top.flobby.live.user.provider.service.IUserTagService;
 public class UserProviderApplication implements CommandLineRunner {
 
     @Resource
-    private IUserService userService;
-    @Resource
-    private IUserTagService userTagService;
+    private IUserPhoneService userService;
 
     public static void main(String[] args) {
         SpringApplication springApplication = new SpringApplication(UserProviderApplication.class);
@@ -36,7 +33,17 @@ public class UserProviderApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         long userId = 10002L;
-
+        // String phone = "18962521754";
+        // UserLoginDTO user1 = userService.login(phone);
+        // UserLoginDTO user2 = userService.login(phone);
+        // System.out.println(user1);
+        // System.out.println(user2);
+        // System.out.println("========================================");
+        // System.out.println(userService.queryByUserId(user1.getUserId()));
+        // System.out.println(userService.queryByUserId(user1.getUserId()));
+        // System.out.println("========================================");
+        // System.out.println(userService.queryByPhone(phone));
+        // System.out.println(userService.queryByPhone(phone));
         // UserDTO userDTO = userService.getByUserId(userId);
         // userDTO.setNickName("test-nick-name");
         // userService.updateUserInfo(userDTO);

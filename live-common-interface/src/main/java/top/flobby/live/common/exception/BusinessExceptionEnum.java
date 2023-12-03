@@ -16,6 +16,7 @@ public enum BusinessExceptionEnum {
     USER_PHONE_EXIST("手机号已存在"),
     USER_PHONE_NOT_EXIST("手机号不存在"),
     CODE_ERROR("验证码错误"),
+    ID_GENERATE_ERROR("ID生成异常"),
     ;
 
     private final String desc;

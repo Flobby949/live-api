@@ -206,3 +206,5 @@ Llive-user-interface/src/main/java/top/flobby/live/user/dto/UserPhoneDTO.java,a
 Mlive-common-interface/src/main/java/top/flobby/live/common/utils/JwtUtil.java,e\b\ebed8cd1c326c967ea5a38a1b80b98d819d474d9
 Å
 Qlive-id-generate-interface/src/main/java/top/flobby/live/id/enums/IdTypeEnum.java,c\f\cfb8bf0042fbcc5862a7b0af68123b04b4d6e047
+~
+Nlive-common-interface/src/main/java/top/flobby/live/common/utils/DESUtils.java,a\2\a26d43714eed63bb58c0a117554d1c5563e5a363

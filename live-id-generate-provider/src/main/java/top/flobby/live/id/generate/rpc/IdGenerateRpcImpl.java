@@ -1,6 +1,8 @@
 package top.flobby.live.id.generate.rpc;
 
+import jakarta.annotation.Resource;
 import org.apache.dubbo.config.annotation.DubboService;
+import top.flobby.live.id.generate.service.IdGenerateService;
 import top.flobby.live.id.interfaces.IdGenerateRpc;
 
 /**
@@ -13,14 +15,16 @@ import top.flobby.live.id.interfaces.IdGenerateRpc;
 @DubboService
 public class IdGenerateRpcImpl implements IdGenerateRpc {
 
+    @Resource
+    private IdGenerateService idGenerateService;
 
     @Override
     public Long getSeqId(Integer id) {
-        return null;
+        return idGenerateService.getSeqId(id);
     }
 
     @Override
     public Long getUnSeqId(Integer id) {
-        return null;
+        return idGenerateService.getUnSeqId(id);
     }
 }

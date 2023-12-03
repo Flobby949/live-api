@@ -1,0 +1,14 @@
+
+g	java:S112("FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8àôµôÂ1
+g	java:S112T"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8áÎºôÂ1
+g	java:S112g"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8í¯»ôÂ1
+;
+java:S5542L"Use a secure cipher mode.(Çü¬¶şÿÿÿÿ8ì”±ôÂ1
+@
+java:S5547L"Use a strong cipher algorithm.(Çü¬¶şÿÿÿÿ8ì”±ôÂ1
+;
+java:S5542a"Use a secure cipher mode.(Çü¬¶şÿÿÿÿ8ƒ°»ôÂ1
+@
+java:S5547a"Use a strong cipher algorithm.(Çü¬¶şÿÿÿÿ8„°»ôÂ1
+L	java:S106o"+Replace this use of System.out by a logger.(üÙÛ©ùÿÿÿÿ8ö˜›öÂ1
+L	java:S106p"+Replace this use of System.out by a logger.(üê¥Úıÿÿÿÿ8ö˜›öÂ1
