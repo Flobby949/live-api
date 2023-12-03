@@ -23,4 +23,15 @@ public interface Constant {
      * 专门处理用户缓存异步删除的 topic
      */
     String CACHE_ASYNC_DELETE = "UserCacheAsyncDelete";
+
+
+    /// 用户状态
+    // 有效
+    Byte USER_STATUS_EFFECTIVE = 0;
+    // 无效
+    Byte USER_STATUS_INVALID = 1;
+
+    /// token payload
+    // 用户 ID
+    String TOKEN_USER_ID = "userId";
 }

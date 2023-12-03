@@ -78,6 +78,12 @@
             <artifactId>rocketmq-client</artifactId>
             <version>${rocketmq.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>top.flobby</groupId>
+            <artifactId>live-id-generate-interface</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>

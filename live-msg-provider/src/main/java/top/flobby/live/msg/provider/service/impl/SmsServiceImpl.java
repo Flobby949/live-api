@@ -6,6 +6,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import top.flobby.live.common.exception.BusinessException;
 import top.flobby.live.common.exception.BusinessExceptionEnum;
+import top.flobby.live.common.utils.CommonUtils;
 import top.flobby.live.framework.redis.starter.key.SmsProviderCacheKeyBuilder;
 import top.flobby.live.msg.dto.MsgCheckDTO;
 import top.flobby.live.msg.enums.MsgSendResultEnum;
@@ -14,7 +15,6 @@ import top.flobby.live.msg.provider.config.ThreadPoolManager;
 import top.flobby.live.msg.provider.dao.mapper.LiveSmsMapper;
 import top.flobby.live.msg.provider.dao.po.SmsPO;
 import top.flobby.live.msg.provider.service.ISmsService;
-import top.flobby.live.msg.utils.MsgUtils;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -39,7 +39,7 @@ public class SmsServiceImpl implements ISmsService {
 
     @Override
     public MsgSendResultEnum sendLoginMsg(String phone) {
-        if (!MsgUtils.checkPhone(phone)) {
+        if (!CommonUtils.checkPhone(phone)) {
             return MsgSendResultEnum.MSG_PARAMS_ERROR;
         }
         String codeCacheKey = smsKeyBuilder.buildLoginCodeKey(phone);
@@ -49,7 +49,7 @@ public class SmsServiceImpl implements ISmsService {
             return MsgSendResultEnum.SEND_TOO_FAST;
         }
         // 生成验证码，6位，60s有效，同一个手机号60s内只能发送一次
-        int code = MsgUtils.generateCode();
+        int code = CommonUtils.generateCode();
         // 保存验证码到redis，60s有效
         redisTemplate.opsForValue().set(codeCacheKey, code, 60, TimeUnit.SECONDS);
         // 发送验证码
@@ -67,7 +67,7 @@ public class SmsServiceImpl implements ISmsService {
     @Override
     public MsgCheckDTO checkLoginMsg(String phone, Integer code) {
         // 参数校验
-        if (!MsgUtils.checkPhone(phone) || code == null || code < 100000 || code > 999999) {
+        if (!CommonUtils.checkPhone(phone) || code == null || code < 100000 || code > 999999) {
             throw new BusinessException(BusinessExceptionEnum.PARAMS_ERROR);
         }
         String codeCacheKey = smsKeyBuilder.buildLoginCodeKey(phone);

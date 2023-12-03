@@ -10,6 +10,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import top.flobby.live.common.utils.CommonUtils;
 import top.flobby.live.common.utils.ConvertBeanUtils;
 import top.flobby.live.framework.redis.starter.key.UserProviderCacheKeyBuilder;
 import top.flobby.live.user.constants.CacheAsyncDeleteEnum;
@@ -19,7 +20,6 @@ import top.flobby.live.user.dto.UserTagDTO;
 import top.flobby.live.user.provider.dao.mapper.UserTagMapper;
 import top.flobby.live.user.provider.dao.po.UserTagPO;
 import top.flobby.live.user.provider.service.IUserTagService;
-import top.flobby.live.user.utils.CommonUtils;
 import top.flobby.live.user.utils.TagInfoUtils;
 
 import java.nio.charset.StandardCharsets;

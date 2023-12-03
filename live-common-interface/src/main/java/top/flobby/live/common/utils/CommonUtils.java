@@ -1,4 +1,4 @@
-package top.flobby.live.msg.utils;
+package top.flobby.live.common.utils;
 
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Matcher;
@@ -7,11 +7,11 @@ import java.util.regex.Pattern;
 /**
  * @author : Flobby
  * @program : live-api
- * @description : 消息工具类
- * @create : 2023-12-03 13:16
+ * @description : 工具类
+ * @create : 2023-12-03 14:32
  **/
 
-public class MsgUtils {
+public class CommonUtils {
 
     /**
      * 校验手机号码
@@ -37,5 +37,15 @@ public class MsgUtils {
      */
     public static int generateCode() {
         return ThreadLocalRandom.current().nextInt(100000, 999999);
+    }
+
+    /**
+     * 创建Redis随机过期时间
+     * 30 min + 随机秒数
+     *
+     * @return int
+     */
+    public static int createRandomExpireTime() {
+        return ThreadLocalRandom.current().nextInt(1000) + 60 * 30;
     }
 }

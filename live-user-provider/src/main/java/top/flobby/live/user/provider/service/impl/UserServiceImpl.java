@@ -11,6 +11,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import top.flobby.live.common.utils.CommonUtils;
 import top.flobby.live.common.utils.ConvertBeanUtils;
 import top.flobby.live.framework.redis.starter.key.UserProviderCacheKeyBuilder;
 import top.flobby.live.user.constants.CacheAsyncDeleteEnum;
@@ -19,7 +20,6 @@ import top.flobby.live.user.dto.UserDTO;
 import top.flobby.live.user.provider.dao.mapper.UserMapper;
 import top.flobby.live.user.provider.dao.po.UserPO;
 import top.flobby.live.user.provider.service.IUserService;
-import top.flobby.live.user.utils.CommonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
