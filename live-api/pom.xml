@@ -30,6 +30,11 @@
         </dependency>
         <dependency>
             <groupId>top.flobby</groupId>
+            <artifactId>live-msg-interface</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>top.flobby</groupId>
             <artifactId>live-common-interface</artifactId>
             <version>1.0.0</version>
         </dependency>

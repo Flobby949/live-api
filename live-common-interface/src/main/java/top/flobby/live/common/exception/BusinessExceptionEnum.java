@@ -15,6 +15,7 @@ public enum BusinessExceptionEnum {
     PARAMS_ERROR("参数错误！"),
     USER_PHONE_EXIST("手机号已存在"),
     USER_PHONE_NOT_EXIST("手机号不存在"),
+    CODE_SEND_FAIL("验证码发送失败"),
     CODE_ERROR("验证码错误"),
     ID_GENERATE_ERROR("ID生成异常"),
     ;

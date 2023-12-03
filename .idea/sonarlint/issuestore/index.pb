@@ -208,3 +208,11 @@ Mlive-common-interface/src/main/java/top/flobby/live/common/utils/JwtUtil.java,
 Qlive-id-generate-interface/src/main/java/top/flobby/live/id/enums/IdTypeEnum.java,c\f\cfb8bf0042fbcc5862a7b0af68123b04b4d6e047
 ~
 Nlive-common-interface/src/main/java/top/flobby/live/common/utils/DESUtils.java,a\2\a26d43714eed63bb58c0a117554d1c5563e5a363
+x
+Hlive-api/src/main/java/top/flobby/live/api/controller/MsgController.java,e\b\eb1e89ff93b881a6ac93d23e23b3a6cfec9d02e5
+z
+Jlive-api/src/main/java/top/flobby/live/api/controller/LoginController.java,b\6\b6018582bd8091f403396d2c59bc63070a0d89b6
+|
+Llive-user-interface/src/main/java/top/flobby/live/user/req/UserLoginReq.java,a\a\aa515dd129598aa7d0e2b287f2a73fa5d17d6986
+‹
+[live-common-interface/src/main/java/top/flobby/live/common/filter/DubboExceptionFilter.java,4\d\4dc2377ae34d430c1795c2ded85ca67b9e50d7be

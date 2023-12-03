@@ -52,11 +52,6 @@
             <artifactId>shardingsphere-jdbc-core</artifactId>
             <version>${sharding.jdbc.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-spring-boot-starter</artifactId>
-            <version>${dubbo.version}</version>
-        </dependency>
     </dependencies>
 
 </project>

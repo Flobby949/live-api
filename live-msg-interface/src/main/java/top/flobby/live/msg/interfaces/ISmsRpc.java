@@ -18,7 +18,7 @@ public interface ISmsRpc {
      * @param phone 电话
      * @return {@link MsgSendResultEnum}
      */
-    MsgSendResultEnum sendLoginMsg(String phone);
+    void sendLoginMsg(String phone);
 
     /**
      * 校验登录验证码
