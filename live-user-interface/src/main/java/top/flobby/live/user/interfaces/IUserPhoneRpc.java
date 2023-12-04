@@ -23,6 +23,13 @@ public interface IUserPhoneRpc {
     UserLoginDTO login(String phone);
 
     /**
+     * 注销
+     *
+     * @param token 令 牌
+     */
+    void logout(String token);
+
+    /**
      * 通过手机号查询用户
      *
      * @param phone 电话

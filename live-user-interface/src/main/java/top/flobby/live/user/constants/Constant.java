@@ -34,4 +34,7 @@ public interface Constant {
     /// token payload
     // 用户 ID
     String TOKEN_USER_ID = "userId";
+
+    // 用户默认头像
+    String DEFAULT_AVATAR = "https://i2.100024.xyz/2023/12/04/po4rph.webp";
 }

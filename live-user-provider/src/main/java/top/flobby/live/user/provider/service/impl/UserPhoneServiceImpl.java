@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import static top.flobby.live.user.constants.Constant.DEFAULT_AVATAR;
 import static top.flobby.live.user.constants.Constant.USER_STATUS_EFFECTIVE;
 
 /**
@@ -73,6 +74,12 @@ public class UserPhoneServiceImpl implements IUserPhoneService {
         return registerAndLogin(phone);
     }
 
+    @Override
+    public void logout(String token) {
+        String key = userProviderCacheKeyBuilder.buildUserLoginTokenKey(token);
+        redisTemplate.delete(key);
+    }
+
     /**
      * 注册并登录
      *
@@ -85,7 +92,11 @@ public class UserPhoneServiceImpl implements IUserPhoneService {
         if (ObjectUtils.isEmpty(unSeqId)) {
             throw new BusinessException(BusinessExceptionEnum.ID_GENERATE_ERROR);
         }
-        userService.insertUser(UserDTO.builder().userId(unSeqId).nickName("用户" + unSeqId).build());
+        userService.insertUser(UserDTO.builder()
+                .userId(unSeqId)
+                .nickName("用户" + unSeqId)
+                .avatar(DEFAULT_AVATAR)
+                .build());
         userPhoneMapper.insert(UserPhonePO.builder().userId(unSeqId).phone(DESUtils.encrypt(phone)).status(USER_STATUS_EFFECTIVE).build());
         // 删除空值缓存
         redisTemplate.delete(userProviderCacheKeyBuilder.buildUserPhoneObjKey(phone));

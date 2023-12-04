@@ -57,6 +57,12 @@ public class UserController {
         return CommonResp.success(loginRes);
     }
 
+    @PostMapping("/logout")
+    public CommonResp<Object> logout(@RequestHeader("Authorization") String token) {
+        userPhoneRpc.logout(token);
+        return CommonResp.success(null);
+    }
+
     @GetMapping("/getUserInfo")
     public UserDTO getUserInfo(Long userId) {
         log.info("userId:{}", userId);
