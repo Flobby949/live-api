@@ -21,20 +21,23 @@ public class DubboExceptionFilter extends ExceptionFilter {
 
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
-        Result result = invoker.invoke(invocation); // 获取rpcResult
-        // 如果没有异常发生 或者是通用服务就直接返回
-        // 也可以沿用源码中 if (result.hasException() && GenericService.class != invoker.getInterface()){} return result;在else中返回的做法
-        if (!result.hasException() || GenericService.class == invoker.getInterface()) {
-            return result;
-        }
-        Throwable exception = result.getException(); // 获取抛出的异常
-        String classname = exception.getClass().getName();
-        // 如果异常是我们这个路径里的异常，直接抛出，否则交给父类处理
-        // 或者你们可以根据自己的需求进行放行，只需要完成判断后如果不符合就交给父类执行，否则就自己执行
-        if (classname.startsWith("top.flobby.live.common.exception")) {
-            return result;
-        }
         return super.invoke(invoker, invocation);
+    }
+
+    @Override
+    public void onResponse(Result appResponse, Invoker<?> invoker, Invocation invocation) {
+        // 如果有异常
+        if (appResponse.hasException() && GenericService.class != invoker.getInterface()) {
+            // 获取抛出的异常
+            Throwable exception = appResponse.getException();
+            String classname = exception.getClass().getName();
+            // 如果是自定义异常，直接抛出
+            if (classname.startsWith("top.flobby.live.common.exception")) {
+                return;
+            }
+            // 如果是其他异常，使用Dubbo的业务进行处理
+            super.onResponse(appResponse, invoker, invocation);
+        }
     }
 }
 
