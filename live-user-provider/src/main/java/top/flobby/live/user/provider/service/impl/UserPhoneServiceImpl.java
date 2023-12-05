@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
+import top.flobby.live.account.interfaces.IAccountRpc;
 import top.flobby.live.common.exception.BusinessException;
 import top.flobby.live.common.exception.BusinessExceptionEnum;
 import top.flobby.live.common.utils.CommonUtils;
 import top.flobby.live.common.utils.ConvertBeanUtils;
 import top.flobby.live.common.utils.DESUtils;
-import top.flobby.live.common.utils.JwtUtil;
 import top.flobby.live.framework.redis.starter.key.UserProviderCacheKeyBuilder;
 import top.flobby.live.id.enums.IdTypeEnum;
 import top.flobby.live.id.interfaces.IdGenerateRpc;
@@ -55,6 +55,8 @@ public class UserPhoneServiceImpl implements IUserPhoneService {
     private UserProviderCacheKeyBuilder userProviderCacheKeyBuilder;
     @DubboReference
     private IdGenerateRpc idGenerateRpc;
+    @DubboReference
+    private IAccountRpc accountRpc;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -67,7 +69,7 @@ public class UserPhoneServiceImpl implements IUserPhoneService {
         if (!ObjectUtils.isEmpty(userPhoneDTO)) {
             log.info("已注册过，进行登录, phone: {}", phone);
             // 注册过直接返回
-            return UserLoginDTO.loginSuccess(userPhoneDTO.getUserId(), createAndSaveUserToken(userPhoneDTO.getUserId()));
+            return UserLoginDTO.loginSuccess(userPhoneDTO.getUserId(), accountRpc.createAndSaveLoginToken(userPhoneDTO.getUserId()));
         }
         // 未注册过，添加记录
         log.info("未注册过，进行注册, phone: {}", phone);
@@ -100,21 +102,7 @@ public class UserPhoneServiceImpl implements IUserPhoneService {
         userPhoneMapper.insert(UserPhonePO.builder().userId(unSeqId).phone(DESUtils.encrypt(phone)).status(USER_STATUS_EFFECTIVE).build());
         // 删除空值缓存
         redisTemplate.delete(userProviderCacheKeyBuilder.buildUserPhoneObjKey(phone));
-        return UserLoginDTO.loginSuccess(unSeqId, createAndSaveUserToken(unSeqId));
-    }
-
-    /**
-     * 创建和保存用户令牌
-     *
-     * @param userId 用户 ID
-     * @return {@link String}
-     */
-    private String createAndSaveUserToken(Long userId) {
-        String token = JwtUtil.createToken(userId);
-        // 构造key  xxx:xxx:token -> userId
-        String key = userProviderCacheKeyBuilder.buildUserLoginTokenKey(token);
-        redisTemplate.opsForValue().set(key, userId, 48, TimeUnit.HOURS);
-        return token;
+        return UserLoginDTO.loginSuccess(unSeqId, accountRpc.createAndSaveLoginToken(unSeqId));
     }
 
     @Override

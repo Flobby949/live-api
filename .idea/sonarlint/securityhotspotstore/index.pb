@@ -246,3 +246,11 @@ glive-framework/live-framework-web-starter/src/main/java/top/flobby/live/web/sta
 llive-framework/live-framework-web-starter/src/main/java/top/flobby/live/web/starter/UserInfoInterceptor.java,b\9\b9aff3622d6d9c3c2fa80d1d9f44783a6488f476
 á
 Wlive-common-interface/src/main/java/top/flobby/live/common/enums/GatewayHeaderEnum.java,6\5\65c21915587a89b6d36eddc3b283d0395736918c
+ô
+ilive-framework/live-framework-web-starter/src/main/java/top/flobby/live/web/starter/RequestConstants.java,9\4\94d522eda87c0d756287ffa9594b7b019ecaf523
+í
+blive-framework/live-framework-web-starter/src/main/java/top/flobby/live/web/starter/WebConfig.java,e\b\ebf27d1488e988fa6aa4f052a9ce7df62c2c653c
+Ç
+Rlive-common-interface/src/main/java/top/flobby/live/common/constants/Constant.java,9\4\945694137425181ee66824b7953a7a7a887ebcf2
+è
+_live-common-interface/src/main/java/top/flobby/live/common/constants/RequestHeaderConstant.java,7\6\769a297a5cd74ab9965c4adc41a740bd2e70724f

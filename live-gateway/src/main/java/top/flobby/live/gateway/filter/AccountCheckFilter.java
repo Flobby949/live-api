@@ -21,6 +21,9 @@ import top.flobby.live.gateway.properties.GatewayApplicationProperties;
 import java.net.URI;
 import java.util.List;
 
+import static top.flobby.live.common.constants.RequestHeaderConstant.AUTHORIZATION;
+import static top.flobby.live.common.constants.RequestHeaderConstant.USER_LOGIN_ID;
+
 /**
  * @author : Flobby
  * @program : live-api
@@ -43,6 +46,7 @@ public class AccountCheckFilter implements GlobalFilter, Ordered {
         ServerHttpRequest request = exchange.getRequest();
         URI uri = request.getURI();
         String urlPath = uri.getPath();
+        logger.info("请求路径：{}", urlPath);
         if (StringUtils.isBlank(urlPath)) {
             return Mono.empty();
         }
@@ -54,7 +58,7 @@ public class AccountCheckFilter implements GlobalFilter, Ordered {
             }
         }
         // 请求头获取token
-        String token = exchange.getRequest().getHeaders().getFirst("token");
+        String token = exchange.getRequest().getHeaders().getFirst(AUTHORIZATION);
         logger.info("会员登录验证开始，token：{}", token);
         if (CharSequenceUtil.isBlank(token)) {
             logger.warn("token 为空，请求被拦截！, {}", urlPath);
@@ -68,12 +72,18 @@ public class AccountCheckFilter implements GlobalFilter, Ordered {
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
         }
-        Long userId = accountRpc.getUserIdByToken(token);
-        logger.info("网关获取userId:{}", userId);
-        ServerHttpRequest.Builder builder = request.mutate();
-        // 把 userId 传递给到下游去
-        // builder.header(GatewayHeaderEnum.USER_LOGIN_ID.getHeader(), String.valueOf(userId));
-        return chain.filter(exchange.mutate().request(builder.build()).build());
+        try {
+            Long userId = accountRpc.getUserIdByToken(token);
+            logger.info("网关获取userId:{}", userId);
+            ServerHttpRequest.Builder builder = request.mutate();
+            // 把 userId 传递给到下游去
+            builder.header(USER_LOGIN_ID, String.valueOf(userId));
+            return chain.filter(exchange.mutate().request(builder.build()).build());
+        } catch (Exception e) {
+            logger.error("token 无效，拦截");
+            exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+            return exchange.getResponse().setComplete();
+        }
     }
 
     @Override

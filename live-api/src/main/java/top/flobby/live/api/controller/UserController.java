@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
+import top.flobby.live.common.constants.RequestHeaderConstant;
 import top.flobby.live.common.exception.BusinessException;
 import top.flobby.live.common.exception.BusinessExceptionEnum;
 import top.flobby.live.common.resp.CommonResp;
@@ -14,6 +15,7 @@ import top.flobby.live.user.dto.UserLoginDTO;
 import top.flobby.live.user.interfaces.IUserPhoneRpc;
 import top.flobby.live.user.interfaces.IUserRpc;
 import top.flobby.live.user.req.UserLoginReq;
+import top.flobby.live.web.starter.RequestContext;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -58,13 +60,14 @@ public class UserController {
     }
 
     @PostMapping("/logout")
-    public CommonResp<Object> logout(@RequestHeader("Authorization") String token) {
+    public CommonResp<Object> logout(@RequestHeader(RequestHeaderConstant.AUTHORIZATION) String token) {
         userPhoneRpc.logout(token);
         return CommonResp.success(null);
     }
 
     @GetMapping("/getUserInfo")
-    public UserDTO getUserInfo(Long userId) {
+    public UserDTO getUserInfo() {
+        Long userId = RequestContext.getUserId();
         log.info("userId:{}", userId);
         return userRpc.getByUserId(userId);
     }
