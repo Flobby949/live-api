@@ -1,0 +1,8 @@
+
+W
+java:S1118":Add a private constructor to hide the implicit public one.(…ÓĞ8³åÁÃ1
+I
+java:S1172",Remove this unused method parameter "phone".(Ü¡€Ù8 ³åÁÃ1
+]	java:S125-"<This block of commented-out lines of code should be removed.(ıêÂ¡şÿÿÿÿ8£³åÁÃ1
+G	java:S1065"+Replace this use of System.out by a logger.(ƒÊÑÜ8¦³åÁÃ1
+G	java:S1069"+Replace this use of System.out by a logger.(ó¹ú¡8¦³åÁÃ1

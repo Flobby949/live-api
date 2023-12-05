@@ -48,6 +48,7 @@
         <rocketmq.version>4.8.0</rocketmq.version>
         <fastjson.version>2.0.15</fastjson.version>
         <hutool.version>5.8.23</hutool.version>
+        <cloopen.sms.version>1.0.4</cloopen.sms.version>
     </properties>
 
     <dependencies>

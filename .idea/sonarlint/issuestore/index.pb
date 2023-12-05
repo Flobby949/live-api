@@ -208,3 +208,13 @@ Hlive-api/src/main/java/top/flobby/live/api/controller/MsgController.java,e\b\e
 Llive-user-interface/src/main/java/top/flobby/live/user/req/UserLoginReq.java,a\a\aa515dd129598aa7d0e2b287f2a73fa5d17d6986
 ‹
 [live-common-interface/src/main/java/top/flobby/live/common/filter/DubboExceptionFilter.java,4\d\4dc2377ae34d430c1795c2ded85ca67b9e50d7be
+x
+Hlive-msg-interface/src/main/java/top/flobby/live/msg/utils/SmsUtils.java,2\d\2db813d583a1b357bec8b07a4f41a738232238fc
+‚
+Rlive-msg-provider/src/main/java/top/flobby/live/msg/provider/config/SmsConfig.java,b\0\b09b04dec94989411733f8b6cbda2253f5989cbc
+†
+Vlive-msg-provider/src/main/java/top/flobby/live/msg/provider/config/CloopenConfig.java,a\b\ab551f7561e0566b09e994a07f3e451d2924b511
+€
+Plive-msg-provider/src/main/java/top/flobby/live/msg/provider/utils/SmsUtils.java,7\8\784e1f29f7f22025251784ce30c403b0cc5a0c0a
+
+Olive-msg-interface/src/main/java/top/flobby/live/msg/enums/SmsTemplateEnum.java,3\9\397a97ef3110cf560925c9fd29fa9da76c8cc8d2

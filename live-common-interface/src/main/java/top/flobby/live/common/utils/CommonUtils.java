@@ -36,7 +36,7 @@ public class CommonUtils {
      * @return int
      */
     public static int generateCode() {
-        return ThreadLocalRandom.current().nextInt(100000, 999999);
+        return ThreadLocalRandom.current().nextInt(1000, 9999);
     }
 
     /**
