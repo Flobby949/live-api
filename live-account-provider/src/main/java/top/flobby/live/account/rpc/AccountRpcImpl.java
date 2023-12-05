@@ -27,4 +27,9 @@ public class AccountRpcImpl implements IAccountRpc {
     public Long getUserIdByToken(String tokenKey) {
         return accountService.getUserIdByToken(tokenKey);
     }
+
+    @Override
+    public void logout(String token) {
+        accountService.logout(token);
+    }
 }

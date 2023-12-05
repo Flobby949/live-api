@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
+import top.flobby.live.account.interfaces.IAccountRpc;
 import top.flobby.live.common.constants.RequestHeaderConstant;
 import top.flobby.live.common.exception.BusinessException;
 import top.flobby.live.common.exception.BusinessExceptionEnum;
@@ -38,6 +39,8 @@ public class UserController {
     private IUserPhoneRpc userPhoneRpc;
     @DubboReference
     private ISmsRpc smsRpc;
+    @DubboReference
+    private IAccountRpc accountRpc;
 
     @PostMapping("/login")
     public CommonResp<UserLoginDTO> login(@RequestBody UserLoginReq req) {
@@ -61,7 +64,7 @@ public class UserController {
 
     @PostMapping("/logout")
     public CommonResp<Object> logout(@RequestHeader(RequestHeaderConstant.AUTHORIZATION) String token) {
-        userPhoneRpc.logout(token);
+        accountRpc.logout(token);
         return CommonResp.success(null);
     }
 

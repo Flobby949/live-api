@@ -254,3 +254,5 @@ blive-framework/live-framework-web-starter/src/main/java/top/flobby/live/web/sta
 Rlive-common-interface/src/main/java/top/flobby/live/common/constants/Constant.java,9\4\945694137425181ee66824b7953a7a7a887ebcf2
 è
 _live-common-interface/src/main/java/top/flobby/live/common/constants/RequestHeaderConstant.java,7\6\769a297a5cd74ab9965c4adc41a740bd2e70724f
+|
+Llive-api/src/main/java/top/flobby/live/api/controller/AccountController.java,e\c\ec1f7717d81ef05797cd78344313a99d1a3c22fb

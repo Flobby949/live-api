@@ -28,11 +28,6 @@ public class UserPhoneRpcImpl implements IUserPhoneRpc {
     }
 
     @Override
-    public void logout(String token) {
-        userPhoneService.logout(token);
-    }
-
-    @Override
     public UserPhoneDTO queryByPhone(String phone) {
         return userPhoneService.queryByPhone(phone);
     }

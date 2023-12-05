@@ -47,4 +47,10 @@ public class AccountServiceImpl implements IAccountService {
         }
         return Long.parseLong(value.toString());
     }
+
+    @Override
+    public void logout(String token) {
+        String key = cacheKeyBuilder.buildAccountTokenKey(token);
+        redisTemplate.delete(key);
+    }
 }

@@ -76,12 +76,6 @@ public class UserPhoneServiceImpl implements IUserPhoneService {
         return registerAndLogin(phone);
     }
 
-    @Override
-    public void logout(String token) {
-        String key = userProviderCacheKeyBuilder.buildUserLoginTokenKey(token);
-        redisTemplate.delete(key);
-    }
-
     /**
      * 注册并登录
      *
