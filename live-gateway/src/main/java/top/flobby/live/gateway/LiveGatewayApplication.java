@@ -1,5 +1,6 @@
 package top.flobby.live.gateway;
 
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import top.flobby.live.common.annotation.LiveApplication;
@@ -12,6 +13,7 @@ import top.flobby.live.common.annotation.LiveApplication;
  **/
 
 @LiveApplication
+@EnableDubbo
 public class LiveGatewayApplication {
 
     public static void main(String[] args) {

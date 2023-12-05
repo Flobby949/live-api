@@ -18,6 +18,8 @@ public enum BusinessExceptionEnum {
     CODE_SEND_FAIL("验证码发送失败"),
     CODE_ERROR("验证码错误"),
     ID_GENERATE_ERROR("ID生成异常"),
+    TOKEN_TIMEOUT("token过期"),
+    TOKEN_ERROR("token异常"),
     ;
 
     private final String desc;

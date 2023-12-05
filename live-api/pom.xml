@@ -19,11 +19,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-spring-boot-starter</artifactId>
-            <version>${dubbo.version}</version>
-        </dependency>
-        <dependency>
             <groupId>top.flobby</groupId>
             <artifactId>live-user-interface</artifactId>
             <version>1.0.0</version>

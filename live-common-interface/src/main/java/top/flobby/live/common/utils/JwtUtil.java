@@ -45,11 +45,16 @@ public class JwtUtil {
     }
 
     public static boolean validate(String token) {
-        JWT jwt = JWTUtil.parseToken(token).setKey(KEY.getBytes());
-        // validate包含了verify
-        boolean validate = jwt.validate(0);
-        log.info("JWT token 校验结果：{}", validate);
-        return validate;
+        try {
+            JWT jwt = JWTUtil.parseToken(token).setKey(KEY.getBytes());
+            // validate包含了verify
+            boolean validate = jwt.validate(0);
+            log.info("JWT token 校验结果：{}", validate);
+            return validate;
+        } catch (Exception e) {
+            log.error("JWT token 校验异常：{}", e.getMessage());
+            return false;
+        }
     }
 
     public static JSONObject getJSONObject(String token) {
