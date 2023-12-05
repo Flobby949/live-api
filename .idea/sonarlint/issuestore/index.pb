@@ -256,3 +256,9 @@ Rlive-common-interface/src/main/java/top/flobby/live/common/constants/Constant.j
 _live-common-interface/src/main/java/top/flobby/live/common/constants/RequestHeaderConstant.java,7\6\769a297a5cd74ab9965c4adc41a740bd2e70724f
 |
 Llive-api/src/main/java/top/flobby/live/api/controller/AccountController.java,e\c\ec1f7717d81ef05797cd78344313a99d1a3c22fb
+W
+'live-account-provider/docker/Dockerfile,8\5\85ccddb6e8c1c21fd25daf68737c2f56599bcd05
+S
+#live-msg-provider/docker/Dockerfile,7\f\7f020a8b8159cbeed1751b21debb544955021b84
+N
+live-gateway/docker/Dockerfile,a\4\a420dc48fff0a8758a3cd5ba6e5d2c3f1e551273
