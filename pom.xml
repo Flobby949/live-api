@@ -31,6 +31,8 @@
         <module>live-account-interface</module>
         <module>live-account-provider</module>
         <module>live-framework/live-framework-web-starter</module>
+        <module>live-im-core-server</module>
+        <module>live-im-interface</module>
     </modules>
 
     <packaging>pom</packaging>
