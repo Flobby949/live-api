@@ -1,4 +1,4 @@
-package top.flobby.live.im.core.server;
+package top.flobby.live.im.core.server.starter;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -8,6 +8,10 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.context.annotation.Configuration;
 import top.flobby.live.im.core.server.common.ImMsgDecoder;
 import top.flobby.live.im.core.server.common.ImMsgEncoder;
 import top.flobby.live.im.core.server.handler.ImServerCoreHandler;
@@ -19,25 +23,18 @@ import top.flobby.live.im.core.server.handler.ImServerCoreHandler;
  * @create : 2023-12-07 14:46
  **/
 
-
-public class NettyImServerApplication {
+@RefreshScope
+@Configuration
+public class NettyImServerApplication implements InitializingBean {
 
     public static final Logger logger = LoggerFactory.getLogger(NettyImServerApplication.class);
 
     // 指定一个监听端口
-    private int port;
-
-    public int getPort() {
-        return port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
+    @Value("${live.im.port}")
+    private Integer port;
 
     // 基于netty 启动 java进程，绑定端口
-    private void startApplication(int port) throws InterruptedException {
-        setPort(port);
+    private void startApplication() throws InterruptedException {
         // 处理 accept 事件
         NioEventLoopGroup bossGroup = new NioEventLoopGroup();
         // 处理 read 和 write 事件
@@ -71,9 +68,18 @@ public class NettyImServerApplication {
         channelFuture.channel().closeFuture().sync();
     }
 
-    public static void main(String[] args) throws InterruptedException {
-        NettyImServerApplication nettyImServerApplication = new NettyImServerApplication();
-        nettyImServerApplication.startApplication(8888);
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        Thread nettyServerThread = new Thread(() -> {
+            try {
+                startApplication();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        nettyServerThread.setName("live-im-server");
+        nettyServerThread.start();
     }
 }
 

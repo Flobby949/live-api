@@ -9,7 +9,8 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>live-im-core-server</artifactId>
+    <artifactId>live-im-provider</artifactId>
+    <description>用于提供IM服务的RPC接口</description>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -19,22 +20,15 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
+            <groupId>top.flobby</groupId>
+            <artifactId>live-common-interface</artifactId>
+            <version>1.0.0</version>
         </dependency>
-
         <dependency>
             <groupId>top.flobby</groupId>
             <artifactId>live-im-interface</artifactId>
             <version>1.0.0</version>
         </dependency>
-
-        <dependency>
-            <groupId>top.flobby</groupId>
-            <artifactId>live-common-interface</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
         <dependency>
             <groupId>top.flobby</groupId>
             <artifactId>live-framework-redis-starter</artifactId>

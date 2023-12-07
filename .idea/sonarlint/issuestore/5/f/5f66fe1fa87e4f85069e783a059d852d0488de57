@@ -1,2 +1,6 @@
 
-G	java:S106"+Replace this use of System.out by a logger.(ŞŸö«8ê‰­šÄ1
+V
+java:S1854"9Remove this useless assignment to local variable "token".(×šéÅ8é¤Ü›Ä1
+G
+java:S1481"*Remove this unused "token" local variable.(×šéÅ8‰¥Ü›Ä1
+G	java:S106"+Replace this use of System.out by a logger.(ŞŸö«8ûöÚ›Ä1

@@ -33,6 +33,7 @@
         <module>live-framework/live-framework-web-starter</module>
         <module>live-im-core-server</module>
         <module>live-im-interface</module>
+        <module>live-im-provider</module>
     </modules>
 
     <packaging>pom</packaging>
