@@ -1,6 +1,8 @@
 package top.flobby.live.im.core.server.handler.impl;
 
 import io.netty.channel.ChannelHandlerContext;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import top.flobby.live.im.core.server.common.ImMsg;
 import top.flobby.live.im.core.server.handler.SimplyHandler;
 
@@ -11,6 +13,8 @@ import top.flobby.live.im.core.server.handler.SimplyHandler;
  * @create : 2023-12-07 15:33
  **/
 
+@Slf4j
+@Component
 public class HeartBeatMsgHandler implements SimplyHandler {
     @Override
     public void handler(ChannelHandlerContext ctx, ImMsg msg) {

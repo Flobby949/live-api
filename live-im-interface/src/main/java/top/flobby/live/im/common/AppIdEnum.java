@@ -12,7 +12,7 @@ import lombok.Getter;
 @Getter
 public enum AppIdEnum {
 
-    LIVE_BIZ_ID(1, "直播业务"),
+    LIVE_BIZ_ID(10001, "直播业务"),
     ;
 
     final Integer code;

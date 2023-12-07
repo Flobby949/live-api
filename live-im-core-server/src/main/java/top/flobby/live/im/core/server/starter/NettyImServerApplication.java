@@ -6,6 +6,7 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -32,6 +33,8 @@ public class NettyImServerApplication implements InitializingBean {
     // 指定一个监听端口
     @Value("${live.im.port}")
     private Integer port;
+    @Resource
+    private ImServerCoreHandler imServerCoreHandler;
 
     // 基于netty 启动 java进程，绑定端口
     private void startApplication() throws InterruptedException {
@@ -54,7 +57,7 @@ public class NettyImServerApplication implements InitializingBean {
                 // 增加解码器
                 channel.pipeline().addLast(new ImMsgDecoder());
                 // 设置这个netty的handler处理器
-                channel.pipeline().addLast(new ImServerCoreHandler());
+                channel.pipeline().addLast(imServerCoreHandler);
             }
         });
         // 基于 JVM 的钩子函数，实现优雅停机
