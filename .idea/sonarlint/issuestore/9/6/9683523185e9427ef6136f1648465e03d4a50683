@@ -1,0 +1,10 @@
+
+b	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(‹º•ù8Í²§ºÄ1
+g	java:S112("FDefine and throw a dedicated exception instead of using a generic one.(ùœöïşÿÿÿÿ8Î²§ºÄ1
+T
+java:S1874"2Remove this use of "getContext"; it is deprecated.(†…Ø¢üÿÿÿÿ8×²§ºÄ1
+M
+java:S1874"+Remove this use of "get"; it is deprecated.(†…Ø¢üÿÿÿÿ8×²§ºÄ1
+Q
+java:S1874"/Remove this use of "isEmpty"; it is deprecated.(ÍÚüûÿÿÿÿ8Ø²§ºÄ1
+L	java:S106"+Replace this use of System.out by a logger.(èù²úÿÿÿÿ8¨´ÙºÄ1

@@ -346,3 +346,27 @@ glive-common-interface/src/main/java/top/flobby/live/common/constants/ImCoreServ
 Xlive-msg-provider/src/main/java/top/flobby/live/msg/provider/consumer/ImMsgConsumer.java,7\b\7becba101b24ab9a37f79abe52119f5b5829d9e0
 R
 "live-im-provider/docker/Dockerfile,5\3\532be3d324474bce59e35927894d3e6f3f153217
+U
+%live-im-core-server-interface/pom.xml,c\e\ceb9a8f48cb97c260ac31ab895f1e7b3ff3fd6e4
+œ
+llive-im-core-server-interface/src/main/java/top/flobby/live/im/core/server/interfaces/IRouterHandlerRpc.java,a\b\abde6d4208824716f81686619f66caa9a03efa1f
+Ž
+^live-im-core-server/src/main/java/top/flobby/live/im/core/server/rpc/RouterHandlerRpcImpl.java,e\6\e67e5614368262987cf89f2968df8b83090ca319
+O
+live-im-router-provider/pom.xml,5\5\551eb722b501784b10f848db493a46a499e62c42
+P
+ live-im-router-interface/pom.xml,0\0\00e351896e5661d9581cf481ed2da9927d61d8f2
+‘
+alive-im-router-provider/src/main/java/top/flobby/live/im/router/provider/ImRouterApplication.java,3\5\35f43efbf4253408dd72593331ac24c12b988483
+Œ
+\live-im-router-interface/src/main/java/top/flobby/live/im/router/interfaces/ImRouterRpc.java,8\2\82eab1d4de24a546d55ecd87f0a9009477b70357
+‘
+alive-im-router-provider/src/main/java/top/flobby/live/im/router/provider/rpc/ImRouterRpcImpl.java,1\6\16d8a66b0dcd222c5d887e2459ebfa5224d56301
+•
+elive-im-router-provider/src/main/java/top/flobby/live/im/router/provider/service/ImRouterService.java,c\4\c4b9bef8e93cf0db2194c3c80205826e0386be91
+ž
+nlive-im-router-provider/src/main/java/top/flobby/live/im/router/provider/service/impl/ImRouterServiceImpl.java,f\c\fc0f60ae88cf8246a700a0016470541054221e15
+•
+elive-im-router-provider/src/main/java/top/flobby/live/im/router/provider/cluster/ImRouterCluster.java,c\b\cbaee15788397c7abcac2622a7ae06ec67410736
+œ
+llive-im-router-provider/src/main/java/top/flobby/live/im/router/provider/cluster/ImRouterClusterInvoker.java,9\6\9683523185e9427ef6136f1648465e03d4a50683
