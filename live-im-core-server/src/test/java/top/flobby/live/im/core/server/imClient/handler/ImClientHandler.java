@@ -1,6 +1,7 @@
 package top.flobby.live.im.core.server.imClient.handler;
 
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -54,7 +55,7 @@ public class ImClientHandler implements InitializingBean {
             });
             ChannelFuture channelFuture = null;
             Map<Long, Channel> userChannelMap = new HashMap<>();
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 5; i++) {
                 Long userId = 32111L + i;
                 ImMsgBody imMsgBody = ImMsgBody.builder()
                         .appId(AppIdEnum.LIVE_BIZ_ID.getCode())
@@ -80,9 +81,17 @@ public class ImClientHandler implements InitializingBean {
                             .appId(AppIdEnum.LIVE_BIZ_ID.getCode())
                             .userId(userId)
                             .build();
-                    ImMsg heartBeatMsg = ImMsg.build(ImMsgCodeEnum.IM_HEARTBEAT_MSG, JSON.toJSONString(imMsgBody));
-                    System.out.println("【客户端】发送心跳消息：" + heartBeatMsg);
-                    userChannelMap.get(userId).writeAndFlush(heartBeatMsg);
+                    // ImMsg heartBeatMsg = ImMsg.build(ImMsgCodeEnum.IM_HEARTBEAT_MSG, JSON.toJSONString(imMsgBody));
+                    // System.out.println("【客户端】发送心跳消息：" + heartBeatMsg);
+                    // userChannelMap.get(userId).writeAndFlush(heartBeatMsg);
+                    JSONObject data = new JSONObject();
+                    data.put("userId", userId);
+                    data.put("objectId", 12531213L);
+                    data.put("msg", "hello world");
+                    imMsgBody.setData(JSON.toJSONString(data));
+                    ImMsg bizMsg = ImMsg.build(ImMsgCodeEnum.IM_BUSINESS_MSG, JSON.toJSONString(imMsgBody));
+                    System.out.println("【客户端】发送业务消息：" + bizMsg);
+                    userChannelMap.get(userId).writeAndFlush(bizMsg);
                 }
                 try {
                     Thread.sleep(1000 * 3);

@@ -33,6 +33,11 @@
             <artifactId>live-framework-redis-starter</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>top.flobby</groupId>
+            <artifactId>live-framework-mq-starter</artifactId>
+            <version>1.0.0</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
