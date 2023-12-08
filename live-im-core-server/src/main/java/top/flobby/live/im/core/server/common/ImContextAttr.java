@@ -19,7 +19,7 @@ public class ImContextAttr {
     /**
      * 应用 ID
      */
-    public static final AttributeKey<Long> APP_ID = AttributeKey.valueOf("appId");
+    public static final AttributeKey<Integer> APP_ID = AttributeKey.valueOf("appId");
 
 
 }

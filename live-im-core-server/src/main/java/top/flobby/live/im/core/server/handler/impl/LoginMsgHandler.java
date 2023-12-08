@@ -33,6 +33,12 @@ public class LoginMsgHandler implements SimplyHandler {
 
     @Override
     public void handler(ChannelHandlerContext ctx, ImMsg msg) {
+        // 防止重复登录
+        Long userIdFromCtx = ImContextUtils.getUserId(ctx);
+        if (!ObjectUtils.isEmpty(userIdFromCtx)) {
+            log.error("登录消息处理器, 用户已登录, msg:{}", msg);
+            return;
+        }
         byte[] body = msg.getBody();
         if (body == null || body.length == 0) {
             ctx.close();
@@ -40,8 +46,8 @@ public class LoginMsgHandler implements SimplyHandler {
             throw new IllegalArgumentException("消息体为空");
         }
         ImMsgBody imMsgBody = JSON.parseObject(body, ImMsgBody.class);
-        String token = imMsgBody.getToken();
         Long userId = imMsgBody.getUserId();
+        String token = imMsgBody.getToken();
         Integer appId = imMsgBody.getAppId();
         if (StringUtils.isEmpty(token)
                 || ObjectUtils.isEmpty(userId)
@@ -49,7 +55,7 @@ public class LoginMsgHandler implements SimplyHandler {
                 || userId < 10000
                 || appId < 10000) {
             ctx.close();
-            log.error("消息体参数异常, 关闭连接, imMsg:{}", msg);
+            log.error("消息体参数异常, 关闭连接, imMsg:{}", imMsgBody);
             throw new IllegalArgumentException("消息体参数异常");
         }
         try {
@@ -69,6 +75,7 @@ public class LoginMsgHandler implements SimplyHandler {
         ChannelHandlerContextCache.put(userId, ctx);
         // 给 ctx 设置属性，方便后续使用
         ImContextUtils.setUserId(ctx, userId);
+        ImContextUtils.setAppId(ctx, appId);
         // 回写 IM 消息
         ImMsgBody respBody = new ImMsgBody();
         respBody.setUserId(userId);

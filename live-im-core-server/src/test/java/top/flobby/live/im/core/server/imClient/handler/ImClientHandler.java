@@ -20,6 +20,9 @@ import top.flobby.live.im.core.server.common.ImMsgEncoder;
 import top.flobby.live.im.dto.ImMsgBody;
 import top.flobby.live.im.interfaces.ImTokenRpc;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author : Flobby
  * @program : live-api
@@ -50,24 +53,39 @@ public class ImClientHandler implements InitializingBean {
                 }
             });
             ChannelFuture channelFuture = null;
-            try {
-                channelFuture = bootstrap.connect("localhost", 8888).sync();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            Channel channel = channelFuture.channel();
-            Long userId = 1236114L;
-            for (int i = 0; i < 20; i++) {
+            Map<Long, Channel> userChannelMap = new HashMap<>();
+            for (int i = 0; i < 10; i++) {
+                Long userId = 32111L + i;
                 ImMsgBody imMsgBody = ImMsgBody.builder()
                         .appId(AppIdEnum.LIVE_BIZ_ID.getCode())
                         .token(imTokenRpc.createImLoginToken(userId, AppIdEnum.LIVE_BIZ_ID.getCode()))
                         .userId(userId)
                         .build();
+                try {
+                    channelFuture = bootstrap.connect("localhost", 8888).sync();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
                 ImMsg loginMsg = ImMsg.build(ImMsgCodeEnum.IM_LOGIN_MSG, JSON.toJSONString(imMsgBody));
                 System.out.println("【客户端】发送登录消息：" + loginMsg);
+                Channel channel = channelFuture.channel();
                 channel.writeAndFlush(loginMsg);
+                userChannelMap.put(userId, channel);
+            }
+
+            while (true) {
+                for (Long userId : userChannelMap.keySet()) {
+                    ImMsgBody imMsgBody = ImMsgBody.builder()
+                            .appId(AppIdEnum.LIVE_BIZ_ID.getCode())
+                            .userId(userId)
+                            .build();
+                    ImMsg heartBeatMsg = ImMsg.build(ImMsgCodeEnum.IM_HEARTBEAT_MSG, JSON.toJSONString(imMsgBody));
+                    System.out.println("【客户端】发送心跳消息：" + heartBeatMsg);
+                    userChannelMap.get(userId).writeAndFlush(heartBeatMsg);
+                }
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(1000 * 3);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }

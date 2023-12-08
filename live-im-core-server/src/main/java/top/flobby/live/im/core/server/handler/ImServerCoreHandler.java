@@ -1,5 +1,6 @@
 package top.flobby.live.im.core.server.handler;
 
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import jakarta.annotation.Resource;
@@ -14,6 +15,7 @@ import top.flobby.live.im.core.server.common.ImMsg;
  **/
 
 @Component
+@ChannelHandler.Sharable
 public class ImServerCoreHandler extends SimpleChannelInboundHandler<Object> {
 
     @Resource

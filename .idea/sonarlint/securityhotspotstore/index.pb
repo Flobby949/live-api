@@ -282,8 +282,6 @@ glive-im-core-server/src/main/java/top/flobby/live/im/core/server/handler/impl/I
 Ylive-im-core-server/src/main/java/top/flobby/live/im/core/server/common/ImMsgEncoder.java,2\c\2cbc3f108e2250a96e45cace94af4ddad55910ac
 ’
 blive-im-core-server/src/test/java/top/flobby/live/im/core/server/imClient/ImClientApplication.java,d\1\d17da7d89acae1d95608f96390c1526adb055fe4
-Ž
-^live-im-core-server/src/test/java/top/flobby/live/im/core/server/imClient/ImClientHandler.java,5\5\55541157749660dc8d94e2157203bf28358e9963
 ƒ
 Slive-im-core-server/src/test/java/top/flobby/live/im/core/server/aio/AioClient.java,e\6\e61f157f1a7b92501acb6f285ea4a4f36aa9dc7e
 ƒ
@@ -330,5 +328,5 @@ Zlive-im-core-server/src/main/java/top/flobby/live/im/core/server/utils/ImContex
 flive-im-core-server/src/test/java/top/flobby/live/im/core/server/imClient/handler/ImClientHandler.java,9\e\9ee2646856e7c09b769b01e47011ed9182bd9949
 ”
 dlive-im-core-server/src/test/java/top/flobby/live/im/core/server/imClient/handler/ClientHandler.java,1\d\1da8328035369b8319a5b3f0eff1e86547f5b8cf
-Œ
-\live-im-core-server/src/test/java/top/flobby/live/im/core/server/imClient/ClientHandler.java,b\a\ba8d0df2d51e922b5d5e27a832994469267ed60d
+·
+†live-framework/live-framework-redis-starter/src/main/java/top/flobby/live/framework/redis/starter/key/ImCoreServerCacheKeyBuilder.java,2\a\2a65b5ddbb647c1477ba65dca3eac1cdbcc77395

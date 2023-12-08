@@ -18,4 +18,11 @@ public interface ImConstant {
      * ImMsg 最低基本长度，short类型的magic + int类型的code + int类型的len
      */
     int BASE_LENGTH = 2 + 4 + 4;
+
+    /**
+     * 心跳时间间隔
+     * 30s
+     */
+    int HEART_BEAT_TIME = 30;
+
 }

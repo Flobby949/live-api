@@ -36,9 +36,9 @@ public class ImContextUtils {
      * 获取应用 ID
      *
      * @param ctx CTX
-     * @return {@link Long}
+     * @return {@link Integer}
      */
-    public static Long getAppId(ChannelHandlerContext ctx) {
+    public static Integer getAppId(ChannelHandlerContext ctx) {
         return ctx.attr(ImContextAttr.APP_ID).get();
     }
 
@@ -48,7 +48,7 @@ public class ImContextUtils {
      * @param ctx   CTX
      * @param appId 应用 ID
      */
-    public static void setAppId(ChannelHandlerContext ctx, Long appId) {
+    public static void setAppId(ChannelHandlerContext ctx, Integer appId) {
         ctx.attr(ImContextAttr.APP_ID).set(appId);
     }
 }
