@@ -1,5 +1,7 @@
 package top.flobby.live.im.core.server.interfaces;
 
+import top.flobby.live.im.dto.ImMsgBody;
+
 /**
  * @author : Flobby
  * @program : live-api
@@ -13,7 +15,7 @@ public interface IRouterHandlerRpc {
      * 发送消息
      *
      * @param userId  用户 ID
-     * @param msgJson 消息 json
+     * @param msgBody 消息 json
      */
-    void sendMsg(Long userId, String msgJson);
+    void sendMsg(Long userId, ImMsgBody msgBody);
 }

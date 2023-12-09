@@ -1,5 +1,6 @@
 package top.flobby.live.msg.provider.consumer;
 
+import com.alibaba.fastjson2.JSON;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 import top.flobby.live.common.constants.ImCoreServerTopicNameConstant;
 import top.flobby.live.framework.mq.starter.properties.RocketMQConsumerProperties;
+import top.flobby.live.im.dto.ImMsgBody;
+import top.flobby.live.msg.provider.consumer.handler.MessageHandler;
 
 /**
  * @author : Flobby
@@ -24,6 +27,9 @@ public class ImMsgConsumer implements InitializingBean {
 
     @Resource
     private RocketMQConsumerProperties rocketMQConsumerProperties;
+    @Resource
+    private MessageHandler messageHandler;
+
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -31,13 +37,16 @@ public class ImMsgConsumer implements InitializingBean {
         mqPushConsumer.setVipChannelEnabled(false);
         mqPushConsumer.setNamesrvAddr(rocketMQConsumerProperties.getNameSrv());
         mqPushConsumer.setConsumerGroup(rocketMQConsumerProperties.getGroupName() + "_" + ImMsgConsumer.class.getSimpleName());
+        // 一次拉取10条消息进行消费
         mqPushConsumer.setConsumeMessageBatchMaxSize(10);
         mqPushConsumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
         // 监听im发送过来的业务消息topic
         mqPushConsumer.subscribe(ImCoreServerTopicNameConstant.LIVE_IM_BIZ_MSG_TOPIC, "");
         mqPushConsumer.setMessageListener((MessageListenerConcurrently) (msgs, context) -> {
-            String json = new String(msgs.get(0).getBody());
-            log.info("接收到im业务消息:{}", json);
+            msgs.forEach(msg -> {
+                ImMsgBody imMsgBody = JSON.parseObject(new String(msg.getBody()), ImMsgBody.class);
+                messageHandler.onMsgReceive(imMsgBody);
+            });
             return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
         });
         mqPushConsumer.start();

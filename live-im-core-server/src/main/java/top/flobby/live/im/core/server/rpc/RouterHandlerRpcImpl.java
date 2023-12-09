@@ -1,7 +1,10 @@
 package top.flobby.live.im.core.server.rpc;
 
+import jakarta.annotation.Resource;
 import org.apache.dubbo.config.annotation.DubboService;
 import top.flobby.live.im.core.server.interfaces.IRouterHandlerRpc;
+import top.flobby.live.im.core.server.service.IRouterHandlerService;
+import top.flobby.live.im.dto.ImMsgBody;
 
 /**
  * @author : Flobby
@@ -13,8 +16,11 @@ import top.flobby.live.im.core.server.interfaces.IRouterHandlerRpc;
 @DubboService
 public class RouterHandlerRpcImpl implements IRouterHandlerRpc {
 
+    @Resource
+    private IRouterHandlerService routerHandlerService;
+
     @Override
-    public void sendMsg(Long userId, String msgJson) {
-        System.out.println("this is im-core-server");
+    public void sendMsg(Long userId, ImMsgBody msgBody) {
+        routerHandlerService.onReceive(msgBody);
     }
 }

@@ -1,11 +1,15 @@
 
 \
-java:S1118":Add a private constructor to hide the implicit public one.(¥¢­µøÿÿÿÿ8‘áõÄ1
+java:S1118":Add a private constructor to hide the implicit public one.(¥¢­µøÿÿÿÿ8€«—¿Ä1
 I
-java:S1874",Remove this use of "attr"; it is deprecated.(ğ¶è8’áõÄ1
+java:S1874",Remove this use of "attr"; it is deprecated.(ğ¶è8‚«—¿Ä1
 N
-java:S1874 ",Remove this use of "attr"; it is deprecated.(·ÄÖŸÿÿÿÿÿ8”áõÄ1
+java:S1874 ",Remove this use of "attr"; it is deprecated.(·ÄÖŸÿÿÿÿÿ8ƒ«—¿Ä1
 N
-java:S1874*",Remove this use of "attr"; it is deprecated.(áò šøÿÿÿÿ8™ööÄ1
+java:S1874*",Remove this use of "attr"; it is deprecated.(áò šøÿÿÿÿ8„«—¿Ä1
 N
-java:S18744",Remove this use of "attr"; it is deprecated.(çéƒüşÿÿÿÿ8©¶óµÄ1
+java:S18744",Remove this use of "attr"; it is deprecated.(çéƒüşÿÿÿÿ8…«—¿Ä1
+I
+java:S1874=",Remove this use of "attr"; it is deprecated.(®¬áÅ8…«—¿Ä1
+N
+java:S1874F",Remove this use of "attr"; it is deprecated.(’ª”¥ÿÿÿÿÿ8†«—¿Ä1

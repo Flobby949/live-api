@@ -2,6 +2,7 @@ package top.flobby.live.im.router.provider.rpc;
 
 import jakarta.annotation.Resource;
 import org.apache.dubbo.config.annotation.DubboService;
+import top.flobby.live.im.dto.ImMsgBody;
 import top.flobby.live.im.router.interfaces.ImRouterRpc;
 import top.flobby.live.im.router.provider.service.ImRouterService;
 
@@ -19,7 +20,7 @@ public class ImRouterRpcImpl implements ImRouterRpc {
     private ImRouterService imRouterService;
 
     @Override
-    public boolean sendMsg(Long objectId, String msgJson) {
-        return imRouterService.sendMsg(objectId, msgJson);
+    public boolean sendMsg(ImMsgBody imMsgBody) {
+        return imRouterService.sendMsg(imMsgBody);
     }
 }

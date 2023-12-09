@@ -16,6 +16,6 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         ImMsg imMsg = (ImMsg) msg;
-        System.out.println("【服务端响应】收到服务端消息：" + imMsg);
+        System.out.println("【服务端响应】收到服务端消息：" + new String(imMsg.getBody()));
     }
 }

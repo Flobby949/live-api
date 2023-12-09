@@ -41,6 +41,11 @@ public class ImMsgBody implements java.io.Serializable {
     private String token;
 
     /**
+     * 消息类型
+     */
+    private Integer bizCode;
+
+    /**
      * 和业务服务进行消息传递
      */
     private String data;

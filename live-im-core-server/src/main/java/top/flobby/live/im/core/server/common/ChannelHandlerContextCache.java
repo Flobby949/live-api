@@ -14,6 +14,11 @@ import java.util.Map;
 
 public class ChannelHandlerContextCache {
 
+    /**
+     * 当前IM服务启动的时候，对外暴露的IP地址和端口
+     */
+    private static String SERVER_IP_ADDRESS;
+
     private static Map<Long, ChannelHandlerContext> ctxMap = new HashMap<>();
 
     public static ChannelHandlerContext get(Long userId) {
@@ -26,5 +31,13 @@ public class ChannelHandlerContextCache {
 
     public static void remove(Long userId) {
         ctxMap.remove(userId);
+    }
+
+    public static void setServerAddress(String ip, String port) {
+        SERVER_IP_ADDRESS = ip + ":" + port;
+    }
+
+    public static String getServerAddress() {
+        return SERVER_IP_ADDRESS;
     }
 }

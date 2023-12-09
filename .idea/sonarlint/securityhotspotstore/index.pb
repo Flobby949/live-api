@@ -296,8 +296,6 @@ Slive-im-core-server/src/test/java/top/flobby/live/im/core/server/bio/BioServer.
 Slive-im-core-server/src/test/java/top/flobby/live/im/core/server/nio/NioServer.java,4\2\42eb3cba75c37e5ccf5c740b3bdfda1b997cdb13
 Ç
 Rlive-im-core-server/src/test/java/top/flobby/live/im/core/server/SocketClient.java,2\4\241dd77c03e7b2420dbe831582e88597f5481555
-ñ
-flive-im-core-server/src/main/java/top/flobby/live/im/core/server/starter/NettyImServerApplication.java,7\1\710b331b91dc611dc8e48cab79bf8676c8c78712
 ç
 ]live-im-core-server/src/main/java/top/flobby/live/im/core/server/ImCoreServerApplication.java,a\8\a8b96cbd3bbcabfc17646d4e7075240f492cc947
 u
@@ -338,8 +336,6 @@ dlive-im-core-server/src/test/java/top/flobby/live/im/core/server/imClient/handl
 Ülive-framework/live-framework-mq-starter/src/main/java/top/flobby/live/framework/mq/starter/properties/RocketMQProducerProperties.java,5\f\5fcaabc84a8deccc05f87f429d92c1900faaa859
 ±
 Älive-framework/live-framework-mq-starter/src/main/java/top/flobby/live/framework/mq/starter/producer/RocketMQProducerConfig.java,4\9\49a643d57215a14ee40092169769577f9af7f4f6
-è
-_live-common-interface/src/main/java/top/flobby/live/common/constants/ImCoreServerTopicName.java,c\d\cd63dbd9596f5ace55627b1e6dc5cdf33968700b
 ó
 glive-common-interface/src/main/java/top/flobby/live/common/constants/ImCoreServerTopicNameConstant.java,9\9\9986c03dd5c5151a7b396a4ecfa4a74b5ef3c9aa
 à
@@ -370,3 +366,19 @@ nlive-im-router-provider/src/main/java/top/flobby/live/im/router/provider/servic
 elive-im-router-provider/src/main/java/top/flobby/live/im/router/provider/cluster/ImRouterCluster.java,c\b\cbaee15788397c7abcac2622a7ae06ec67410736
 ú
 llive-im-router-provider/src/main/java/top/flobby/live/im/router/provider/cluster/ImRouterClusterInvoker.java,9\6\9683523185e9427ef6136f1648465e03d4a50683
+í
+blive-im-core-server/src/main/java/top/flobby/live/im/core/server/starter/NettyImServerStarter.java,d\2\d204f866d9cb5e04baf4883f11b03c93e9b161e4
+ù
+mlive-im-core-server-interface/src/main/java/top/flobby/live/im/core/server/constant/ImCoreServerConstant.java,6\b\6bf1872bfe4398f55a0b6da83cc271a6d1ce335e
+ì
+clive-im-core-server/src/main/java/top/flobby/live/im/core/server/service/IRouterHandlerService.java,e\c\ec7cfe21fbccb7143eb9e5b5411045b2d3ea561a
+õ
+klive-im-core-server/src/main/java/top/flobby/live/im/core/server/service/impl/RouterHandlerServiceImpl.java,9\9\995e9ed2e97c7ec5c8c713dabae3d3c354413aaf
+ë
+alive-msg-provider/src/main/java/top/flobby/live/msg/provider/consumer/handler/MessageHandler.java,2\2\224bc1e873256954f6deacf75377ae899c1f8aef
+†
+plive-msg-provider/src/main/java/top/flobby/live/msg/provider/consumer/handler/impl/SingleMessageHandlerImpl.java,4\a\4af36eb3a0eb7a1b20b075b78f8509e348d5e1f4
+Ä
+Plive-msg-interface/src/main/java/top/flobby/live/msg/enums/ImMsgBizCodeEnum.java,a\8\a89ac37c367dce451641da3a058574f40336aaf5
+x
+Hlive-msg-interface/src/main/java/top/flobby/live/msg/dto/MessageDTO.java,a\1\a122b9e7c1e88b49547e5bce1c714e1949517f73

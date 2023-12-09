@@ -40,6 +40,12 @@
         </dependency>
 
         <dependency>
+            <groupId>top.flobby</groupId>
+            <artifactId>live-im-interface</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
@@ -56,6 +62,12 @@
             <groupId>org.apache.shardingsphere</groupId>
             <artifactId>shardingsphere-jdbc-core</artifactId>
             <version>${sharding.jdbc.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>top.flobby</groupId>
+            <artifactId>live-im-router-interface</artifactId>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 

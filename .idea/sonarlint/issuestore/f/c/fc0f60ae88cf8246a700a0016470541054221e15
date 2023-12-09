@@ -1,5 +1,7 @@
 
-N
-java:S1874"2Remove this use of "getContext"; it is deprecated.(“à8åÈĞºÄ1
-G
-java:S1874"+Remove this use of "set"; it is deprecated.(“à8æÈĞºÄ1
+L
+java:S1874""/Remove this use of "isEmpty"; it is deprecated.(åÔ®×8ÓöÃ¿Ä1
+T
+java:S1874%"2Remove this use of "getContext"; it is deprecated.(ÇÊúşÿÿÿÿ8ÔöÃ¿Ä1
+M
+java:S1874%"+Remove this use of "set"; it is deprecated.(ÇÊúşÿÿÿÿ8ÔöÃ¿Ä1

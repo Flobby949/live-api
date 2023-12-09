@@ -5,12 +5,14 @@ import io.netty.channel.ChannelHandlerContext;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import top.flobby.live.framework.redis.starter.key.ImCoreServerCacheKeyBuilder;
 import top.flobby.live.im.common.ImConstant;
 import top.flobby.live.im.common.ImMsgCodeEnum;
 import top.flobby.live.im.core.server.common.ImMsg;
+import top.flobby.live.im.core.server.constant.ImCoreServerConstant;
 import top.flobby.live.im.core.server.handler.SimplyHandler;
 import top.flobby.live.im.core.server.utils.ImContextUtils;
 import top.flobby.live.im.dto.ImMsgBody;
@@ -32,6 +34,8 @@ public class HeartBeatMsgHandler implements SimplyHandler {
     private RedisTemplate<String, Object> redisTemplate;
     @Resource
     private ImCoreServerCacheKeyBuilder cacheKeyBuilder;
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
 
 
     @Override
@@ -53,6 +57,10 @@ public class HeartBeatMsgHandler implements SimplyHandler {
         removeExpireRecord(key);
         // 过期时间设置为5分钟
         redisTemplate.expire(key, 5, TimeUnit.MINUTES);
+        // 延长用户ID绑定的IP地址过期时间，延长两个心跳包的时间
+        stringRedisTemplate.expire(ImCoreServerConstant.IM_BIND_IP_KEY + appId + ":" + userId,
+                ImConstant.HEART_BEAT_TIME * 2,
+                TimeUnit.SECONDS);
         // 返回心跳包
         ImMsgBody msgBody = ImMsgBody.builder()
                 .userId(userId)

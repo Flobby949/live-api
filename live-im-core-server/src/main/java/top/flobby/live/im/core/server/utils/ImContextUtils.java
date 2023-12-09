@@ -51,4 +51,22 @@ public class ImContextUtils {
     public static void setAppId(ChannelHandlerContext ctx, Integer appId) {
         ctx.attr(ImContextAttr.APP_ID).set(appId);
     }
+
+    /**
+     * 删除用户 ID
+     *
+     * @param ctx CTX
+     */
+    public static void removeUserId(ChannelHandlerContext ctx) {
+        ctx.attr(ImContextAttr.USER_ID).remove();
+    }
+
+    /**
+     * 删除 App ID
+     *
+     * @param ctx CTX
+     */
+    public static void removeAppId(ChannelHandlerContext ctx) {
+        ctx.attr(ImContextAttr.APP_ID).remove();
+    }
 }

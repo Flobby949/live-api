@@ -7,12 +7,15 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import jakarta.annotation.Resource;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
+import top.flobby.live.im.core.server.common.ChannelHandlerContextCache;
 import top.flobby.live.im.core.server.common.ImMsgDecoder;
 import top.flobby.live.im.core.server.common.ImMsgEncoder;
 import top.flobby.live.im.core.server.handler.ImServerCoreHandler;
@@ -26,15 +29,17 @@ import top.flobby.live.im.core.server.handler.ImServerCoreHandler;
 
 @RefreshScope
 @Configuration
-public class NettyImServerApplication implements InitializingBean {
+public class NettyImServerStarter implements InitializingBean {
 
-    public static final Logger logger = LoggerFactory.getLogger(NettyImServerApplication.class);
+    public static final Logger logger = LoggerFactory.getLogger(NettyImServerStarter.class);
 
     // 指定一个监听端口
     @Value("${live.im.port}")
     private Integer port;
     @Resource
     private ImServerCoreHandler imServerCoreHandler;
+    @Resource
+    private Environment environment;
 
     // 基于netty 启动 java进程，绑定端口
     private void startApplication() throws InterruptedException {
@@ -65,6 +70,14 @@ public class NettyImServerApplication implements InitializingBean {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }));
+        // 获取启动参数等变量
+        // DUBBO_IP_TO_REGISTRY=127.0.0.1 ; DUBBO_PORT_TO_REGISTRY=8080
+        String registryIp = environment.getProperty("DUBBO_IP_TO_REGISTRY");
+        String registryPort = environment.getProperty("DUBBO_PORT_TO_REGISTRY");
+        if (StringUtils.isBlank(registryIp) && StringUtils.isBlank(registryPort)) {
+            throw new IllegalArgumentException("启动参数异常，无法获取注册中心的IP和端口");
+        }
+        ChannelHandlerContextCache.setServerAddress(registryIp, registryPort);
         ChannelFuture channelFuture = bootstrap.bind(port).sync();
         logger.info("服务端启动成功，端口为：{}", port);
         // 这里会同步阻塞主线程，实现服务长期开启的效果

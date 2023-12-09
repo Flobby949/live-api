@@ -38,7 +38,7 @@
 
         <dependency>
             <groupId>top.flobby</groupId>
-            <artifactId>live-im-interface</artifactId>
+            <artifactId>live-framework-redis-starter</artifactId>
             <version>1.0.0</version>
         </dependency>
     </dependencies>

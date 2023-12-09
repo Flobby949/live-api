@@ -1,5 +1,7 @@
 package top.flobby.live.im.router.provider.service;
 
+import top.flobby.live.im.dto.ImMsgBody;
+
 /**
  * @author : Flobby
  * @program : live-api
@@ -12,9 +14,8 @@ public interface ImRouterService {
     /**
      * 发送消息
      *
-     * @param objectId 目标 ID
-     * @param msgJson  消息 json
+     * @param imMsgBody 消息
      * @return boolean
      */
-    boolean sendMsg(Long objectId, String msgJson);
+    boolean sendMsg(ImMsgBody imMsgBody);
 }
