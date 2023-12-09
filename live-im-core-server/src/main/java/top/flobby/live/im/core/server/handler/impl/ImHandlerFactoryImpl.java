@@ -51,5 +51,8 @@ public class ImHandlerFactoryImpl implements ImHandlerFactory, InitializingBean 
         // 心跳消息包，定时给im发送，汇报功能，用于保持长连接
         SIMPLY_HANDLER_MAP.put(ImMsgCodeEnum.IM_HEARTBEAT_MSG.getCode(),
                 applicationContext.getBean(HeartBeatMsgHandler.class));
+        // ACK消息包，用于消息确认机制，接收到消息后，需要回复ACK消息包
+        SIMPLY_HANDLER_MAP.put(ImMsgCodeEnum.IM_ACK_MSG.getCode(),
+                applicationContext.getBean(AckMsgHandler.class));
     }
 }

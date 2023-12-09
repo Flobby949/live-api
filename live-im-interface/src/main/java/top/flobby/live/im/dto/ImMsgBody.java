@@ -24,6 +24,11 @@ public class ImMsgBody implements java.io.Serializable {
     private static final long serialVersionUID = 260886346780666830L;
 
     /**
+     * 消息 ID
+     */
+    private String msgId;
+
+    /**
      * 应用 ID
      * 从哪一个服务发起送的消息
      */

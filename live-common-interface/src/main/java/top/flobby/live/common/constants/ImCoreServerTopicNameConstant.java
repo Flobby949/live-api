@@ -8,5 +8,13 @@ package top.flobby.live.common.constants;
  **/
 
 public interface ImCoreServerTopicNameConstant {
+    /**
+     * 接收 IM 系统发送的业务消息
+     */
     String LIVE_IM_BIZ_MSG_TOPIC = "live_im_biz_msg_topic";
+
+    /**
+     * 接收 IM ACK 消息
+     */
+    String LIVE_IM_ACK_MSG_TOPIC = "live_im_ack_msg_topic";
 }
