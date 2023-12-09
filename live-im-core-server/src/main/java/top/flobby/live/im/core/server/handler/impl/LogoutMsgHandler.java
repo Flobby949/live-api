@@ -15,7 +15,7 @@ import top.flobby.live.im.core.server.handler.SimplyHandler;
 import top.flobby.live.im.core.server.utils.ImContextUtils;
 import top.flobby.live.im.dto.ImMsgBody;
 
-import static top.flobby.live.im.core.server.constant.ImCoreServerConstant.IM_BIND_IP_KEY;
+import static top.flobby.live.common.constants.ImCoreServerConstant.IM_BIND_IP_KEY;
 
 /**
  * @author : Flobby

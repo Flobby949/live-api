@@ -6,7 +6,7 @@ import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import top.flobby.live.im.core.server.constant.ImCoreServerConstant;
+import top.flobby.live.common.constants.ImCoreServerConstant;
 import top.flobby.live.im.core.server.interfaces.IRouterHandlerRpc;
 import top.flobby.live.im.dto.ImMsgBody;
 import top.flobby.live.im.router.provider.service.ImRouterService;

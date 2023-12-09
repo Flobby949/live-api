@@ -22,7 +22,7 @@ import top.flobby.live.im.interfaces.ImTokenRpc;
 
 import java.util.concurrent.TimeUnit;
 
-import static top.flobby.live.im.core.server.constant.ImCoreServerConstant.IM_BIND_IP_KEY;
+import static top.flobby.live.common.constants.ImCoreServerConstant.IM_BIND_IP_KEY;
 
 /**
  * @author : Flobby

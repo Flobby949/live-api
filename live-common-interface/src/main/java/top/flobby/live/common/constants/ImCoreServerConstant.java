@@ -1,4 +1,4 @@
-package top.flobby.live.im.core.server.constant;
+package top.flobby.live.common.constants;
 
 /**
  * @author : Flobby
@@ -12,5 +12,5 @@ public interface ImCoreServerConstant {
     /**
      * IM 绑定 IP 的通用 redis key
      */
-    String IM_BIND_IP_KEY = "live.im.bind.ip:";
+    String IM_BIND_IP_KEY = "live:im:bind:ip:";
 }
