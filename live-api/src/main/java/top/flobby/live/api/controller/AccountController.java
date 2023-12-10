@@ -11,30 +11,22 @@ import top.flobby.live.common.exception.BusinessExceptionEnum;
 import top.flobby.live.common.resp.CommonResp;
 import top.flobby.live.msg.dto.MsgCheckDTO;
 import top.flobby.live.msg.interfaces.ISmsRpc;
-import top.flobby.live.user.dto.UserDTO;
 import top.flobby.live.user.dto.UserLoginDTO;
 import top.flobby.live.user.interfaces.IUserPhoneRpc;
-import top.flobby.live.user.interfaces.IUserRpc;
 import top.flobby.live.user.req.UserLoginReq;
-import top.flobby.live.web.starter.RequestContext;
-
-import java.util.Arrays;
-import java.util.Map;
 
 /**
  * @author : Flobby
  * @program : live-api
- * @description : 测试接口
+ * @description : 账户接口
  * @create : 2023-11-17 16:03
  **/
 
 @Slf4j
 @RestController
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/account")
+public class AccountController {
 
-    @DubboReference
-    private IUserRpc userRpc;
     @DubboReference
     private IUserPhoneRpc userPhoneRpc;
     @DubboReference
@@ -68,32 +60,4 @@ public class UserController {
         return CommonResp.success(null);
     }
 
-    @GetMapping("/getUserInfo")
-    public UserDTO getUserInfo() {
-        Long userId = RequestContext.getUserId();
-        log.info("userId:{}", userId);
-        return userRpc.getByUserId(userId);
-    }
-
-    @GetMapping("batchQueryUserInfo")
-    public Map<Long, UserDTO> batchQueryUserInfo(String userIdStr) {
-        return userRpc.batchQueryUserInfo(Arrays.stream(userIdStr.split(",")).map(Long::valueOf).toList());
-    }
-
-    @GetMapping("/updateUserInfo")
-    public boolean updateUserInfo(Long userId, String nickName) {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setUserId(userId);
-        userDTO.setNickName(nickName);
-        return userRpc.updateUserInfo(userDTO);
-    }
-
-    @GetMapping("/insertUser")
-    public boolean insertUser(Long userId) {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setUserId(userId);
-        userDTO.setNickName("live-test");
-        userDTO.setSex(1);
-        return userRpc.insertUser(userDTO);
-    }
 }
