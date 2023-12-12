@@ -2,6 +2,7 @@ package top.flobby.live.living.provider.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Options;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +26,7 @@ import java.util.Date;
  * @create : 2023-12-12 09:55
  **/
 
+@Slf4j
 @Service
 public class LivingRoomServiceImpl implements ILivingRoomService {
 
@@ -49,6 +51,7 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
         LivingRoomPO livingRoomPO = ConvertBeanUtils.convert(livingRoomReqDTO, LivingRoomPO.class);
         livingRoomPO.setStatus(CommonStatusEnum.VALID.getCode());
         livingRoomPO.setStartTime(new Date());
+        log.info("开启直播，livingRoomPO={}", livingRoomPO);
         livingRoomMapper.insert(livingRoomPO);
         return livingRoomPO.getId();
     }

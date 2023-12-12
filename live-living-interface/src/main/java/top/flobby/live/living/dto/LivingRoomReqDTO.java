@@ -16,5 +16,5 @@ public class LivingRoomReqDTO {
     private Long anchorId;
     private String roomName;
     private String covertImg;
-    private Integer type;
+    private Byte type;
 }

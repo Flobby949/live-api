@@ -1,5 +1,6 @@
 package top.flobby.live.api.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 import top.flobby.live.api.service.ILivingRoomService;
@@ -20,6 +21,7 @@ import top.flobby.live.web.starter.RequestContext;
  * @create : 2023-12-12 09:26
  **/
 
+@Slf4j
 @Service
 public class LivingRoomServiceImpl implements ILivingRoomService {
 
@@ -40,7 +42,8 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
         livingRoomReqDTO.setAnchorId(anchorInfo.getUserId());
         livingRoomReqDTO.setRoomName(anchorInfo.getNickName() + "的直播间");
         livingRoomReqDTO.setCovertImg(anchorInfo.getAvatar());
-        livingRoomReqDTO.setType(type);
+        livingRoomReqDTO.setType(type.byteValue());
+        log.info("开启直播，livingRoomReqDTO={}", livingRoomReqDTO);
         return livingRoomRpc.startLivingRoom(livingRoomReqDTO);
     }
 

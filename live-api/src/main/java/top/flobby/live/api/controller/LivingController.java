@@ -1,6 +1,7 @@
 package top.flobby.live.api.controller;
 
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import top.flobby.live.web.starter.RequestContext;
  * @create : 2023-12-12 10:44
  **/
 
+@Slf4j
 @RestController
 @RequestMapping("/living")
 public class LivingController {
@@ -27,6 +29,7 @@ public class LivingController {
 
     @PostMapping("start-living")
     public CommonResp<Integer> startLiving(@RequestParam(name = "type", defaultValue = "0") Integer type) {
+        log.info("开启直播，type={}", type);
         // 调用RPC，在开播表上写入一条记录
         Integer roomId = livingRoomService.startingLiving(type);
         if (ObjectUtils.isEmpty(roomId) || roomId <= 0) {
