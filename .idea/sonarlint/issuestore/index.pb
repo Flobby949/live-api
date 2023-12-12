@@ -470,3 +470,5 @@ Slive-living-interface/src/main/java/top/flobby/live/living/vo/LivingRoomInitVO.
 Slive-living-interface/src/main/java/top/flobby/live/living/vo/LivingRoomInfoVO.java,4\7\476a9e52acd5b8fbf536dd97ebcff5671a5d76c1
 †
 Vlive-common-interface/src/main/java/top/flobby/live/common/enums/CommonStatusEnum.java,4\9\4990904aa3ac6292c64e861f54876cd6f560a7d7
+{
+Klive-api/src/main/java/top/flobby/live/api/controller/LivingController.java,7\a\7aa3a43f183f64d528264a5b5348e8d5653202a7

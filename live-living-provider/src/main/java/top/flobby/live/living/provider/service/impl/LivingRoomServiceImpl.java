@@ -66,6 +66,7 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
         LivingRoomRecordPO record = ConvertBeanUtils.convert(livingRoomPO, LivingRoomRecordPO.class);
         record.setEndTime(new Date());
         record.setStatus(CommonStatusEnum.INVALID.getCode());
+        record.setUpdateTime(new Date());
         livingRoomRecordMapper.insert(record);
         livingRoomMapper.deleteById(livingRoomPO.getId());
         return true;

@@ -26,7 +26,7 @@ public interface ILivingRoomService {
      * 开启直播间
      *
      * @param type 类型
-     * @return {@link Integer}
+     * @return boolean
      */
     Integer startingLiving(Integer type);
 
