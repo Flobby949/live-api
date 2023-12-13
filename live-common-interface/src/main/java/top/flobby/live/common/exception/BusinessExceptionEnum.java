@@ -20,6 +20,7 @@ public enum BusinessExceptionEnum {
     ID_GENERATE_ERROR("ID生成异常"),
     TOKEN_TIMEOUT("token过期"),
     TOKEN_ERROR("token异常"),
+    LIVING_ROOM_IS_NOT_EXIST("直播间不存在"),
     ;
 
     private final String desc;

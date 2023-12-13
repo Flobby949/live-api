@@ -2,6 +2,7 @@ package top.flobby.live.common.resp;
 
 import lombok.Data;
 
+import java.io.Serial;
 import java.util.List;
 
 /**
@@ -12,7 +13,11 @@ import java.util.List;
  **/
 
 @Data
-public class PageRespVO<T> {
+public class PageRespVO<T> implements java.io.Serializable {
+
+    @Serial
+    private static final long serialVersionUID = -7149241748729239741L;
+    
     private List<T> list;
     private boolean hasNext;
 }

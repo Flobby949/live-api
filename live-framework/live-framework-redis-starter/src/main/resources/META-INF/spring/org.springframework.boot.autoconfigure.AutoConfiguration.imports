@@ -4,3 +4,4 @@ top.flobby.live.framework.redis.starter.key.SmsProviderCacheKeyBuilder
 top.flobby.live.framework.redis.starter.key.AccountProviderCacheKeyBuilder
 top.flobby.live.framework.redis.starter.key.ImProviderCacheKeyBuilder
 top.flobby.live.framework.redis.starter.key.ImCoreServerCacheKeyBuilder
+top.flobby.live.framework.redis.starter.key.LivingProviderCacheKeyBuilder

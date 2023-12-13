@@ -1,7 +1,11 @@
 package top.flobby.live.living.provider.service;
 
+import top.flobby.live.common.resp.PageRespVO;
+import top.flobby.live.living.dto.LivingRoomPageDTO;
 import top.flobby.live.living.dto.LivingRoomReqDTO;
 import top.flobby.live.living.vo.LivingRoomInfoVO;
+
+import java.util.List;
 
 /**
  * @author : Flobby
@@ -35,4 +39,20 @@ public interface ILivingRoomService {
      * @return boolean
      */
     boolean closeLiving(LivingRoomReqDTO livingRoomReqDTO);
+
+    /**
+     * 分页查询
+     *
+     * @param livingRoomPageDTO DTO
+     * @return {@link PageRespVO}<{@link LivingRoomInfoVO}>
+     */
+    PageRespVO<LivingRoomInfoVO> queryByPage(LivingRoomPageDTO livingRoomPageDTO);
+
+    /**
+     * 从数据库中查询直播间信息
+     *
+     * @param type 类型
+     * @return {@link List}<{@link LivingRoomInfoVO}>
+     */
+    List<LivingRoomInfoVO> queryAllListFromDb(Integer type);
 }

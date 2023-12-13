@@ -3,12 +3,12 @@ package top.flobby.live.api.controller;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import top.flobby.live.api.service.ILivingRoomService;
 import top.flobby.live.common.resp.CommonResp;
+import top.flobby.live.common.resp.PageRespVO;
+import top.flobby.live.living.dto.LivingRoomPageDTO;
+import top.flobby.live.living.vo.LivingRoomInfoVO;
 import top.flobby.live.living.vo.LivingRoomInitVO;
 import top.flobby.live.web.starter.RequestContext;
 
@@ -58,5 +58,16 @@ public class LivingController {
         }
         // 调用RPC，查询开播表的状态
         return CommonResp.success(livingRoomService.anchorConfig(RequestContext.getUserId(), roomId));
+    }
+
+    @PostMapping("query-page")
+    public CommonResp<PageRespVO<LivingRoomInfoVO>> queryPage(@RequestBody LivingRoomPageDTO livingRoomPageDTO) {
+        if (ObjectUtils.isEmpty(livingRoomPageDTO.getPage()) || livingRoomPageDTO.getPage() <= 0) {
+            livingRoomPageDTO.setPage(1L);
+        }
+        if (ObjectUtils.isEmpty(livingRoomPageDTO.getPageSize()) || livingRoomPageDTO.getPageSize() <= 0) {
+            livingRoomPageDTO.setPageSize(10L);
+        }
+        return CommonResp.success(livingRoomService.list(livingRoomPageDTO));
     }
 }

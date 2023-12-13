@@ -25,6 +25,7 @@ public class LivingRoomInfoVO implements Serializable {
     private static final long serialVersionUID = 3285174955802533024L;
 
     private Integer id;
+    private Byte type;
     private String roomName;
     private Long anchorId;
     private Integer watchNum;

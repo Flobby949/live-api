@@ -12,6 +12,6 @@ import lombok.Data;
 @Data
 public class PageBaseReq {
 
-    private int page;
-    private int pageSize;
+    private Long page;
+    private Long pageSize;
 }

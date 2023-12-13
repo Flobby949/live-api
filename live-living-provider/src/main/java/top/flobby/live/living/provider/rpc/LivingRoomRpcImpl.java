@@ -2,6 +2,8 @@ package top.flobby.live.living.provider.rpc;
 
 import jakarta.annotation.Resource;
 import org.apache.dubbo.config.annotation.DubboService;
+import top.flobby.live.common.resp.PageRespVO;
+import top.flobby.live.living.dto.LivingRoomPageDTO;
 import top.flobby.live.living.dto.LivingRoomReqDTO;
 import top.flobby.live.living.interfaces.ILivingRoomRpc;
 import top.flobby.live.living.provider.service.ILivingRoomService;
@@ -34,5 +36,10 @@ public class LivingRoomRpcImpl implements ILivingRoomRpc {
     @Override
     public boolean closeLiving(LivingRoomReqDTO livingRoomReqDTO) {
         return livingRoomService.closeLiving(livingRoomReqDTO);
+    }
+
+    @Override
+    public PageRespVO<LivingRoomInfoVO> queryByPage(LivingRoomPageDTO livingRoomPageDTO) {
+        return livingRoomService.queryByPage(livingRoomPageDTO);
     }
 }
