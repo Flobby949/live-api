@@ -1,4 +1,4 @@
-package top.flobby.live.im.core.server.handler;
+package top.flobby.live.im.core.server.handler.tcp;
 
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import top.flobby.live.im.core.server.common.ChannelHandlerContextCache;
 import top.flobby.live.im.core.server.common.ImMsg;
+import top.flobby.live.im.core.server.handler.ImHandlerFactory;
 import top.flobby.live.im.core.server.utils.ImContextUtils;
 
 import static top.flobby.live.common.constants.ImCoreServerConstant.IM_BIND_IP_KEY;
@@ -22,7 +23,7 @@ import static top.flobby.live.common.constants.ImCoreServerConstant.IM_BIND_IP_K
 
 @Component
 @ChannelHandler.Sharable
-public class ImServerCoreHandler extends SimpleChannelInboundHandler<Object> {
+public class TcpImServerCoreHandler extends SimpleChannelInboundHandler<Object> {
 
     @Resource
     private ImHandlerFactory imHandlerFactory;

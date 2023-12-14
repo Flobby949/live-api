@@ -18,7 +18,7 @@ import org.springframework.core.env.Environment;
 import top.flobby.live.im.core.server.common.ChannelHandlerContextCache;
 import top.flobby.live.im.core.server.common.ImMsgDecoder;
 import top.flobby.live.im.core.server.common.ImMsgEncoder;
-import top.flobby.live.im.core.server.handler.ImServerCoreHandler;
+import top.flobby.live.im.core.server.handler.tcp.TcpImServerCoreHandler;
 
 /**
  * @author : Flobby
@@ -34,10 +34,10 @@ public class NettyImServerStarter implements InitializingBean {
     public static final Logger logger = LoggerFactory.getLogger(NettyImServerStarter.class);
 
     // 指定一个监听端口
-    @Value("${live.im.port}")
+    @Value("${live.im.tcp.port}")
     private Integer port;
     @Resource
-    private ImServerCoreHandler imServerCoreHandler;
+    private TcpImServerCoreHandler tcpImServerCoreHandler;
     @Resource
     private Environment environment;
 
@@ -62,7 +62,7 @@ public class NettyImServerStarter implements InitializingBean {
                 // 增加解码器
                 channel.pipeline().addLast(new ImMsgDecoder());
                 // 设置这个netty的handler处理器
-                channel.pipeline().addLast(imServerCoreHandler);
+                channel.pipeline().addLast(tcpImServerCoreHandler);
             }
         });
         // 基于 JVM 的钩子函数，实现优雅停机

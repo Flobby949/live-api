@@ -8,6 +8,7 @@ spring:
       discovery:
         server-addr: http://106.15.104.19:8848
         namespace: test
+        ip: 10.21.24.220
       config:
         import-check:
           enabled: false
