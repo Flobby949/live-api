@@ -5,6 +5,7 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import top.flobby.live.common.constants.ImCoreServerConstant;
 import top.flobby.live.im.core.server.interfaces.IRouterHandlerRpc;
@@ -56,6 +57,9 @@ public class ImRouterServiceImpl implements ImRouterService {
                 .collect(Collectors.toList());
         // 从缓存冲批量获取ip地址
         List<String> ipList = stringRedisTemplate.opsForValue().multiGet(cacheKeyList);
+        if (CollectionUtils.isEmpty(ipList)) {
+            return;
+        }
         Map<String, List<Long>> userIdMap = new HashMap<>();
         // 按ip分组
         ipList.forEach(address -> {

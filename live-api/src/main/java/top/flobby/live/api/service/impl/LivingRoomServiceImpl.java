@@ -66,6 +66,10 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
             // 直播间不存在
             throw new BusinessException(BusinessExceptionEnum.LIVING_ROOM_IS_NOT_EXIST);
         }
+        UserDTO userDTO = userRpc.getByUserId(userId);
+        respVo.setUserId(userId);
+        respVo.setAvatar(userDTO.getAvatar());
+        respVo.setNickName(userDTO.getNickName());
         respVo.setAnchorId(info.getAnchorId());
         respVo.setAnchor(info.getAnchorId().equals(userId));
         respVo.setRoomId(info.getId());

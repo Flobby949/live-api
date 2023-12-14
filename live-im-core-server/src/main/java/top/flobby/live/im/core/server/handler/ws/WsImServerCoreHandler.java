@@ -48,6 +48,7 @@ public class WsImServerCoreHandler extends SimpleChannelInboundHandler {
             log.warn("[WsImServerCoreHandler] msg is not instance of TextWebSocketFrame, msg is {}", msg.getClass().getName());
             return;
         }
+        log.info("[WsImServerCoreHandler] 开始处理文本消息");
         try {
             // 返回应答消息
             String content = ((TextWebSocketFrame) msg).text();

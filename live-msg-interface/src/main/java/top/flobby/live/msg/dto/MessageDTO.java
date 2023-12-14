@@ -27,7 +27,8 @@ public class MessageDTO implements Serializable {
 
     private Long roomId;
     private Long userId;
-    // private Long objectId;
+    private String senderName;
+    private String senderAvatar;
     /**
      * 消息类型
      */

@@ -29,5 +29,6 @@ public class ImRouterRpcImpl implements ImRouterRpc {
     @Override
     public void batchSendMsg(List<ImMsgBody> imMsgBodyList) {
         // 如果用for循环调用sendMsg方法，延迟很高，不建议用for循环的远程调用
+        imRouterService.batchSendMsg(imMsgBodyList);
     }
 }

@@ -32,4 +32,10 @@ public class LivingRoomInitVO {
      * 房间 ID
      */
     private Integer roomId;
+    /**
+     * 进入直播间的用户的信息
+     */
+    private Long userId;
+    private String avatar;
+    private String nickName;
 }

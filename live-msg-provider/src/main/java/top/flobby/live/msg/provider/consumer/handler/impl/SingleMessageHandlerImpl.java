@@ -1,7 +1,6 @@
 package top.flobby.live.msg.provider.consumer.handler.impl;
 
 import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Component;
 import top.flobby.live.im.common.AppIdEnum;
@@ -15,6 +14,7 @@ import top.flobby.live.msg.provider.consumer.handler.MessageHandler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author : Flobby
@@ -43,17 +43,18 @@ public class SingleMessageHandlerImpl implements MessageHandler {
             LivingRoomReqDTO reqDTO = new LivingRoomReqDTO();
             reqDTO.setId(roomId);
             reqDTO.setAppId(msgBody.getAppId());
-            List<Long> userIdList = livingRoomRpc.queryUserIdByRoomId(reqDTO);
+            // 自己不需要收到自己的消息
+            List<Long> userIdList = livingRoomRpc.queryUserIdByRoomId(reqDTO)
+                    .stream()
+                    .filter(x -> !x.equals(msgBody.getUserId()))
+                    .collect(Collectors.toList());
             List<ImMsgBody> imMsgBodyList = new ArrayList<>();
             userIdList.forEach(userId -> {
-                JSONObject data = new JSONObject();
-                data.put("senderId", messageDTO.getUserId());
-                data.put("content", messageDTO.getContent());
                 ImMsgBody imMsgBody = ImMsgBody.builder()
                         .userId(userId)
                         .appId(AppIdEnum.LIVE_BIZ_ID.getCode())
                         .bizCode(ImMsgBizCodeEnum.LIVING_ROOM_IM_CHAT_MSG_BIZ.getCode())
-                        .data(JSON.toJSONString(data))
+                        .data(JSON.toJSONString(messageDTO))
                         .build();
                 imMsgBodyList.add(imMsgBody);
             });

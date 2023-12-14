@@ -175,8 +175,8 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
         Cursor<Object> cursor = redisTemplate.opsForSet().scan(cacheKey, ScanOptions.scanOptions().match("*").count(100).build());
         List<Long> userIdList = new ArrayList<>();
         while (cursor.hasNext()) {
-            Long userId = (Long) cursor.next();
-            userIdList.add(userId);
+            Integer userId = (Integer) cursor.next();
+            userIdList.add(Long.valueOf(userId));
         }
         return userIdList;
     }
