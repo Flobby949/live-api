@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 public class LivingRoomReqDTO {
 
-    private Integer id;
+    private Long id;
     private Long anchorId;
     private String roomName;
     private String covertImg;

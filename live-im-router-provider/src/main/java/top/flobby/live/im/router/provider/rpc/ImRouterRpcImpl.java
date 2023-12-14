@@ -6,6 +6,8 @@ import top.flobby.live.im.dto.ImMsgBody;
 import top.flobby.live.im.router.interfaces.ImRouterRpc;
 import top.flobby.live.im.router.provider.service.ImRouterService;
 
+import java.util.List;
+
 /**
  * @author : Flobby
  * @program : live-api
@@ -22,5 +24,10 @@ public class ImRouterRpcImpl implements ImRouterRpc {
     @Override
     public boolean sendMsg(ImMsgBody imMsgBody) {
         return imRouterService.sendMsg(imMsgBody);
+    }
+
+    @Override
+    public void batchSendMsg(List<ImMsgBody> imMsgBodyList) {
+        // 如果用for循环调用sendMsg方法，延迟很高，不建议用for循环的远程调用
     }
 }

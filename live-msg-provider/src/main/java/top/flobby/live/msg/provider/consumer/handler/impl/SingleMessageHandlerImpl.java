@@ -7,9 +7,14 @@ import org.springframework.stereotype.Component;
 import top.flobby.live.im.common.AppIdEnum;
 import top.flobby.live.im.dto.ImMsgBody;
 import top.flobby.live.im.router.interfaces.ImRouterRpc;
+import top.flobby.live.living.dto.LivingRoomReqDTO;
+import top.flobby.live.living.interfaces.ILivingRoomRpc;
 import top.flobby.live.msg.dto.MessageDTO;
 import top.flobby.live.msg.enums.ImMsgBizCodeEnum;
 import top.flobby.live.msg.provider.consumer.handler.MessageHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author : Flobby
@@ -24,6 +29,9 @@ public class SingleMessageHandlerImpl implements MessageHandler {
     @DubboReference
     private ImRouterRpc imRouterRpc;
 
+    @DubboReference
+    private ILivingRoomRpc livingRoomRpc;
+
     @Override
     public void onMsgReceive(ImMsgBody msgBody) {
         Integer bizCode = msgBody.getBizCode();
@@ -31,17 +39,26 @@ public class SingleMessageHandlerImpl implements MessageHandler {
             // 直播间聊天消息，一个人发送，多个人接收，相当于群聊
             // 根据roomId，appId，获取直播间内的所有人，然后发送消息
             MessageDTO messageDTO = JSON.parseObject(msgBody.getData(), MessageDTO.class);
+            Long roomId = messageDTO.getRoomId();
+            LivingRoomReqDTO reqDTO = new LivingRoomReqDTO();
+            reqDTO.setId(roomId);
+            reqDTO.setAppId(msgBody.getAppId());
+            List<Long> userIdList = livingRoomRpc.queryUserIdByRoomId(reqDTO);
+            List<ImMsgBody> imMsgBodyList = new ArrayList<>();
+            userIdList.forEach(userId -> {
+                JSONObject data = new JSONObject();
+                data.put("senderId", messageDTO.getUserId());
+                data.put("content", messageDTO.getContent());
+                ImMsgBody imMsgBody = ImMsgBody.builder()
+                        .userId(userId)
+                        .appId(AppIdEnum.LIVE_BIZ_ID.getCode())
+                        .bizCode(ImMsgBizCodeEnum.LIVING_ROOM_IM_CHAT_MSG_BIZ.getCode())
+                        .data(JSON.toJSONString(data))
+                        .build();
+                imMsgBodyList.add(imMsgBody);
+            });
             // TODO 暂时不做过多处理
-            JSONObject data = new JSONObject();
-            data.put("senderId", messageDTO.getUserId());
-            data.put("content", messageDTO.getContent());
-            ImMsgBody imMsgBody = ImMsgBody.builder()
-                    .userId(messageDTO.getObjectId())
-                    .appId(AppIdEnum.LIVE_BIZ_ID.getCode())
-                    .bizCode(ImMsgBizCodeEnum.LIVING_ROOM_IM_CHAT_MSG_BIZ.getCode())
-                    .data(JSON.toJSONString(data))
-                    .build();
-            imRouterRpc.sendMsg(imMsgBody);
+            imRouterRpc.batchSendMsg(imMsgBodyList);
         }
     }
 }

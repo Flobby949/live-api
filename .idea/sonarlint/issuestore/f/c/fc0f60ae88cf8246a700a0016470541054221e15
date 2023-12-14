@@ -1,7 +1,17 @@
 
+f
+java:S2259="DA "NullPointerException" could be thrown; "ipList" is nullable here.(¾¥ˆÚıÿÿÿÿ8°‘­ºÆ1
 L
-java:S1874""/Remove this use of "isEmpty"; it is deprecated.(åÔ®×8ÓöÃ¿Ä1
+java:S1874)"/Remove this use of "isEmpty"; it is deprecated.(åÔ®×8³‘­ºÆ1
 T
-java:S1874%"2Remove this use of "getContext"; it is deprecated.(ÇÊúşÿÿÿÿ8ÔöÃ¿Ä1
+java:S1874."2Remove this use of "getContext"; it is deprecated.(ÇÊúşÿÿÿÿ8³‘­ºÆ1
 M
-java:S1874%"+Remove this use of "set"; it is deprecated.(ÇÊúşÿÿÿÿ8ÔöÃ¿Ä1
+java:S1874."+Remove this use of "set"; it is deprecated.(ÇÊúşÿÿÿÿ8³‘­ºÆ1
+o
+java:S62048"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹8´‘­ºÆ1
+T
+java:S1874H"2Remove this use of "getContext"; it is deprecated.(Á¬ùùÿÿÿÿ8·‘­ºÆ1
+M
+java:S1874H"+Remove this use of "set"; it is deprecated.(Á¬ùùÿÿÿÿ8·‘­ºÆ1
+o
+java:S6204N"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹8·‘­ºÆ1

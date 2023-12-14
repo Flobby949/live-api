@@ -2,6 +2,8 @@ package top.flobby.live.im.router.interfaces;
 
 import top.flobby.live.im.dto.ImMsgBody;
 
+import java.util.List;
+
 /**
  * @author : Flobby
  * @program : live-api
@@ -18,4 +20,11 @@ public interface ImRouterRpc {
      * @return boolean
      */
     boolean sendMsg(ImMsgBody imMsgBody);
+
+    /**
+     * 批量发送消息
+     *
+     * @param imMsgBodyList list
+     */
+    void batchSendMsg(List<ImMsgBody> imMsgBodyList);
 }

@@ -14,10 +14,11 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
-import top.flobby.live.common.constants.RequestHeaderConstant;
 import top.flobby.live.common.utils.JwtUtil;
 import top.flobby.live.im.core.server.handler.impl.LoginMsgHandler;
 import top.flobby.live.im.interfaces.ImTokenRpc;
+
+import java.net.URI;
 
 /**
  * @author : Flobby
@@ -67,8 +68,22 @@ public class WsSharkHandler extends ChannelInboundHandlerAdapter {
         // 构造握手返回
         WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory(webSocketUrl, null, false);
         String uri = msg.uri();
-        String token = uri.substring(uri.indexOf(RequestHeaderConstant.AUTHORIZATION), uri.indexOf("&")).replaceAll(RequestHeaderConstant.AUTHORIZATION + "=", "");
-        Long userId = Long.valueOf(uri.substring(uri.indexOf("userId")).replaceAll("userId=", ""));
+        // ws://127.0.0.1:port?token=xxx&userId=xxx&roomId=xxx，分别取出token、userId、roomId
+        String query = URI.create(uri).getQuery();
+        String[] pairs = query.split("&");
+        String token = null;
+        Long userId = null;
+        Long roomId = null;
+        for (String pair : pairs) {
+            String[] split = pair.split("=");
+            if ("token".equals(split[0])) {
+                token = split[1];
+            } else if ("userId".equals(split[0])) {
+                userId = Long.parseLong(split[1]);
+            } else if ("roomId".equals(split[0])) {
+                roomId = Long.parseLong(split[1]);
+            }
+        }
         Long queryUserId = imTokenRpc.getUserIdByToken(token);
         if (ObjectUtils.isEmpty(queryUserId) || !queryUserId.equals(userId)) {
             // token无效，关闭连接
@@ -89,7 +104,7 @@ public class WsSharkHandler extends ChannelInboundHandlerAdapter {
             // token中保存的就是appId
             Integer appId = JwtUtil.getJSONObject(token).getInt("appId");
             // TODO roomId
-            loginMsgHandler.loginSuccessHandler(ctx, userId, appId, null);
+            loginMsgHandler.loginSuccessHandler(ctx, userId, appId, roomId);
             log.info("[WsSharkHandler] handshake success, userId is {}", userId);
         }
     }

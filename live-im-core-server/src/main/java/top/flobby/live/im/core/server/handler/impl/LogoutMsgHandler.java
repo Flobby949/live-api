@@ -11,7 +11,6 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import top.flobby.live.common.constants.ImCoreServerTopicNameConstant;
-import top.flobby.live.im.common.AppIdEnum;
 import top.flobby.live.im.common.ImMsgCodeEnum;
 import top.flobby.live.im.core.server.common.ChannelHandlerContextCache;
 import top.flobby.live.im.core.server.common.ImMsg;
@@ -49,22 +48,34 @@ public class LogoutMsgHandler implements SimplyHandler {
         }
         // 回写 IM 消息
         logoutHandler(ctx, userId, appId);
-        sendLogoutMQMsg(ctx, userId, appId);
+        logoutMsgNotice(ctx, userId, appId);
+    }
+
+    /**
+     * 登出的时候，发送确认信号，这个是正常网络断开才会发送，异常断线则不发送
+     *
+     * @param ctx    CTX
+     * @param userId 用户 ID
+     * @param appId  应用 ID
+     */
+    private void logoutMsgNotice(ChannelHandlerContext ctx, Long userId, Integer appId) {
+        ImMsgBody respBody = new ImMsgBody();
+        respBody.setAppId(appId);
+        respBody.setUserId(userId);
+        respBody.setData("true");
+        ImMsg respMsg = ImMsg.build(ImMsgCodeEnum.IM_LOGOUT_MSG.getCode(), JSON.toJSONString(respBody));
+        ctx.writeAndFlush(respMsg);
+        ctx.close();
     }
 
     private void logoutHandler(ChannelHandlerContext ctx, Long userId, Integer appId) {
-        ImMsgBody respBody = new ImMsgBody();
-        respBody.setUserId(userId);
-        respBody.setAppId(AppIdEnum.LIVE_BIZ_ID.getCode());
-        respBody.setData("true");
-        ImMsg respMsg = ImMsg.build(ImMsgCodeEnum.IM_LOGOUT_MSG, JSON.toJSONString(respBody));
-        ctx.writeAndFlush(respMsg);
+        log.info("[LogoutMsgHandler] logout success,userId is {},appId is {}", userId, appId);
         // 理想情况下，客户端断线时会发送断线消息包，但是防止客户端异常断线，所以从ctx中获取userId
         ChannelHandlerContextCache.remove(userId);
         stringRedisTemplate.delete(IM_BIND_IP_KEY + appId + ":" + userId);
         ImContextUtils.removeUserId(ctx);
         ImContextUtils.removeAppId(ctx);
-        ctx.close();
+        sendLogoutMQMsg(ctx, userId, appId);
     }
 
     /**

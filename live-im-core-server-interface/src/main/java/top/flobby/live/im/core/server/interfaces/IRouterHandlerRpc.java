@@ -2,6 +2,8 @@ package top.flobby.live.im.core.server.interfaces;
 
 import top.flobby.live.im.dto.ImMsgBody;
 
+import java.util.List;
+
 /**
  * @author : Flobby
  * @program : live-api
@@ -18,4 +20,6 @@ public interface IRouterHandlerRpc {
      * @param msgBody 消息 json
      */
     void sendMsg(Long userId, ImMsgBody msgBody);
+
+    void batchSendMsg(List<ImMsgBody> imMsgBodyList);
 }

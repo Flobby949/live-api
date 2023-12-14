@@ -53,7 +53,7 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
     @Override
     public boolean closeLiving(Integer roomId) {
         LivingRoomReqDTO livingRoomReqDTO = new LivingRoomReqDTO();
-        livingRoomReqDTO.setId(roomId);
+        livingRoomReqDTO.setId(Long.valueOf(roomId));
         livingRoomReqDTO.setAnchorId(RequestContext.getUserId());
         return livingRoomRpc.closeLiving(livingRoomReqDTO);
     }

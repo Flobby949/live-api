@@ -55,7 +55,7 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
 
 
     @Override
-    public LivingRoomInfoVO queryByRoomId(Integer roomId) {
+    public LivingRoomInfoVO queryUserIdByRoomId(Integer roomId) {
         // 先查缓存
         String cacheKey = cacheKeyBuilder.buildLivingRoomObjKey(roomId);
         LivingRoomInfoVO queryResult = (LivingRoomInfoVO) redisTemplate.opsForValue().get(cacheKey);
@@ -167,10 +167,10 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
     }
 
     @Override
-    public List<Long> queryByRoomId(LivingRoomReqDTO livingRoomReqDTO) {
-        Integer roomId = livingRoomReqDTO.getId();
+    public List<Long> queryUserIdByRoomId(LivingRoomReqDTO livingRoomReqDTO) {
+        Long roomId = livingRoomReqDTO.getId();
         Integer appId = livingRoomReqDTO.getAppId();
-        String cacheKey = cacheKeyBuilder.buildLivingRoomUserKey(Long.valueOf(roomId), appId);
+        String cacheKey = cacheKeyBuilder.buildLivingRoomUserKey(roomId, appId);
         // 没有全量查询，分页多段扫描
         Cursor<Object> cursor = redisTemplate.opsForSet().scan(cacheKey, ScanOptions.scanOptions().match("*").count(100).build());
         List<Long> userIdList = new ArrayList<>();

@@ -86,9 +86,8 @@ public class LoginMsgHandler implements SimplyHandler {
             log.error("token验证失败, 关闭连接, imMsg:{}", msg);
             throw new IllegalArgumentException("token验证失败");
         }
-        // 校验通过，允许进行连接
-        loginSuccessHandler(ctx, userId, appId);
-        sendLoginMQ(userId, appId, null);
+        // TODO roomId; 校验通过，允许进行连接
+        loginSuccessHandler(ctx, userId, appId, null);
     }
 
     /**
@@ -116,11 +115,12 @@ public class LoginMsgHandler implements SimplyHandler {
         // 将当前服务的地址写入 redis
         // 由于需要在其他服务中获取地址，所以不能把key用之前keyBuilder的方式生成
         stringRedisTemplate.opsForValue().set(IM_BIND_IP_KEY + appId + ":" + userId,
-                ChannelHandlerContextCache.getServerAddress(),
+                ChannelHandlerContextCache.getServerAddress() + "%" + userId,
                 ImConstant.HEART_BEAT_TIME * 2,
                 TimeUnit.SECONDS);
         log.info("【LoginMsgHandler】登录成功, userId:{}, appId:{}", userId, appId);
         ctx.writeAndFlush(respMsg);
+        sendLoginMQ(userId, appId, roomId);
     }
 
     /**

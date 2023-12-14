@@ -54,5 +54,5 @@ public interface ILivingRoomRpc {
      * @param livingRoomReqDTO 客厅要求 DTO
      * @return {@link List}<{@link Long}>
      */
-    List<Long> queryByRoomId(LivingRoomReqDTO livingRoomReqDTO);
+    List<Long> queryUserIdByRoomId(LivingRoomReqDTO livingRoomReqDTO);
 }
