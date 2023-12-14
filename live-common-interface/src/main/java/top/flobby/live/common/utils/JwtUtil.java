@@ -26,7 +26,7 @@ public class JwtUtil {
      */
     private static final String KEY = "live-api";
 
-    public static String createToken(Long userId) {
+    public static String createToken(Long userId, Integer appId) {
         DateTime now = DateTime.now();
         // 超时时间
         DateTime expTime = now.offsetNew(DateField.HOUR, 48);
@@ -39,6 +39,7 @@ public class JwtUtil {
         payload.put(RegisteredPayload.NOT_BEFORE, now);
         // 自定义载荷
         payload.put("userId", userId);
+        payload.put("appId", appId);
         String token = JWTUtil.createToken(payload, KEY.getBytes());
         log.info("生成 JWT token：{}", token);
         return token;

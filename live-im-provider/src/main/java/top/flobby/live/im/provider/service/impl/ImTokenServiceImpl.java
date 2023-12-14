@@ -28,7 +28,7 @@ public class ImTokenServiceImpl implements ImTokenService {
 
     @Override
     public String createImLoginToken(Long userId, Integer appId) {
-        String token = JwtUtil.createToken(userId);
+        String token = JwtUtil.createToken(userId, appId);
         String key = cacheKeyBuilder.buildImLoginTokenKey(token);
         redisTemplate.opsForValue().set(key, appId, 5, TimeUnit.MINUTES);
         return token;

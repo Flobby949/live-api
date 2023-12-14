@@ -14,7 +14,7 @@ public interface MessageHandler {
     /**
      * MSG 接收
      *
-     * @param msgBody 味精体
+     * @param msgBody msg
      */
     void onMsgReceive(ImMsgBody msgBody);
 }

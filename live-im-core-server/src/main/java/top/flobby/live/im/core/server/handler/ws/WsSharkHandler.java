@@ -1,23 +1,22 @@
 package top.flobby.live.im.core.server.handler.ws;
 
-import com.alibaba.fastjson2.JSON;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
-import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker;
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import top.flobby.live.common.constants.RequestHeaderConstant;
-import top.flobby.live.im.common.ImMsgCodeEnum;
-import top.flobby.live.im.core.server.common.ImMsg;
+import top.flobby.live.common.utils.JwtUtil;
+import top.flobby.live.im.core.server.handler.impl.LoginMsgHandler;
 import top.flobby.live.im.interfaces.ImTokenRpc;
 
 /**
@@ -39,6 +38,8 @@ public class WsSharkHandler extends ChannelInboundHandlerAdapter {
 
     @DubboReference
     private ImTokenRpc imTokenRpc;
+    @Resource
+    private LoginMsgHandler loginMsgHandler;
 
     private WebSocketServerHandshaker handShaker;
 
@@ -85,8 +86,10 @@ public class WsSharkHandler extends ChannelInboundHandlerAdapter {
         ChannelFuture channelFuture = handShaker.handshake(ctx.channel(), msg);
         // 首次握手成功，返回握手成功消息
         if (channelFuture.isSuccess()) {
-            ImMsg imMsg = ImMsg.build(ImMsgCodeEnum.WS_SHARD_MSG, "success");
-            channelFuture.channel().writeAndFlush(new TextWebSocketFrame(JSON.toJSONString(imMsg)));
+            // token中保存的就是appId
+            Integer appId = JwtUtil.getJSONObject(token).getInt("appId");
+            // TODO roomId
+            loginMsgHandler.loginSuccessHandler(ctx, userId, appId, null);
             log.info("[WsSharkHandler] handshake success, userId is {}", userId);
         }
     }

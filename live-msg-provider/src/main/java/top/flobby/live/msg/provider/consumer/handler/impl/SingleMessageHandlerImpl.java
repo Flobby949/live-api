@@ -28,7 +28,8 @@ public class SingleMessageHandlerImpl implements MessageHandler {
     public void onMsgReceive(ImMsgBody msgBody) {
         Integer bizCode = msgBody.getBizCode();
         if (ImMsgBizCodeEnum.LIVING_ROOM_IM_CHAT_MSG_BIZ.getCode().equals(bizCode)) {
-            // 直播间聊天消息
+            // 直播间聊天消息，一个人发送，多个人接收，相当于群聊
+            // 根据roomId，appId，获取直播间内的所有人，然后发送消息
             MessageDTO messageDTO = JSON.parseObject(msgBody.getData(), MessageDTO.class);
             // TODO 暂时不做过多处理
             JSONObject data = new JSONObject();

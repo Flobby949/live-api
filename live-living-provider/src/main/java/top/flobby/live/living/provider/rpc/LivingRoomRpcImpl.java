@@ -9,6 +9,8 @@ import top.flobby.live.living.interfaces.ILivingRoomRpc;
 import top.flobby.live.living.provider.service.ILivingRoomService;
 import top.flobby.live.living.vo.LivingRoomInfoVO;
 
+import java.util.List;
+
 /**
  * @author : Flobby
  * @program : live-api
@@ -41,5 +43,10 @@ public class LivingRoomRpcImpl implements ILivingRoomRpc {
     @Override
     public PageRespVO<LivingRoomInfoVO> queryByPage(LivingRoomPageDTO livingRoomPageDTO) {
         return livingRoomService.queryByPage(livingRoomPageDTO);
+    }
+
+    @Override
+    public List<Long> queryByRoomId(LivingRoomReqDTO livingRoomReqDTO) {
+        return livingRoomService.queryByRoomId(livingRoomReqDTO);
     }
 }

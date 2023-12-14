@@ -5,6 +5,8 @@ import top.flobby.live.living.dto.LivingRoomPageDTO;
 import top.flobby.live.living.dto.LivingRoomReqDTO;
 import top.flobby.live.living.vo.LivingRoomInfoVO;
 
+import java.util.List;
+
 /**
  * @author : Flobby
  * @program : live-api
@@ -45,4 +47,12 @@ public interface ILivingRoomRpc {
      * @return {@link PageRespVO}<{@link LivingRoomInfoVO}>
      */
     PageRespVO<LivingRoomInfoVO> queryByPage(LivingRoomPageDTO livingRoomPageDTO);
+
+    /**
+     * 按房间 ID 查询所有userId
+     *
+     * @param livingRoomReqDTO 客厅要求 DTO
+     * @return {@link List}<{@link Long}>
+     */
+    List<Long> queryByRoomId(LivingRoomReqDTO livingRoomReqDTO);
 }

@@ -13,6 +13,8 @@ import top.flobby.live.framework.redis.starter.key.AccountProviderCacheKeyBuilde
 
 import java.util.concurrent.TimeUnit;
 
+import static top.flobby.live.common.constants.ImCoreServerConstant.NO_APP_ID;
+
 /**
  * @author : Flobby
  * @program : live-api
@@ -31,7 +33,7 @@ public class AccountServiceImpl implements IAccountService {
 
     @Override
     public String createAndSaveLoginToken(Long userId) {
-        String token = JwtUtil.createToken(userId);
+        String token = JwtUtil.createToken(userId, NO_APP_ID);
         // 构造key  xxx:xxx:token -> userId
         String key = cacheKeyBuilder.buildAccountTokenKey(token);
         redisTemplate.opsForValue().set(key, userId, 48, TimeUnit.HOURS);

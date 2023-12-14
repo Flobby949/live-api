@@ -5,16 +5,20 @@ import io.netty.channel.ChannelHandlerContext;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.rocketmq.client.producer.MQProducer;
+import org.apache.rocketmq.client.producer.SendResult;
+import org.apache.rocketmq.common.message.Message;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
+import top.flobby.live.common.constants.ImCoreServerTopicNameConstant;
 import top.flobby.live.common.utils.JwtUtil;
-import top.flobby.live.im.common.AppIdEnum;
 import top.flobby.live.im.common.ImConstant;
 import top.flobby.live.im.common.ImMsgCodeEnum;
 import top.flobby.live.im.core.server.common.ChannelHandlerContextCache;
 import top.flobby.live.im.core.server.common.ImMsg;
+import top.flobby.live.im.core.server.dto.ImOnlineDTO;
 import top.flobby.live.im.core.server.handler.SimplyHandler;
 import top.flobby.live.im.core.server.utils.ImContextUtils;
 import top.flobby.live.im.dto.ImMsgBody;
@@ -39,6 +43,8 @@ public class LoginMsgHandler implements SimplyHandler {
     private ImTokenRpc imTokenRpc;
     @Resource
     private StringRedisTemplate stringRedisTemplate;
+    @Resource
+    private MQProducer mqProducer;
 
     @Override
     public void handler(ChannelHandlerContext ctx, ImMsg msg) {
@@ -81,14 +87,30 @@ public class LoginMsgHandler implements SimplyHandler {
             throw new IllegalArgumentException("token验证失败");
         }
         // 校验通过，允许进行连接
+        loginSuccessHandler(ctx, userId, appId);
+        sendLoginMQ(userId, appId, null);
+    }
+
+    /**
+     * 登录成功处理
+     *
+     * @param ctx    CTX
+     * @param userId 用户 ID
+     * @param appId  应用 ID
+     */
+    public void loginSuccessHandler(ChannelHandlerContext ctx, Long userId, Integer appId, Long roomId) {
+        // 按照 userId 保存相关信息
         ChannelHandlerContextCache.put(userId, ctx);
         // 给 ctx 设置属性，方便后续使用
         ImContextUtils.setUserId(ctx, userId);
         ImContextUtils.setAppId(ctx, appId);
-        // 回写 IM 消息
+        if (roomId != null) {
+            ImContextUtils.setRoomId(ctx, roomId);
+        }
+        // 消息回写
         ImMsgBody respBody = new ImMsgBody();
         respBody.setUserId(userId);
-        respBody.setAppId(AppIdEnum.LIVE_BIZ_ID.getCode());
+        respBody.setAppId(appId);
         respBody.setData("true");
         ImMsg respMsg = ImMsg.build(ImMsgCodeEnum.IM_LOGIN_MSG, JSON.toJSONString(respBody));
         // 将当前服务的地址写入 redis
@@ -99,5 +121,28 @@ public class LoginMsgHandler implements SimplyHandler {
                 TimeUnit.SECONDS);
         log.info("【LoginMsgHandler】登录成功, userId:{}, appId:{}", userId, appId);
         ctx.writeAndFlush(respMsg);
+    }
+
+    /**
+     * 发送登录 MQ
+     *
+     * @param userId 用户 ID
+     * @param appId  应用 ID
+     */
+    private void sendLoginMQ(Long userId, Integer appId, Long roomId) {
+        ImOnlineDTO imOnlineDTO = new ImOnlineDTO();
+        imOnlineDTO.setUserId(userId);
+        imOnlineDTO.setAppId(appId);
+        imOnlineDTO.setLoginTime(System.currentTimeMillis());
+        imOnlineDTO.setRoomId(roomId);
+        Message message = new Message();
+        message.setTopic(ImCoreServerTopicNameConstant.IM_ONLINE_TOPIC);
+        message.setBody(JSON.toJSONString(imOnlineDTO).getBytes());
+        try {
+            SendResult result = mqProducer.send(message);
+            log.info("【LoginMsgHandler】发送登录消息成功, result:{}", result);
+        } catch (Exception e) {
+            log.error("【LoginMsgHandler】发送登录消息失败, userId:{}, appId:{}", userId, appId);
+        }
     }
 }

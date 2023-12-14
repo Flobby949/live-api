@@ -17,4 +17,12 @@ public interface ImCoreServerTopicNameConstant {
      * 接收 IM ACK 消息
      */
     String LIVE_IM_ACK_MSG_TOPIC = "live_im_ack_msg_topic";
+    /**
+     * IM 上线主题消息
+     */
+    String IM_ONLINE_TOPIC = "im_online_topic";
+    /**
+     * IM 断线主题消息
+     */
+    String IM_OFFLINE_TOPIC = "im_offline_topic";
 }

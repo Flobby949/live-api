@@ -476,3 +476,13 @@ m
 dlive-im-core-server/src/main/java/top/flobby/live/im/core/server/starter/WsNettyImServerStarter.java,4\1\4116df6169594ecf33e7d62112432b4b0eb11863
 ç
 ]live-im-core-server/src/main/java/top/flobby/live/im/core/server/common/WebSocketEncoder.java,d\4\d42c7dcc8ccc328dd69a5671d2870e7bc9611d12
+ì
+clive-living-provider/src/main/java/top/flobby/live/living/provider/consumer/LivingRoomConsumer.java,e\2\e2e88c2516f025a10dc572a0a10a75fb08280704
+ô
+ilive-living-provider/src/main/java/top/flobby/live/living/provider/consumer/LivingRoomOnlineConsumer.java,8\4\842528b0fb1d0b075b416b15f28cb017e9a45589
+ö
+jlive-living-provider/src/main/java/top/flobby/live/living/provider/consumer/LivingRoomOfflineConsumer.java,e\5\e5b82625dddc2fe46d13a8eb3e69348d25ba4168
+è
+_live-im-core-server-interface/src/main/java/top/flobby/live/im/core/server/dto/ImOnlineDTO.java,3\b\3b79fe4b4c3ba76c631ba4fbf9a78f30e205941a
+ê
+`live-im-core-server-interface/src/main/java/top/flobby/live/im/core/server/dto/ImOfflineDTO.java,f\9\f9155605141052c968c8d690cdf8f83e224912b3

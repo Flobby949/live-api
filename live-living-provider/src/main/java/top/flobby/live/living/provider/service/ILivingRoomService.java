@@ -1,6 +1,8 @@
 package top.flobby.live.living.provider.service;
 
 import top.flobby.live.common.resp.PageRespVO;
+import top.flobby.live.im.core.server.dto.ImOfflineDTO;
+import top.flobby.live.im.core.server.dto.ImOnlineDTO;
 import top.flobby.live.living.dto.LivingRoomPageDTO;
 import top.flobby.live.living.dto.LivingRoomReqDTO;
 import top.flobby.live.living.vo.LivingRoomInfoVO;
@@ -55,4 +57,27 @@ public interface ILivingRoomService {
      * @return {@link List}<{@link LivingRoomInfoVO}>
      */
     List<LivingRoomInfoVO> queryAllListFromDb(Integer type);
+
+    /**
+     * 用户在线处理
+     *
+     * @param imOnlineDTO IM在线DTO
+     */
+    void userOnlineHandler(ImOnlineDTO imOnlineDTO);
+
+    /**
+     * 用户下线处理
+     *
+     * @param imOfflineDTO IM在线DTO
+     */
+    void userOfflineHandler(ImOfflineDTO imOfflineDTO);
+
+
+    /**
+     * 按房间 ID 查询所有userId
+     *
+     * @param livingRoomReqDTO 客厅要求 DTO
+     * @return {@link List}<{@link Long}>
+     */
+    List<Long> queryByRoomId(LivingRoomReqDTO livingRoomReqDTO);
 }

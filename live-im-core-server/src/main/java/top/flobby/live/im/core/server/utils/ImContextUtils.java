@@ -53,6 +53,20 @@ public class ImContextUtils {
     }
 
     /**
+     * 获取房间 ID
+     *
+     * @param ctx CTX
+     * @return {@link Long}
+     */
+    public static Long getRoomId(ChannelHandlerContext ctx) {
+        return ctx.attr(ImContextAttr.ROOM_ID).get();
+    }
+
+    public static void setRoomId(ChannelHandlerContext ctx, Long roomId) {
+        ctx.attr(ImContextAttr.ROOM_ID).set(roomId);
+    }
+
+    /**
      * 删除用户 ID
      *
      * @param ctx CTX

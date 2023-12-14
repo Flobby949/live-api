@@ -17,4 +17,5 @@ public class LivingRoomReqDTO {
     private String roomName;
     private String covertImg;
     private Byte type;
+    private Integer appId;
 }

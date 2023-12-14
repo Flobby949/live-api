@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Options;
+import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -14,6 +16,8 @@ import top.flobby.live.common.resp.PageRespVO;
 import top.flobby.live.common.utils.CommonUtils;
 import top.flobby.live.common.utils.ConvertBeanUtils;
 import top.flobby.live.framework.redis.starter.key.LivingProviderCacheKeyBuilder;
+import top.flobby.live.im.core.server.dto.ImOfflineDTO;
+import top.flobby.live.im.core.server.dto.ImOnlineDTO;
 import top.flobby.live.living.dto.LivingRoomPageDTO;
 import top.flobby.live.living.dto.LivingRoomReqDTO;
 import top.flobby.live.living.provider.dao.mapper.LivingRoomMapper;
@@ -23,6 +27,7 @@ import top.flobby.live.living.provider.dao.po.LivingRoomRecordPO;
 import top.flobby.live.living.provider.service.ILivingRoomService;
 import top.flobby.live.living.vo.LivingRoomInfoVO;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -139,6 +144,41 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
         wrapper.last("limit 1000");
         List<LivingRoomPO> result = livingRoomMapper.selectList(wrapper);
         return ConvertBeanUtils.convertList(result, LivingRoomInfoVO.class);
+    }
+
+    @Override
+    public void userOnlineHandler(ImOnlineDTO imOnlineDTO) {
+        Long userId = imOnlineDTO.getUserId();
+        Long roomId = imOnlineDTO.getRoomId();
+        Integer appId = imOnlineDTO.getAppId();
+        // 存入set
+        String cacheKey = cacheKeyBuilder.buildLivingRoomUserKey(roomId, appId);
+        redisTemplate.opsForSet().add(cacheKey, userId);
+        redisTemplate.expire(cacheKey, 5, TimeUnit.HOURS);
+    }
+
+    @Override
+    public void userOfflineHandler(ImOfflineDTO imOfflineDTO) {
+        Long userId = imOfflineDTO.getUserId();
+        Long roomId = imOfflineDTO.getRoomId();
+        Integer appId = imOfflineDTO.getAppId();
+        String cacheKey = cacheKeyBuilder.buildLivingRoomUserKey(roomId, appId);
+        redisTemplate.opsForSet().remove(cacheKey, userId);
+    }
+
+    @Override
+    public List<Long> queryByRoomId(LivingRoomReqDTO livingRoomReqDTO) {
+        Integer roomId = livingRoomReqDTO.getId();
+        Integer appId = livingRoomReqDTO.getAppId();
+        String cacheKey = cacheKeyBuilder.buildLivingRoomUserKey(Long.valueOf(roomId), appId);
+        // 没有全量查询，分页多段扫描
+        Cursor<Object> cursor = redisTemplate.opsForSet().scan(cacheKey, ScanOptions.scanOptions().match("*").count(100).build());
+        List<Long> userIdList = new ArrayList<>();
+        while (cursor.hasNext()) {
+            Long userId = (Long) cursor.next();
+            userIdList.add(userId);
+        }
+        return userIdList;
     }
 
 }

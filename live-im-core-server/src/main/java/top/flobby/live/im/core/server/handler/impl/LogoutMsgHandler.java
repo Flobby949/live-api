@@ -4,13 +4,18 @@ import com.alibaba.fastjson2.JSON;
 import io.netty.channel.ChannelHandlerContext;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.client.producer.MQProducer;
+import org.apache.rocketmq.client.producer.SendResult;
+import org.apache.rocketmq.common.message.Message;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
+import top.flobby.live.common.constants.ImCoreServerTopicNameConstant;
 import top.flobby.live.im.common.AppIdEnum;
 import top.flobby.live.im.common.ImMsgCodeEnum;
 import top.flobby.live.im.core.server.common.ChannelHandlerContextCache;
 import top.flobby.live.im.core.server.common.ImMsg;
+import top.flobby.live.im.core.server.dto.ImOfflineDTO;
 import top.flobby.live.im.core.server.handler.SimplyHandler;
 import top.flobby.live.im.core.server.utils.ImContextUtils;
 import top.flobby.live.im.dto.ImMsgBody;
@@ -30,6 +35,8 @@ public class LogoutMsgHandler implements SimplyHandler {
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
+    @Resource
+    private MQProducer mqProducer;
 
     @Override
     public void handler(ChannelHandlerContext ctx, ImMsg msg) {
@@ -41,6 +48,11 @@ public class LogoutMsgHandler implements SimplyHandler {
             throw new IllegalArgumentException("userId为空");
         }
         // 回写 IM 消息
+        logoutHandler(ctx, userId, appId);
+        sendLogoutMQMsg(ctx, userId, appId);
+    }
+
+    private void logoutHandler(ChannelHandlerContext ctx, Long userId, Integer appId) {
         ImMsgBody respBody = new ImMsgBody();
         respBody.setUserId(userId);
         respBody.setAppId(AppIdEnum.LIVE_BIZ_ID.getCode());
@@ -53,5 +65,26 @@ public class LogoutMsgHandler implements SimplyHandler {
         ImContextUtils.removeUserId(ctx);
         ImContextUtils.removeAppId(ctx);
         ctx.close();
+    }
+
+    /**
+     * 发送注销 MSG
+     *
+     * @param userId 用户 ID
+     * @param appId  应用 ID
+     */
+    private void sendLogoutMQMsg(ChannelHandlerContext ctx, Long userId, Integer appId) {
+        ImOfflineDTO imOfflineDTO = new ImOfflineDTO();
+        imOfflineDTO.setUserId(userId);
+        imOfflineDTO.setRoomId(ImContextUtils.getRoomId(ctx));
+        imOfflineDTO.setAppId(appId);
+        imOfflineDTO.setLogoutTime(System.currentTimeMillis());
+        Message message = new Message(ImCoreServerTopicNameConstant.IM_OFFLINE_TOPIC, JSON.toJSONString(imOfflineDTO).getBytes());
+        try {
+            SendResult sendResult = mqProducer.send(message);
+            log.info("[LogoutMsgHandler]发送IM下线消息成功, sendResult:{}", sendResult);
+        } catch (Exception e) {
+            log.error("[LogoutMsgHandler]发送IM下线消息失败, ", e);
+        }
     }
 }
