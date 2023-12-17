@@ -1,4 +1,4 @@
-package top.flobby.live.web.starter;
+package top.flobby.live.web.starter.context;
 
 import lombok.Getter;
 

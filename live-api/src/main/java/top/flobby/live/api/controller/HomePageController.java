@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import top.flobby.live.api.service.HomePageService;
 import top.flobby.live.api.vo.HomePageUserVO;
 import top.flobby.live.common.resp.CommonResp;
-import top.flobby.live.web.starter.RequestContext;
+import top.flobby.live.web.starter.context.RequestContext;
 
 /**
  * @author : Flobby

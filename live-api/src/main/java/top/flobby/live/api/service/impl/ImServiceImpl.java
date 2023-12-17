@@ -11,7 +11,7 @@ import top.flobby.live.api.service.ImService;
 import top.flobby.live.api.vo.ImConfigVO;
 import top.flobby.live.im.common.AppIdEnum;
 import top.flobby.live.im.interfaces.ImTokenRpc;
-import top.flobby.live.web.starter.RequestContext;
+import top.flobby.live.web.starter.context.RequestContext;
 
 import java.util.Collections;
 import java.util.List;

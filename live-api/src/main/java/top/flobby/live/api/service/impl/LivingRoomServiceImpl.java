@@ -15,7 +15,7 @@ import top.flobby.live.living.vo.LivingRoomInfoVO;
 import top.flobby.live.living.vo.LivingRoomInitVO;
 import top.flobby.live.user.dto.UserDTO;
 import top.flobby.live.user.interfaces.IUserRpc;
-import top.flobby.live.web.starter.RequestContext;
+import top.flobby.live.web.starter.context.RequestContext;
 
 /**
  * @author : Flobby

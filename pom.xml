@@ -39,6 +39,8 @@
         <module>live-im-router-interface</module>
         <module>live-living-interface</module>
         <module>live-living-provider</module>
+        <module>live-gift-provider</module>
+        <module>live-gift-interface</module>
     </modules>
 
     <packaging>pom</packaging>
