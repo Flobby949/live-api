@@ -20,4 +20,5 @@ public class GiftProviderApplication {
         springApplication.setWebApplicationType(WebApplicationType.NONE);
         springApplication.run(args);
     }
+
 }

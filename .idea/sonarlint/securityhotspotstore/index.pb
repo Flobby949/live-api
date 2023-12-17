@@ -536,3 +536,11 @@ Zlive-bank-interface/src/main/java/top/flobby/live/bank/interfaces/ICurrencyAcco
 ^live-bank-provider/src/main/java/top/flobby/live/bank/provider/rpc/CurrencyAccountRpcImpl.java,a\1\a1877fe7bb4182e7446b7e885c109d9beaf86832
 õ
 klive-bank-provider/src/main/java/top/flobby/live/bank/provider/service/impl/CurrencyAccountServiceImpl.java,5\e\5e6d9338a7acdacc680e683f0731a5f7a03a130b
+∑
+Ülive-framework/live-framework-redis-starter/src/main/java/top/flobby/live/framework/redis/starter/key/GiftProviderCacheKeyBuilder.java,0\e\0eeb339349b9b7aa250bf921819b11afafe0b53a
+ç
+]live-gift-provider/src/main/java/top/flobby/live/gift/provider/service/GiftCacheRemoveBO.java,0\8\080b75c769e17187e8825e811aae6c6c25a6dae2
+ò
+hlive-common-interface/src/main/java/top/flobby/live/common/constants/GiftProviderTopicNamesConstant.java,9\8\9884f14a0fd67679bb618d7c0a40a1074b02f759
+î
+dlive-gift-provider/src/main/java/top/flobby/live/gift/provider/consumer/GiftConfigCacheConsumer.java,e\e\eeb26de3f7221ab4adf5ad18e1628fd81b60184b

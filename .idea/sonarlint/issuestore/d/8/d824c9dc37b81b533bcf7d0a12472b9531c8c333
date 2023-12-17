@@ -1,0 +1,7 @@
+
+f
+java:S2259b"DA "NullPointerException" could be thrown; "range()" can return null.(‚œŞŞùÿÿÿÿ8 š·Ç1
+t
+java:S6204c"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(Ù“ö£ÿÿÿÿÿ8¬š·Ç1
+|
+java:S2142±"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(”ı¾8·š·Ç1
