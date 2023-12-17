@@ -30,6 +30,12 @@
             <artifactId>live-user-interface</artifactId>
             <version>1.0.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>top.flobby</groupId>
+            <artifactId>live-framework-redis-starter</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
 </project>

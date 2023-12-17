@@ -11,6 +11,7 @@ import top.flobby.live.living.dto.LivingRoomPageDTO;
 import top.flobby.live.living.vo.LivingRoomInfoVO;
 import top.flobby.live.living.vo.LivingRoomInitVO;
 import top.flobby.live.web.starter.context.RequestContext;
+import top.flobby.live.web.starter.limit.RequestLimit;
 
 /**
  * @author : Flobby
@@ -28,6 +29,7 @@ public class LivingController {
     private ILivingRoomService livingRoomService;
 
     @PostMapping("start-living")
+    @RequestLimit(limit = 1, second = 10)
     public CommonResp<Integer> startLiving(@RequestParam(name = "type", defaultValue = "0") Integer type) {
         log.info("开启直播，type={}", type);
         // 调用RPC，在开播表上写入一条记录
@@ -39,6 +41,7 @@ public class LivingController {
     }
 
     @PostMapping("close-living")
+    @RequestLimit(limit = 1, second = 10)
     public CommonResp<Object> closeLiving(@RequestParam(name = "roomId") Integer roomId) {
         if (ObjectUtils.isEmpty(roomId) || roomId <= 0) {
             return CommonResp.error("房间号错误");

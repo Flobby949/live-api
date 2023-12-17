@@ -522,3 +522,9 @@ flive-gift-provider/src/main/java/top/flobby/live/gift/provider/service/impl/Gif
 Mlive-gift-interface/src/main/java/top/flobby/live/gift/dto/GiftRecordDTO.java,f\9\f9bd47058058fd02b9c98ac724fc48102f77079f
 ‡
 Wlive-gift-provider/src/main/java/top/flobby/live/gift/provider/dao/po/GiftRecordPO.java,5\c\5c7c8fb9903143f4d686bb0abb1e27ccf57114e2
+™
+ilive-framework/live-framework-web-starter/src/main/java/top/flobby/live/web/starter/config/WebConfig.java,0\8\0885a32c489c6ff9e5bb1ab87ad55ec1005ddcfc
+›
+klive-framework/live-framework-web-starter/src/main/java/top/flobby/live/web/starter/limit/RequestLimit.java,a\0\a0214ca12095104c322ff47a06abfc2034d19556
+¨
+xlive-framework/live-framework-web-starter/src/main/java/top/flobby/live/web/starter/context/RequestLimitInterceptor.java,4\7\47f9512e61c7a723323cb8caac9e7924304b6a03
