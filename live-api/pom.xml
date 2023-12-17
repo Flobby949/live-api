@@ -44,6 +44,16 @@
             <version>1.0.0</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>top.flobby</groupId>
+            <artifactId>live-gift-interface</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>top.flobby</groupId>
+            <artifactId>live-bank-interface</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>

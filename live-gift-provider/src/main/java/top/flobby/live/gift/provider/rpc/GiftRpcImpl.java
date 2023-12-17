@@ -2,9 +2,9 @@ package top.flobby.live.gift.provider.rpc;
 
 import jakarta.annotation.Resource;
 import org.apache.dubbo.config.annotation.DubboService;
-import top.flobby.live.gift.dto.GiftDTO;
+import top.flobby.live.gift.dto.GiftConfigDTO;
 import top.flobby.live.gift.interfaces.IGiftRpc;
-import top.flobby.live.gift.provider.service.IGiftService;
+import top.flobby.live.gift.provider.service.IGiftConfigService;
 
 import java.util.List;
 
@@ -19,25 +19,25 @@ import java.util.List;
 public class GiftRpcImpl implements IGiftRpc {
 
     @Resource
-    private IGiftService giftService;
+    private IGiftConfigService giftService;
 
     @Override
-    public GiftDTO getGiftById(Integer giftId) {
+    public GiftConfigDTO getGiftById(Integer giftId) {
         return giftService.getGiftById(giftId);
     }
 
     @Override
-    public List<GiftDTO> queryGiftList() {
+    public List<GiftConfigDTO> queryGiftList() {
         return giftService.queryGiftList();
     }
 
     @Override
-    public void insertOne(GiftDTO giftDTO) {
-        giftService.insertOne(giftDTO);
+    public void insertOne(GiftConfigDTO giftConfigDTO) {
+        giftService.insertOne(giftConfigDTO);
     }
 
     @Override
-    public void updateOne(GiftDTO giftDTO) {
-        giftService.updateOne(giftDTO);
+    public void updateOne(GiftConfigDTO giftConfigDTO) {
+        giftService.updateOne(giftConfigDTO);
     }
 }

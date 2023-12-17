@@ -15,11 +15,11 @@ import top.flobby.live.common.enums.CommonStatusEnum;
 import top.flobby.live.common.utils.CommonUtils;
 import top.flobby.live.common.utils.ConvertBeanUtils;
 import top.flobby.live.framework.redis.starter.key.GiftProviderCacheKeyBuilder;
-import top.flobby.live.gift.dto.GiftDTO;
+import top.flobby.live.gift.dto.GiftConfigDTO;
 import top.flobby.live.gift.provider.dao.mapper.GiftMapper;
 import top.flobby.live.gift.provider.dao.po.GiftPO;
-import top.flobby.live.gift.provider.service.GiftCacheRemoveBO;
-import top.flobby.live.gift.provider.service.IGiftService;
+import top.flobby.live.gift.provider.service.IGiftConfigService;
+import top.flobby.live.gift.provider.service.bo.GiftCacheRemoveBO;
 
 import java.util.Collections;
 import java.util.Date;
@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class GiftServiceImpl implements IGiftService {
+public class GiftConfigServiceImpl implements IGiftConfigService {
 
     @Resource
     private GiftMapper giftMapper;
@@ -49,10 +49,10 @@ public class GiftServiceImpl implements IGiftService {
     private GiftProviderCacheKeyBuilder cacheKeyBuilder;
 
     @Override
-    public GiftDTO getGiftById(Integer giftId) {
+    public GiftConfigDTO getGiftById(Integer giftId) {
         String cacheKey = cacheKeyBuilder.buildGiftObjKey(giftId);
         // 使用缓存去抵挡对db层的访问压力
-        GiftDTO giftConfigDTO = (GiftDTO) redisTemplate.opsForValue().get(cacheKey);
+        GiftConfigDTO giftConfigDTO = (GiftConfigDTO) redisTemplate.opsForValue().get(cacheKey);
         if (giftConfigDTO != null) {
             if (giftConfigDTO.getGiftId() != null) {
                 // 延长缓存时间
@@ -71,9 +71,9 @@ public class GiftServiceImpl implements IGiftService {
      *
      * @param giftId   礼品 ID
      * @param cacheKey 缓存键
-     * @return {@link GiftDTO}
+     * @return {@link GiftConfigDTO}
      */
-    private GiftDTO getGiftByIdFromDB(Integer giftId, String cacheKey) {
+    private GiftConfigDTO getGiftByIdFromDB(Integer giftId, String cacheKey) {
         LambdaQueryWrapper<GiftPO> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(GiftPO::getGiftId, giftId);
         wrapper.eq(GiftPO::getStatus, CommonStatusEnum.VALID.getCode());
@@ -81,22 +81,22 @@ public class GiftServiceImpl implements IGiftService {
         // 检索出来的数据，要重新存入cache中
         if (giftPO != null) {
             // 如果存在该对象，则缓存到redis中
-            GiftDTO result = ConvertBeanUtils.convert(giftPO, GiftDTO.class);
+            GiftConfigDTO result = ConvertBeanUtils.convert(giftPO, GiftConfigDTO.class);
             redisTemplate.opsForValue().set(cacheKey, result, CommonUtils.createRandomExpireTime(), TimeUnit.SECONDS);
             return result;
         }
         // 避免二次请求对db的访问压力
         // 假设说 我们是一个非常大的并发场景，大量的请求落入到getByGiftId方法中，假设我们的后台下架了某个礼物
-        redisTemplate.opsForValue().set(cacheKey, new GiftDTO(), 5, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set(cacheKey, new GiftConfigDTO(), 5, TimeUnit.MINUTES);
         return null;
     }
 
     @Override
-    public List<GiftDTO> queryGiftList() {
+    public List<GiftConfigDTO> queryGiftList() {
         String cacheKey = cacheKeyBuilder.buildGiftListKey();
         // 礼物的列表数据不会特别多，直接进行list的全量便利
-        List<GiftDTO> cacheList = redisTemplate.opsForList().range(cacheKey, 0, 100).stream()
-                .map(x -> (GiftDTO) x).collect(Collectors.toList());
+        List<GiftConfigDTO> cacheList = redisTemplate.opsForList().range(cacheKey, 0, 100).stream()
+                .map(x -> (GiftConfigDTO) x).collect(Collectors.toList());
         if (!CollectionUtils.isEmpty(cacheList)) {
             // 不是空list缓存
             if (cacheList.get(0).getGiftId() != null) {
@@ -113,29 +113,29 @@ public class GiftServiceImpl implements IGiftService {
      * 从数据库查询礼品清单
      *
      * @param cacheKey 缓存键
-     * @return {@link List}<{@link GiftDTO}>
+     * @return {@link List}<{@link GiftConfigDTO}>
      */
-    public List<GiftDTO> queryGiftListFromDB(String cacheKey) {
+    public List<GiftConfigDTO> queryGiftListFromDB(String cacheKey) {
         LambdaQueryWrapper<GiftPO> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(GiftPO::getStatus, CommonStatusEnum.VALID.getCode());
         List<GiftPO> giftPOList = giftMapper.selectList(wrapper);
         if (!CollectionUtils.isEmpty(giftPOList)) {
             // 如果存在该对象，则缓存到redis中
-            List<GiftDTO> resultList = ConvertBeanUtils.convertList(giftPOList, GiftDTO.class);
+            List<GiftConfigDTO> resultList = ConvertBeanUtils.convertList(giftPOList, GiftConfigDTO.class);
             redisTemplate.opsForList().leftPushAll(cacheKey, resultList.toArray());
             redisTemplate.expire(cacheKey, CommonUtils.createRandomExpireTime(), TimeUnit.SECONDS);
             return resultList;
         }
         // 存入一个空的list进入redis中
-        redisTemplate.opsForList().leftPush(cacheKey, new GiftDTO());
+        redisTemplate.opsForList().leftPush(cacheKey, new GiftConfigDTO());
         redisTemplate.expire(cacheKey, 5, TimeUnit.MINUTES);
         return Collections.emptyList();
     }
 
 
     @Override
-    public void insertOne(GiftDTO giftDTO) {
-        GiftPO giftPO = ConvertBeanUtils.convert(giftDTO, GiftPO.class);
+    public void insertOne(GiftConfigDTO giftConfigDTO) {
+        GiftPO giftPO = ConvertBeanUtils.convert(giftConfigDTO, GiftPO.class);
         giftPO.setStatus(CommonStatusEnum.VALID.getCode());
         giftPO.setCreateTime(new Date());
         giftPO.setUpdateTime(new Date());
@@ -144,8 +144,8 @@ public class GiftServiceImpl implements IGiftService {
     }
 
     @Override
-    public void updateOne(GiftDTO giftDTO) {
-        GiftPO giftPO = ConvertBeanUtils.convert(giftDTO, GiftPO.class);
+    public void updateOne(GiftConfigDTO giftConfigDTO) {
+        GiftPO giftPO = ConvertBeanUtils.convert(giftConfigDTO, GiftPO.class);
         giftMapper.updateById(giftPO);
         deleteCacheDouble(giftPO.getGiftId());
     }

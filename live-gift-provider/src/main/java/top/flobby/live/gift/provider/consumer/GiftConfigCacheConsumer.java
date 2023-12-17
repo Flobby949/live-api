@@ -14,7 +14,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import top.flobby.live.common.constants.GiftProviderTopicNamesConstant;
 import top.flobby.live.framework.mq.starter.properties.RocketMQConsumerProperties;
 import top.flobby.live.framework.redis.starter.key.GiftProviderCacheKeyBuilder;
-import top.flobby.live.gift.provider.service.GiftCacheRemoveBO;
+import top.flobby.live.gift.provider.service.bo.GiftCacheRemoveBO;
 
 /**
  * @author : Flobby

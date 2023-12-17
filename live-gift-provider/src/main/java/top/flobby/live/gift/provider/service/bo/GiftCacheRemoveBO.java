@@ -1,4 +1,4 @@
-package top.flobby.live.gift.provider.service;
+package top.flobby.live.gift.provider.service.bo;
 
 import lombok.Data;
 

@@ -1,6 +1,7 @@
 package top.flobby.live.common.exception;
 
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author : Flobby
@@ -10,16 +11,17 @@ import lombok.Getter;
  **/
 
 @Getter
+@Setter
 public class BusinessException extends RuntimeException {
 
-    private BusinessExceptionEnum e;
+    private String errMsg;
 
     public BusinessException(BusinessExceptionEnum e) {
-        this.e = e;
+        this.errMsg = e.getDesc();
     }
 
-    public void setE(BusinessExceptionEnum e) {
-        this.e = e;
+    public BusinessException(String errMsg) {
+        this.errMsg = errMsg;
     }
 
     /**

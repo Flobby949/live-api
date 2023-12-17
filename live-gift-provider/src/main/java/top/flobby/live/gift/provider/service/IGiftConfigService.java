@@ -1,4 +1,4 @@
-package top.flobby.live.gift.interfaces;
+package top.flobby.live.gift.provider.service;
 
 import top.flobby.live.gift.dto.GiftConfigDTO;
 
@@ -7,12 +7,11 @@ import java.util.List;
 /**
  * @author : Flobby
  * @program : live-api
- * @description : 礼物接口
+ * @description :
  * @create : 2023-12-17 13:00
  **/
 
-public interface IGiftRpc {
-
+public interface IGiftConfigService {
     /**
      * 通过ID获取礼物
      *

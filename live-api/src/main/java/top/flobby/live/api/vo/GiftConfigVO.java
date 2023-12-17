@@ -1,23 +1,19 @@
-package top.flobby.live.gift.dto;
+package top.flobby.live.api.vo;
 
 import lombok.Data;
 
-import java.io.Serial;
 import java.util.Date;
 
 /**
  * @author : Flobby
  * @program : live-api
- * @description :
- * @create : 2023-12-17 13:01
+ * @description : 礼物列表返回vo
+ * @create : 2023-12-17 16:55
  **/
 
+
 @Data
-public class GiftDTO implements java.io.Serializable {
-
-    @Serial
-    private static final long serialVersionUID = -9107418926439129985L;
-
+public class GiftConfigVO {
     private Integer giftId;
     private String giftName;
     private Integer price;

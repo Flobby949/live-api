@@ -21,7 +21,8 @@ public enum BusinessExceptionEnum {
     TOKEN_TIMEOUT("token过期"),
     TOKEN_ERROR("token异常"),
     LIVING_ROOM_IS_NOT_EXIST("直播间不存在"),
-    REQUEST_LIMIT("请求过于频繁，请稍后再试");
+    REQUEST_LIMIT("请求过于频繁，请稍后再试"),
+    SEND_GIFT_FAIL("送礼失败");
 
     private final String desc;
 

@@ -1,6 +1,8 @@
 package top.flobby.live.bank.interfaces;
 
+import top.flobby.live.bank.dto.AccountTradeDTO;
 import top.flobby.live.bank.dto.CurrencyAccountDTO;
+import top.flobby.live.bank.vo.AccountTradeVO;
 
 /**
  * @author : Flobby
@@ -42,4 +44,13 @@ public interface ICurrencyAccountRpc {
      * @return {@link CurrencyAccountDTO}
      */
     CurrencyAccountDTO getByUserId(Long userId);
+
+    /**
+     * 消费
+     * 底层判断用户余额是否足够，足够则扣除余额，不足则返回错误
+     *
+     * @param accountTradeDTO 账户 交易 DTO
+     * @return {@link AccountTradeVO}
+     */
+    AccountTradeVO consume(AccountTradeDTO accountTradeDTO);
 }
