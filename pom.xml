@@ -41,6 +41,8 @@
         <module>live-living-provider</module>
         <module>live-gift-provider</module>
         <module>live-gift-interface</module>
+        <module>live-bank-interface</module>
+        <module>live-bank-provider</module>
     </modules>
 
     <packaging>pom</packaging>

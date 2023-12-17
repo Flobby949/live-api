@@ -13,7 +13,7 @@ import lombok.Getter;
 public enum CommonStatusEnum {
     VALID(1, "有效"),
     INVALID(0, "无效"),
-    ;
+    FREEZE(2, "冻结");
     final Byte code;
     final String desc;
 
