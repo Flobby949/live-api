@@ -46,6 +46,14 @@ public interface ICurrencyAccountService {
     CurrencyAccountDTO getByUserId(Long userId);
 
     /**
+     * 获取用户余额
+     *
+     * @param userId 用户 ID
+     * @return {@link Integer}
+     */
+    Integer getUserBalance(Long userId);
+
+    /**
      * 消费
      * 底层判断用户余额是否足够，足够则扣除余额，不足则返回错误
      *
@@ -53,4 +61,21 @@ public interface ICurrencyAccountService {
      * @return {@link AccountTradeVO}
      */
     AccountTradeVO consume(AccountTradeDTO accountTradeDTO);
+
+
+    /**
+     * 消费送礼
+     * 消费送礼接口
+     * <p>
+     * 大并发请求场景下，大量的用户同时消费，Mysql扛不住
+     * 1. 把MySQL换成写入性能更好的数据库
+     * 2. 从业务上进行优化，用户都连上了IM服务器，IM服务器进行扩容，并且使用MQ进行异步削峰，消费端也可以水平扩容
+     * 客户端送礼时，接口同步校验（校验余额，存入redis），发送MQ，在异步操作中完成二次余额校验，扣除余额，发送礼物消息
+     * 接口防重复点击，前端做好防重复点击
+     * 余额不足，利用IM，反向通知发送方
+     *
+     * @param accountTradeDTO DTO
+     * @return {@link AccountTradeVO}
+     */
+    AccountTradeVO consumeForSendGift(AccountTradeDTO accountTradeDTO);
 }

@@ -1,7 +1,6 @@
 package top.flobby.live.bank.interfaces;
 
 import top.flobby.live.bank.dto.AccountTradeDTO;
-import top.flobby.live.bank.dto.CurrencyAccountDTO;
 import top.flobby.live.bank.vo.AccountTradeVO;
 
 /**
@@ -38,19 +37,18 @@ public interface ICurrencyAccountRpc {
     void decrement(Long userId, int num);
 
     /**
-     * 按用户 ID 查询
+     * 获取用户余额
      *
      * @param userId 用户 ID
-     * @return {@link CurrencyAccountDTO}
+     * @return {@link Integer}
      */
-    CurrencyAccountDTO getByUserId(Long userId);
+    Integer getUserBalance(Long userId);
 
     /**
-     * 消费
-     * 底层判断用户余额是否足够，足够则扣除余额，不足则返回错误
+     * 消费送礼
      *
      * @param accountTradeDTO 账户 交易 DTO
      * @return {@link AccountTradeVO}
      */
-    AccountTradeVO consume(AccountTradeDTO accountTradeDTO);
+    AccountTradeVO consumeForSendGift(AccountTradeDTO accountTradeDTO);
 }

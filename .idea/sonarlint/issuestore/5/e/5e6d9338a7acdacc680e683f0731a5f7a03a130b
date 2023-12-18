@@ -1,5 +1,13 @@
 
+€
+java:S1104-"^Make threadPoolExecutor a static final constant or non-public and provide accessors if needed.(Ñ°‹Ìøÿÿÿÿ8…÷™ÜÇ1
+Z
+java:S1444-"8Make this "public static threadPoolExecutor" field final(Ñ°‹Ìøÿÿÿÿ8…÷™ÜÇ1
+z
+java:S2229L"]"consumeDbHandler's" @Transactional requirement is incompatible with the one for this method.(ÃÀƒÅ8’Ñ¨ÜÇ1
+r
+java:S6809L"UCall transactional methods via an injected dependency instead of directly via 'this'.(ÃÀƒÅ8—Ñ¨ÜÇ1
 T
-java:S1135N"2Complete the task associated to this TODO comment.(½¶Áøÿÿÿÿ8±ıØ¸Ç1
+java:S1135z"2Complete the task associated to this TODO comment.(½¶Áøÿÿÿÿ8¬÷™ÜÇ1
 T
-java:S1135O"2Complete the task associated to this TODO comment.(¥¼œ¥úÿÿÿÿ8ùÙ¸Ç1
+java:S1135{"2Complete the task associated to this TODO comment.(¥¼œ¥úÿÿÿÿ8¬÷™ÜÇ1

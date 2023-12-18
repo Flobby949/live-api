@@ -6,3 +6,4 @@ top.flobby.live.framework.redis.starter.key.ImProviderCacheKeyBuilder
 top.flobby.live.framework.redis.starter.key.ImCoreServerCacheKeyBuilder
 top.flobby.live.framework.redis.starter.key.LivingProviderCacheKeyBuilder
 top.flobby.live.framework.redis.starter.key.GiftProviderCacheKeyBuilder
+top.flobby.live.framework.redis.starter.key.BankProviderCacheKeyBuilder

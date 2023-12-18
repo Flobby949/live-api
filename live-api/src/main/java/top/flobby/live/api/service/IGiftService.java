@@ -26,5 +26,5 @@ public interface IGiftService {
      *
      * @param giftDTO DTO
      */
-    void sendGift(GiftDTO giftDTO);
+    boolean sendGift(GiftDTO giftDTO);
 }

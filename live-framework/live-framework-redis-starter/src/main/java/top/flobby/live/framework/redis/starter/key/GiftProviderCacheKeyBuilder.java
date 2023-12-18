@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * @author : Flobby
  * @program : live-api
- * @description : 直播间模块
+ * @description : 礼物模块
  * @create : 2023-12-05 13:10
  **/
 

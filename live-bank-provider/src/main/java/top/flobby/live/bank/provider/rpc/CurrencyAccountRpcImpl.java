@@ -3,7 +3,6 @@ package top.flobby.live.bank.provider.rpc;
 import jakarta.annotation.Resource;
 import org.apache.dubbo.config.annotation.DubboService;
 import top.flobby.live.bank.dto.AccountTradeDTO;
-import top.flobby.live.bank.dto.CurrencyAccountDTO;
 import top.flobby.live.bank.interfaces.ICurrencyAccountRpc;
 import top.flobby.live.bank.provider.service.ICurrencyAccountService;
 import top.flobby.live.bank.vo.AccountTradeVO;
@@ -37,12 +36,12 @@ public class CurrencyAccountRpcImpl implements ICurrencyAccountRpc {
     }
 
     @Override
-    public CurrencyAccountDTO getByUserId(Long userId) {
-        return currencyAccountService.getByUserId(userId);
+    public Integer getUserBalance(Long userId) {
+        return currencyAccountService.getUserBalance(userId);
     }
 
     @Override
-    public AccountTradeVO consume(AccountTradeDTO accountTradeDTO) {
-        return currencyAccountService.consume(accountTradeDTO);
+    public AccountTradeVO consumeForSendGift(AccountTradeDTO accountTradeDTO) {
+        return currencyAccountService.consumeForSendGift(accountTradeDTO);
     }
 }

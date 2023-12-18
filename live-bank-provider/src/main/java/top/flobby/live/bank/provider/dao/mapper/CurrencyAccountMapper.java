@@ -3,6 +3,7 @@ package top.flobby.live.bank.provider.dao.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import top.flobby.live.bank.provider.dao.po.CurrencyAccountPO;
 
@@ -35,4 +36,13 @@ public interface CurrencyAccountMapper extends BaseMapper<CurrencyAccountPO> {
      */
     @Update("update t_currency_account set current_balance = current_balance - #{num}  where user_id = #{userId}")
     void decrement(@Param("userId") Long userId, @Param("num") int num);
+
+    /**
+     * 按用户ID查询当前余额
+     *
+     * @param userId 用户 ID
+     * @return {@link Integer}
+     */
+    @Select("select current_balance from t_currency_account where user_id = #{userId} and status = 1")
+    Integer queryCurrentBalanceByUserId(@Param("userId") Long userId);
 }

@@ -40,17 +40,19 @@ public class GiftServiceImpl implements IGiftService {
     }
 
     @Override
-    public void sendGift(GiftDTO giftDTO) {
+    public boolean sendGift(GiftDTO giftDTO) {
         int giftId = giftDTO.getGiftId();
         GiftConfigDTO giftDtoById = giftRpc.getGiftById(giftId);
         if (ObjectUtils.isEmpty(giftDtoById)) {
             throw new BusinessException(BusinessExceptionEnum.SEND_GIFT_FAIL);
         }
+        // 同步调用，如果并发更大，可以改成MQ异步调用
         AccountTradeDTO accountTradeDTO = AccountTradeDTO.builder().userId(RequestContext.getUserId()).tradeAmount(giftDtoById.getPrice()).build();
-        AccountTradeVO result = currencyAccountRpc.consume(accountTradeDTO);
+        AccountTradeVO result = currencyAccountRpc.consumeForSendGift(accountTradeDTO);
         // 消费失败
         if (ObjectUtils.isEmpty(result) || !result.isOperationSuccess()) {
             throw new BusinessException(result.getMessage() + "，送礼失败");
         }
+        return true;
     }
 }
