@@ -570,3 +570,7 @@ jlive-bank-provider/src/main/java/top/flobby/live/bank/provider/service/impl/ICu
 Ülive-framework/live-framework-redis-starter/src/main/java/top/flobby/live/framework/redis/starter/key/BankProviderCacheKeyBuilder.java,e\f\ef49bcf151b3f16d280b666002161d0096d2f7e4
 Ç
 Rlive-bank-interface/src/main/java/top/flobby/live/bank/constant/TradeTypeEnum.java,4\4\44b4aa3de076a6cae4f657701d51edcb544e0006
+}
+Mlive-gift-interface/src/main/java/top/flobby/live/gift/dto/SendGiftMqDTO.java,9\3\93b0595939cdf7707cbe948e22df1475a558a120
+ç
+]live-gift-provider/src/main/java/top/flobby/live/gift/provider/consumer/SendGiftConsumer.java,6\c\6c9b2cfdb98c22c36e39c0a6931124b9eb35a1a7

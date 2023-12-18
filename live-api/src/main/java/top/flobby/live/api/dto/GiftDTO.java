@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 public class GiftDTO {
     private int giftId;
-    private Integer roomId;
+    private Long roomId;
     private Long senderUserId;
     private Long receiverId;
 }
