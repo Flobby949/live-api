@@ -1,5 +1,6 @@
 package top.flobby.live.im.router.provider.cluster;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.rpc.*;
 import org.apache.dubbo.rpc.cluster.Directory;
 import org.apache.dubbo.rpc.cluster.LoadBalance;
@@ -15,6 +16,7 @@ import java.util.List;
  * @create : 2023-12-08 10:31
  **/
 
+@Slf4j
 public class ImRouterClusterInvoker<T> extends AbstractClusterInvoker<T> {
 
     public ImRouterClusterInvoker(Directory<T> directory) {
@@ -28,7 +30,7 @@ public class ImRouterClusterInvoker<T> extends AbstractClusterInvoker<T> {
         if (StringUtils.isEmpty(ip)) {
             throw new RuntimeException("ip is null");
         }
-        System.out.println("ip: " + ip);
+        log.info("[ImRouterClusterInvoker] ip: " + ip);
         // 获取指定Rpc服务提供者的所有地址信息
         List<Invoker<T>> invokers = list(invocation);
         Invoker<T> matchInvoker = invokers.stream().filter(invoker -> {

@@ -49,7 +49,7 @@ public class ImServiceImpl implements ImService {
         Collections.shuffle(instances);
         ServiceInstance aimInstance = instances.get(0);
         String host = aimInstance.getHost();
-        String wsAddress = host + ":8877";
+        String wsAddress = host + ":8887";
         vo.setWsImServerAddress(wsAddress);
         String tcpAddress = host + ":8888";
         vo.setTcpImServerAddress(tcpAddress);

@@ -364,8 +364,6 @@ klive-im-core-server/src/main/java/top/flobby/live/im/core/server/service/impl/R
 alive-msg-provider/src/main/java/top/flobby/live/msg/provider/consumer/handler/MessageHandler.java,2\2\224bc1e873256954f6deacf75377ae899c1f8aef
 †
 plive-msg-provider/src/main/java/top/flobby/live/msg/provider/consumer/handler/impl/SingleMessageHandlerImpl.java,4\a\4af36eb3a0eb7a1b20b075b78f8509e348d5e1f4
-Ä
-Plive-msg-interface/src/main/java/top/flobby/live/msg/enums/ImMsgBizCodeEnum.java,a\8\a89ac37c367dce451641da3a058574f40336aaf5
 x
 Hlive-msg-interface/src/main/java/top/flobby/live/msg/dto/MessageDTO.java,a\1\a122b9e7c1e88b49547e5bce1c714e1949517f73
 É
@@ -558,10 +556,6 @@ Mlive-bank-interface/src/main/java/top/flobby/live/bank/vo/AccountTradeVO.java,
 Zlive-bank-provider/src/main/java/top/flobby/live/bank/provider/dao/po/CurrencyTradePO.java,f\3\f3c9007ec83ed604b1419d8740567353c4f119e8
 í
 blive-bank-provider/src/main/java/top/flobby/live/bank/provider/dao/mapper/CurrencyTradeMapper.java,b\3\b38e4b8d05d72d2bbe860458cf98c4ef6be12c27
-ê
-`live-bank-provider/src/main/java/top/flobby/live/bank/provider/service/CurrencyTradeService.java,5\e\5e42bf3d71e864976194a8c89d0496e81eab7da9
-ô
-ilive-bank-provider/src/main/java/top/flobby/live/bank/provider/service/impl/CurrencyTradeServiceImpl.java,4\8\482e660a99e023cb71072d6cf1d74545d9cf0abe
 ë
 alive-bank-provider/src/main/java/top/flobby/live/bank/provider/service/ICurrencyTradeService.java,7\f\7f199b11d034aabf5970d14454caa35a1860829d
 ö
@@ -574,3 +568,13 @@ Rlive-bank-interface/src/main/java/top/flobby/live/bank/constant/TradeTypeEnum.j
 Mlive-gift-interface/src/main/java/top/flobby/live/gift/dto/SendGiftMqDTO.java,9\3\93b0595939cdf7707cbe948e22df1475a558a120
 ç
 ]live-gift-provider/src/main/java/top/flobby/live/gift/provider/consumer/SendGiftConsumer.java,6\c\6c9b2cfdb98c22c36e39c0a6931124b9eb35a1a7
+ê
+`live-im-router-interface/src/main/java/top/flobby/live/im/router/constants/ImMsgBizCodeEnum.java,0\6\066b240b44c688e05a53ea576734268c8db5512c
+ê
+`live-gift-provider/src/main/java/top/flobby/live/gift/provider/service/bo/GiftCacheRemoveBO.java,8\b\8b021720ca25dce5010de3524644bd2e0f8729f1
+V
+&live-living-provider/docker/Dockerfile,3\0\30d6ef2264e6f27fa551f1e4f19b964207242b8f
+T
+$live-gift-provider/docker/Dockerfile,9\3\937288f4de6414380848d85edb9129f93b09be08
+T
+$live-bank-provider/docker/Dockerfile,e\b\ebcb9bb10c581e4049113ab80e045046b499dd38

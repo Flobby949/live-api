@@ -1,6 +1,7 @@
 package top.flobby.live.im.router.provider.service.impl;
 
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
  * @create : 2023-12-08 10:26
  **/
 
+@Slf4j
 @Service
 public class ImRouterServiceImpl implements ImRouterService {
 
@@ -43,7 +45,8 @@ public class ImRouterServiceImpl implements ImRouterService {
             return false;
         }
         // 保存进去的ip是 ip%userId，截取ip地址
-        bindAddress = bindAddress.substring(bindAddress.indexOf("%"));
+        bindAddress = bindAddress.substring(0, bindAddress.indexOf("%"));
+        log.info("[ImRouterServiceImpl] sendMsg,ip:{},msg:{}", bindAddress, imMsgBody);
         RpcContext.getContext().set("ip", bindAddress);
         routerHandlerRpc.sendMsg(objectId, imMsgBody);
         return true;

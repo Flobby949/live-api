@@ -1,15 +1,15 @@
 
 L
-java:S1874*"/Remove this use of "isEmpty"; it is deprecated.(åÔ®×8³‘­ºÆ1
+java:S1874,"/Remove this use of "isEmpty"; it is deprecated.(åÔ®×8³‘­ºÆ1
 T
-java:S1874/"2Remove this use of "getContext"; it is deprecated.(ÇÊúşÿÿÿÿ8³‘­ºÆ1
+java:S18742"2Remove this use of "getContext"; it is deprecated.(ÇÊúşÿÿÿÿ8³‘­ºÆ1
 M
-java:S1874/"+Remove this use of "set"; it is deprecated.(ÇÊúşÿÿÿÿ8³‘­ºÆ1
+java:S18742"+Remove this use of "set"; it is deprecated.(ÇÊúşÿÿÿÿ8³‘­ºÆ1
 o
-java:S62049"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹8´‘­ºÆ1
+java:S6204<"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹8´‘­ºÆ1
 T
-java:S1874L"2Remove this use of "getContext"; it is deprecated.(Á¬ùùÿÿÿÿ8·‘­ºÆ1
+java:S1874O"2Remove this use of "getContext"; it is deprecated.(Á¬ùùÿÿÿÿ8·‘­ºÆ1
 M
-java:S1874L"+Remove this use of "set"; it is deprecated.(Á¬ùùÿÿÿÿ8·‘­ºÆ1
+java:S1874O"+Remove this use of "set"; it is deprecated.(Á¬ùùÿÿÿÿ8·‘­ºÆ1
 o
-java:S6204R"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹8·‘­ºÆ1
+java:S6204U"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹8·‘­ºÆ1

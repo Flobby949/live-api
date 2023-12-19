@@ -33,7 +33,10 @@ public class RequestLimitInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        log.info("进入限流拦截器");
+        // 如果是get请求，直接放行
+        if ("OPTIONS".equals(request.getMethod()) || "GET".equals(request.getMethod())) {
+            return true;
+        }
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         boolean hasLimit = handlerMethod.getMethod().isAnnotationPresent(RequestLimit.class);
         // 如果没有限流注解，直接放行

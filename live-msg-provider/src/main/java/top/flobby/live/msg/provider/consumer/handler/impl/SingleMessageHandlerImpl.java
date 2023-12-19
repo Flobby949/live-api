@@ -5,11 +5,11 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Component;
 import top.flobby.live.im.common.AppIdEnum;
 import top.flobby.live.im.dto.ImMsgBody;
+import top.flobby.live.im.router.constants.ImMsgBizCodeEnum;
 import top.flobby.live.im.router.interfaces.ImRouterRpc;
 import top.flobby.live.living.dto.LivingRoomReqDTO;
 import top.flobby.live.living.interfaces.ILivingRoomRpc;
 import top.flobby.live.msg.dto.MessageDTO;
-import top.flobby.live.msg.enums.ImMsgBizCodeEnum;
 import top.flobby.live.msg.provider.consumer.handler.MessageHandler;
 
 import java.util.ArrayList;

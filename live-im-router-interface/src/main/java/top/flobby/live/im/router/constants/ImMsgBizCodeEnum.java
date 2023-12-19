@@ -1,4 +1,4 @@
-package top.flobby.live.msg.enums;
+package top.flobby.live.im.router.constants;
 
 import lombok.Getter;
 
@@ -13,6 +13,8 @@ import lombok.Getter;
 public enum ImMsgBizCodeEnum {
 
     LIVING_ROOM_IM_CHAT_MSG_BIZ(5555, "直播间IM聊天消息"),
+    LIVING_ROOM_IM_GIFT_SUCCESS_MSG(5556, "直播间送礼成功消息"),
+    LIVING_ROOM_IM_GIFT_FAIL_MSG(5557, "直播间送礼失败消息"),
     ;
 
     final Integer code;

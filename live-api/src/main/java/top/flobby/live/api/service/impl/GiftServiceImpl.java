@@ -12,7 +12,6 @@ import org.springframework.util.ObjectUtils;
 import top.flobby.live.api.dto.GiftDTO;
 import top.flobby.live.api.service.IGiftService;
 import top.flobby.live.api.vo.GiftConfigVO;
-import top.flobby.live.bank.interfaces.ICurrencyAccountRpc;
 import top.flobby.live.common.constants.GiftProviderTopicNamesConstant;
 import top.flobby.live.common.exception.BusinessException;
 import top.flobby.live.common.exception.BusinessExceptionEnum;
@@ -23,6 +22,7 @@ import top.flobby.live.gift.interfaces.IGiftRpc;
 import top.flobby.live.web.starter.context.RequestContext;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author : Flobby
@@ -37,8 +37,6 @@ public class GiftServiceImpl implements IGiftService {
 
     @DubboReference
     private IGiftRpc giftRpc;
-    @DubboReference
-    private ICurrencyAccountRpc currencyAccountRpc;
     @Resource
     private MQProducer mqProducer;
 
@@ -56,16 +54,19 @@ public class GiftServiceImpl implements IGiftService {
             throw new BusinessException(BusinessExceptionEnum.SEND_GIFT_FAIL);
         }
         // MQ异步调用
-        SendGiftMqDTO.builder()
+        SendGiftMqDTO body = SendGiftMqDTO.builder()
                 .giftId(giftId)
                 .price(giftDtoById.getPrice())
                 .receiverId(giftDTO.getReceiverId())
                 .roomId(giftDTO.getRoomId())
                 .userId(RequestContext.getUserId())
+                .svgaUrl(giftDtoById.getSvgaUrl())
+                // 生成一个唯一的uuid，用来标识消息是否被消费过，避免重复消费
+                .uuid(UUID.randomUUID().toString())
                 .build();
         Message message = new Message();
         message.setTopic(GiftProviderTopicNamesConstant.SEND_GIFT);
-        message.setBody(JSON.toJSONBytes(JSON.toJSONBytes(message)));
+        message.setBody(JSON.toJSONBytes(body));
         try {
             SendResult result = mqProducer.send(message);
             log.info("[GiftServiceImpl] 发送消息成功，{}", result);

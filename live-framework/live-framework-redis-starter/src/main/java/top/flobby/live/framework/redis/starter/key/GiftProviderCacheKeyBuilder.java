@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 public class GiftProviderCacheKeyBuilder extends RedisKeyBuilder {
     private static final String GIFT_LIST_KEY = "gift:list_cache";
     private static final String GIFT_OBJ_KEY = "gift:obj_cache";
+    private static final String GIFT_CONSUME_KEY = "gift:consume_key";
 
     public String buildGiftListKey() {
         return super.getPrefix() + GIFT_LIST_KEY;
@@ -23,5 +24,10 @@ public class GiftProviderCacheKeyBuilder extends RedisKeyBuilder {
     public String buildGiftObjKey(Integer giftId) {
         return super.getPrefix() + GIFT_OBJ_KEY +
                 super.getSplitItem() + giftId;
+    }
+
+    public String buildGiftConsumeKey(String uuid) {
+        return super.getPrefix() + GIFT_CONSUME_KEY +
+                super.getSplitItem() + uuid;
     }
 }
