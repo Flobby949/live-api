@@ -36,4 +36,12 @@ public interface IPayOrderRpc {
      * @return boolean
      */
     boolean updateOrderStatus(Long id, Byte status);
+
+    /**
+     * 支付回调
+     *
+     * @param payOrderDTO 支付订单 DTO
+     * @return boolean
+     */
+    boolean payNotify(PayOrderDTO payOrderDTO);
 }

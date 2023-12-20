@@ -38,7 +38,7 @@ public class PayOrderPO {
     private Integer productId;
     private Byte status;
     private Long userId;
-    private Byte payChannel;
+    private Integer payChannel;
     /**
      * 来源
      *

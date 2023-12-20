@@ -19,9 +19,10 @@ public class PayOrderDTO implements java.io.Serializable {
     private static final long serialVersionUID = 1711298427148860162L;
     private String orderId;
     private Integer productId;
+    private Integer bizCode;
     private Byte status;
     private Long userId;
-    private Byte payChannel;
+    private Integer payChannel;
     private Integer source;
     private String payTime;
     private Date createTime;

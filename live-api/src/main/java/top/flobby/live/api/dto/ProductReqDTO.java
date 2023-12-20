@@ -35,5 +35,5 @@ public class ProductReqDTO {
      *
      * @see top.flobby.live.bank.constant.PayChannelEnum
      */
-    private Byte payChannel;
+    private Integer payChannel;
 }

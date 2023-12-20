@@ -1,8 +1,13 @@
 package top.flobby.live.api.service.impl;
 
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
+import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import top.flobby.live.api.dto.ProductReqDTO;
 import top.flobby.live.api.service.IBankService;
 import top.flobby.live.api.vo.PayProductItemVO;
@@ -20,6 +25,8 @@ import top.flobby.live.common.exception.BusinessException;
 import top.flobby.live.common.exception.BusinessExceptionEnum;
 import top.flobby.live.web.starter.context.RequestContext;
 
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +37,7 @@ import java.util.stream.Collectors;
  * @create : 2023-12-20 08:39
  **/
 
+@Slf4j
 @Service
 public class BankServiceImpl implements IBankService {
 
@@ -39,16 +47,21 @@ public class BankServiceImpl implements IBankService {
     private ICurrencyAccountRpc currencyAccountRpc;
     @DubboReference
     private IPayOrderRpc payOrderRpc;
+    @Resource
+    private RestTemplate restTemplate;
 
     @Override
     public PayProductVO payProductList(Integer type) {
-        List<PayProductItemVO> productList = payProductRpc.productList(type).stream().map(item -> {
-            PayProductItemVO payProductItemVO = new PayProductItemVO();
-            payProductItemVO.setId(item.getId());
-            payProductItemVO.setName(item.getName());
-            payProductItemVO.setCoinNum(JSON.parseObject(item.getExtra()).getInteger("coin"));
-            return payProductItemVO;
-        }).collect(Collectors.toList());
+        List<PayProductItemVO> productList = payProductRpc.productList(type).stream()
+                .map(item -> {
+                    PayProductItemVO payProductItemVO = new PayProductItemVO();
+                    payProductItemVO.setId(item.getId());
+                    payProductItemVO.setName(item.getName());
+                    payProductItemVO.setCoinNum(JSON.parseObject(item.getExtra()).getInteger("coin"));
+                    return payProductItemVO;
+                })
+                .sorted(Comparator.comparingInt(PayProductItemVO::getCoinNum))
+                .collect(Collectors.toList());
         PayProductVO payProductVO = new PayProductVO();
         payProductVO.setCurrentBalance(currencyAccountRpc.getUserBalance(RequestContext.getUserId()));
         payProductVO.setProductList(productList);
@@ -82,6 +95,24 @@ public class BankServiceImpl implements IBankService {
         // 返回支付信息
         ProductRespVO productRespVO = new ProductRespVO();
         productRespVO.setOrderId(orderId);
+        mockRequest(orderId);
         return productRespVO;
+    }
+
+    /**
+     * 模拟请求
+     *
+     * @param orderId 订单编号
+     */
+    private void mockRequest(String orderId) {
+        // todo 远程http请求 restTemplate->支付回调接口
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("orderId", orderId);
+        jsonObject.put("userId", RequestContext.getUserId());
+        jsonObject.put("bizCode", 10001);
+        HashMap<String, String> paramMap = new HashMap<>();
+        paramMap.put("param", jsonObject.toJSONString());
+        ResponseEntity<String> resultEntity = restTemplate.postForEntity("http://localhost:8000/live-bank-api/pay-notify/wechat?param={param}", null, String.class, paramMap);
+        log.info("[BankServiceImpl]  支付请求回调接口 {}", resultEntity.getBody());
     }
 }

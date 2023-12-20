@@ -10,6 +10,7 @@
 ### 端口分配
 
 - api -> 随机端口
+- bank-api -> 随机端口
 - gateway -> 8000
 - im-core-server -> dubbo:9010 netty:8888 ws:8877
 - user-provider -> 9090
@@ -35,6 +36,7 @@
 #### 依赖部署
 
 - api ->
+- bank-api -> bank-provider
 - gateway -> account
 - im-router -> im-core-server -> im-provider
 - msg-provider -> im-router , living-provider

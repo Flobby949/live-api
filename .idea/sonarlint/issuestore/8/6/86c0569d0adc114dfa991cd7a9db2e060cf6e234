@@ -1,5 +1,0 @@
-
-f
-java:S2259*"DA "NullPointerException" could be thrown; "range()" can return null.(ü¾˜‡ûÿÿÿÿ8Ö–§È1
-t
-java:S6204*"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ü¾˜‡ûÿÿÿÿ8Ú–§È1

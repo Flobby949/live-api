@@ -1,3 +1,5 @@
 
 o
-java:S62043"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(œçÖß8ş…©È1
+java:S6204@"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹8¯’æµÈ1
+O
+java:S1135l"2Complete the task associated to this TODO comment.(ãŞêÒ8·’æµÈ1

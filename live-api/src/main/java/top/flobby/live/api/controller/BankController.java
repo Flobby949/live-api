@@ -26,7 +26,7 @@ public class BankController {
     private IBankService bankService;
 
     @GetMapping("/list/{type}")
-    public CommonResp<PayProductVO> payProductList(@PathVariable("type") Integer type) {
+    public CommonResp<PayProductVO> payProductList(@PathVariable Integer type) {
         if (type == null) {
             throw new BusinessException(BusinessExceptionEnum.PARAMS_ERROR);
         }

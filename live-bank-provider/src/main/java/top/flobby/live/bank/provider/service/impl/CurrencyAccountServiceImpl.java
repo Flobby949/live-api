@@ -63,17 +63,27 @@ public class CurrencyAccountServiceImpl implements ICurrencyAccountService {
 
     @Override
     public void increment(Long userId, int num) {
-        currencyAccountMapper.increment(userId, num);
+        String cacheKey = cacheKeyBuilder.buildUserBalanceKey(userId);
+        if (Boolean.FALSE.equals(redisTemplate.hasKey(cacheKey))) {
+            return;
+        }
+        redisTemplate.opsForValue().increment(cacheKey, num);
+        redisTemplate.expire(cacheKey, CommonUtils.createRandomExpireTime(), TimeUnit.SECONDS);
+        threadPoolExecutor.execute(() -> consumeIncrDbHandler(userId, num));
     }
 
     @Override
     public void decrement(Long userId, int num) {
         // 先更新redis的余额，再更新数据库的余额
         String cacheKey = cacheKeyBuilder.buildUserBalanceKey(userId);
+        if (Boolean.FALSE.equals(redisTemplate.hasKey(cacheKey))) {
+            return;
+        }
         redisTemplate.opsForValue().decrement(cacheKey, num);
+        redisTemplate.expire(cacheKey, CommonUtils.createRandomExpireTime(), TimeUnit.SECONDS);
         // 异步线程池中操作DB，扣减余额，插入流水，带有事务
         // 分布式架构下 CAP 理论，本系统中优先可用性和性能，因此不保证强一致性，采用异步刷盘的方式
-        threadPoolExecutor.execute(() -> consumeDbHandler(userId, num));
+        threadPoolExecutor.execute(() -> consumeDecrDbHandler(userId, num));
     }
 
     @Override
@@ -138,8 +148,28 @@ public class CurrencyAccountServiceImpl implements ICurrencyAccountService {
         return AccountTradeVO.buildSuccess(userId);
     }
 
+    /**
+     * 充值处理
+     *
+     * @param userId 用户 ID
+     * @param num    金额
+     */
     @Transactional(rollbackFor = Exception.class)
-    public void consumeDbHandler(long userId, int num) {
+    public void consumeIncrDbHandler(long userId, int num) {
+        // 增加余额
+        currencyAccountMapper.increment(userId, num);
+        // 流水记录
+        currencyTradeService.insertOne(userId, num, TradeTypeEnum.LIVING_RECHARGE.getCode());
+    }
+
+    /**
+     * 扣减处理
+     *
+     * @param userId 用户 ID
+     * @param num    金额
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public void consumeDecrDbHandler(long userId, int num) {
         // 扣减余额
         currencyAccountMapper.decrement(userId, num);
         // 流水记录

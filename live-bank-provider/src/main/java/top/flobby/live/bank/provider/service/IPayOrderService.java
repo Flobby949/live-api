@@ -1,6 +1,7 @@
 package top.flobby.live.bank.provider.service;
 
 import top.flobby.live.bank.dto.PayOrderDTO;
+import top.flobby.live.bank.provider.dao.po.PayOrderPO;
 
 /**
  * @author : Flobby
@@ -10,6 +11,14 @@ import top.flobby.live.bank.dto.PayOrderDTO;
  **/
 
 public interface IPayOrderService {
+
+    /**
+     * 按订单 ID 查询
+     *
+     * @param orderId 订单编号
+     * @return {@link PayOrderPO}
+     */
+    PayOrderPO queryByOrderId(String orderId);
 
     /**
      * 插入
@@ -36,4 +45,12 @@ public interface IPayOrderService {
      * @return boolean
      */
     boolean updateOrderStatus(Long id, Byte status);
+
+    /**
+     * 支付回调
+     *
+     * @param payOrderDTO 支付订单 DTO
+     * @return boolean
+     */
+    boolean payNotify(PayOrderDTO payOrderDTO);
 }

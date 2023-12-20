@@ -12,6 +12,7 @@ import lombok.Getter;
 @Getter
 public enum TradeTypeEnum {
     SEND_GIFT_TRADE(1, "送礼物交易"),
+    LIVING_RECHARGE(2, "直播间充值"),
     ;
 
     final int code;
