@@ -15,6 +15,8 @@ import org.springframework.context.annotation.Configuration;
 public class BankProviderCacheKeyBuilder extends RedisKeyBuilder {
     private static final String BALANCE_CACHE = "balance_cache";
 
+    private static final String PAY_PRODUCT_LIST_CACHE = "pay_product_list_cache";
+
     /**
      * 构建用户余额密钥
      *
@@ -24,6 +26,17 @@ public class BankProviderCacheKeyBuilder extends RedisKeyBuilder {
     public String buildUserBalanceKey(Long userId) {
         return super.getPrefix() + BALANCE_CACHE +
                 super.getSplitItem() + userId;
+    }
+
+    /**
+     * 构建付费产品列表密钥
+     *
+     * @param type 类型
+     * @return {@link String}
+     */
+    public String buildPayProductListKey(Integer type) {
+        return super.getPrefix() + PAY_PRODUCT_LIST_CACHE +
+                super.getSplitItem() + type;
     }
 
 }
