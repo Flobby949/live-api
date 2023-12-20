@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  **/
 
 @Service
-public class IPayProductServiceImpl implements IPayProductService {
+public class PayProductServiceImpl implements IPayProductService {
 
     @Resource
     private PayProductMapper payProductMapper;
@@ -59,5 +59,25 @@ public class IPayProductServiceImpl implements IPayProductService {
         redisTemplate.opsForList().leftPushAll(cacheKey, resultFromDB.toArray());
         redisTemplate.expire(cacheKey, CommonUtils.createRandomExpireTime(), TimeUnit.SECONDS);
         return resultFromDB;
+    }
+
+    @Override
+    public PayProductDTO getPayProductById(Integer productId) {
+        String cacheKey = cacheKeyBuilder.buildPayProductItemKey(productId);
+        PayProductDTO cacheItem = (PayProductDTO) redisTemplate.opsForValue().get(cacheKey);
+        if (cacheItem != null) {
+            // 防止无效缓存
+            return cacheItem.getId() == null ? null : cacheItem;
+        }
+        LambdaQueryWrapper<PayProductPO> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(PayProductPO::getId, productId);
+        wrapper.eq(PayProductPO::getValidStatus, CommonStatusEnum.VALID.getCode());
+        PayProductDTO result = ConvertBeanUtils.convert(payProductMapper.selectOne(wrapper), PayProductDTO.class);
+        if (result == null) {
+            redisTemplate.opsForValue().set(cacheKey, new PayProductDTO(), 5, TimeUnit.MINUTES);
+            return null;
+        }
+        redisTemplate.opsForValue().set(cacheKey, result, CommonUtils.createRandomExpireTime(), TimeUnit.SECONDS);
+        return result;
     }
 }

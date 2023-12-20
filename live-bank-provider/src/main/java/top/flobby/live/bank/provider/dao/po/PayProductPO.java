@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 /**
  * @author : Flobby
  * @program : live-api
@@ -33,6 +35,6 @@ public class PayProductPO {
      */
     private Byte type;
     private Byte validStatus;
-    private String createTime;
-    private String updateTime;
+    private Date createTime;
+    private Date updateTime;
 }

@@ -20,4 +20,12 @@ public interface IPayProductService {
      * @return {@link List}<{@link PayProductDTO}>
      */
     List<PayProductDTO> productList(Integer type);
+
+    /**
+     * 按 ID 获取支付产品
+     *
+     * @param productId 产品 ID
+     * @return {@link PayProductDTO}
+     */
+    PayProductDTO getPayProductById(Integer productId);
 }

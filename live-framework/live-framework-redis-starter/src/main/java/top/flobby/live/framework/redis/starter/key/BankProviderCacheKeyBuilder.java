@@ -17,6 +17,8 @@ public class BankProviderCacheKeyBuilder extends RedisKeyBuilder {
 
     private static final String PAY_PRODUCT_LIST_CACHE = "pay_product_list_cache";
 
+    private static final String PAY_PRODUCT_ITEM_CACHE = "pay_product_item_cache";
+
     /**
      * 构建用户余额密钥
      *
@@ -37,6 +39,17 @@ public class BankProviderCacheKeyBuilder extends RedisKeyBuilder {
     public String buildPayProductListKey(Integer type) {
         return super.getPrefix() + PAY_PRODUCT_LIST_CACHE +
                 super.getSplitItem() + type;
+    }
+
+    /**
+     * 构建付费产品密钥
+     *
+     * @param productId 产品 ID
+     * @return {@link String}
+     */
+    public String buildPayProductItemKey(Integer productId) {
+        return super.getPrefix() + PAY_PRODUCT_ITEM_CACHE +
+                super.getSplitItem() + productId;
     }
 
 }
