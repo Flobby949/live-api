@@ -61,6 +61,7 @@ public class GiftServiceImpl implements IGiftService {
                 .roomId(giftDTO.getRoomId())
                 .userId(RequestContext.getUserId())
                 .svgaUrl(giftDtoById.getSvgaUrl())
+                .type(giftDTO.getType())
                 // 生成一个唯一的uuid，用来标识消息是否被消费过，避免重复消费
                 .uuid(UUID.randomUUID().toString())
                 .build();

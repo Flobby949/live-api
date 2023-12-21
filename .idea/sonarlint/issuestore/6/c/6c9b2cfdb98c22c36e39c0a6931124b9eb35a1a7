@@ -1,3 +1,5 @@
 
-T
-java:S1135Z"2Complete the task associated to this TODO comment.(ğ”ŒÒúÿÿÿÿ8›Œ†È1
+O
+java:S1481o"-Remove this unused "pkNumKey" local variable.(Îÿïéÿÿÿÿÿ8©›×È1
+u
+java:S6204 "RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ëÙÈ¡ÿÿÿÿÿ8Ê‚š×È1

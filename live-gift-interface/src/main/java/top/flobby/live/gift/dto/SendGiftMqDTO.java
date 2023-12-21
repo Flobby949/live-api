@@ -27,4 +27,10 @@ public class SendGiftMqDTO implements Serializable {
     private Long roomId;
     private String uuid;
     private String svgaUrl;
+    /**
+     * 类型
+     *
+     * @see top.flobby.live.gift.constant.SendGiftRoomTypeEnum
+     */
+    private Integer type;
 }

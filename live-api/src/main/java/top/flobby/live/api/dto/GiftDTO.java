@@ -15,4 +15,10 @@ public class GiftDTO {
     private Long roomId;
     private Long senderUserId;
     private Long receiverId;
+    /**
+     * 送礼直播间类型
+     *
+     * @see top.flobby.live.gift.constant.SendGiftRoomTypeEnum
+     */
+    private Integer type;
 }

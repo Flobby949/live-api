@@ -650,3 +650,5 @@ Ulive-bank-provider/src/main/java/top/flobby/live/bank/provider/dao/po/PayTopicP
 dlive-bank-provider/src/main/java/top/flobby/live/bank/provider/service/impl/PayTopicServiceImpl.java,b\d\bd286ada7e3405ffcdcb120314b7b9fa0582ce9a
 y
 Ilive-api/src/main/java/top/flobby/live/api/config/RestTemplateConfig.java,5\3\53a9996d174e2c075312d015089b100ad5650f04
+‰
+Ylive-gift-interface/src/main/java/top/flobby/live/gift/constant/SendGiftRoomTypeEnum.java,d\1\d1f49ed3b575d2d48604ab81ecb41ae131102aca

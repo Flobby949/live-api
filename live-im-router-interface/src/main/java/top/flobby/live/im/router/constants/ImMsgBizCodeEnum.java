@@ -15,6 +15,8 @@ public enum ImMsgBizCodeEnum {
     LIVING_ROOM_IM_CHAT_MSG_BIZ(5555, "直播间IM聊天消息"),
     LIVING_ROOM_IM_GIFT_SUCCESS_MSG(5556, "直播间送礼成功消息"),
     LIVING_ROOM_IM_GIFT_FAIL_MSG(5557, "直播间送礼失败消息"),
+    PK_LIVING_ROOM_IM_GIFT_SUCCESS_MSG(5558, "PK直播间送礼成功"),
+
     ;
 
     final Integer code;
