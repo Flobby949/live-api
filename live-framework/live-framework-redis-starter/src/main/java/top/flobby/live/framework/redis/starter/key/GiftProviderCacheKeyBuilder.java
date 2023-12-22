@@ -33,11 +33,11 @@ public class GiftProviderCacheKeyBuilder extends RedisKeyBuilder {
                 super.getSplitItem() + uuid;
     }
 
-    public String buildLivingPkKey(Long roomId) {
+    public String buildLivingPkKey(Integer roomId) {
         return super.getPrefix() + LIVING_PK_KEY + super.getSplitItem() + roomId;
     }
 
-    public String buildLivingPkSendSeq(Long roomId) {
+    public String buildLivingPkSendSeq(Integer roomId) {
         return super.getPrefix() + LIVING_PK_SEND_SEQ + super.getSplitItem() + roomId;
     }
 }

@@ -39,7 +39,7 @@ public class SingleMessageHandlerImpl implements MessageHandler {
             // 直播间聊天消息，一个人发送，多个人接收，相当于群聊
             // 根据roomId，appId，获取直播间内的所有人，然后发送消息
             MessageDTO messageDTO = JSON.parseObject(msgBody.getData(), MessageDTO.class);
-            Long roomId = messageDTO.getRoomId();
+            Integer roomId = messageDTO.getRoomId();
             LivingRoomReqDTO reqDTO = new LivingRoomReqDTO();
             reqDTO.setId(roomId);
             reqDTO.setAppId(msgBody.getAppId());

@@ -73,7 +73,7 @@ public class WsSharkHandler extends ChannelInboundHandlerAdapter {
         String[] pairs = query.split("&");
         String token = null;
         Long userId = null;
-        Long roomId = null;
+        Integer roomId = null;
         for (String pair : pairs) {
             String[] split = pair.split("=");
             if ("token".equals(split[0])) {
@@ -81,7 +81,7 @@ public class WsSharkHandler extends ChannelInboundHandlerAdapter {
             } else if ("userId".equals(split[0])) {
                 userId = Long.parseLong(split[1]);
             } else if ("roomId".equals(split[0])) {
-                roomId = Long.parseLong(split[1]);
+                roomId = Integer.valueOf(split[1]);
             }
         }
         Long queryUserId = imTokenRpc.getUserIdByToken(token);

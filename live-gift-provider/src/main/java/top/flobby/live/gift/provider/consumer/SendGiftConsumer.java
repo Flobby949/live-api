@@ -13,6 +13,7 @@ import org.apache.rocketmq.common.message.MessageExt;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.util.ObjectUtils;
 import top.flobby.live.bank.dto.AccountTradeDTO;
 import top.flobby.live.bank.interfaces.ICurrencyAccountRpc;
 import top.flobby.live.bank.vo.AccountTradeVO;
@@ -27,6 +28,7 @@ import top.flobby.live.im.router.constants.ImMsgBizCodeEnum;
 import top.flobby.live.im.router.interfaces.ImRouterRpc;
 import top.flobby.live.living.dto.LivingRoomReqDTO;
 import top.flobby.live.living.interfaces.ILivingRoomRpc;
+import top.flobby.live.living.vo.LivingRoomInfoVO;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -103,7 +105,7 @@ public class SendGiftConsumer implements InitializingBean {
                 Integer sendGiftType = sendGiftMqDTO.getType();
                 if (result.isOperationSuccess()) {
                     // 触发礼物特效推送
-                    Long roomId = sendGiftMqDTO.getRoomId();
+                    Integer roomId = sendGiftMqDTO.getRoomId();
                     LivingRoomReqDTO livingRoomReqDTO = new LivingRoomReqDTO();
                     livingRoomReqDTO.setId(roomId);
                     livingRoomReqDTO.setAppId(AppIdEnum.LIVE_BIZ_ID.getCode());
@@ -118,9 +120,13 @@ public class SendGiftConsumer implements InitializingBean {
                           开启PK直播间的时候，需要记录两个直播间的信息
                          */
                         String pkNumKey = cacheKeyBuilder.buildLivingPkKey(roomId);
-                        // TODO 获取PK直播间的两个主播ID
-                        long pkUserId = 1L;
-                        long pkObjectId = 2L;
+                        // 获取PK直播间的两个主播ID
+                        LivingRoomInfoVO respVO = livingRoomRpc.queryByRoomId(roomId);
+                        Long pkUserId = respVO.getAnchorId();
+                        Long pkObjectId = livingRoomRpc.queryOnlinePkUserId(roomId);
+                        if (ObjectUtils.isEmpty(respVO) || ObjectUtils.isEmpty(pkUserId) || ObjectUtils.isEmpty(pkObjectId)) {
+                            return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+                        }
                         Long resultNum;
                         long pkNum = 0;
                         String incrSeqKey = cacheKeyBuilder.buildLivingPkSendSeq(roomId);

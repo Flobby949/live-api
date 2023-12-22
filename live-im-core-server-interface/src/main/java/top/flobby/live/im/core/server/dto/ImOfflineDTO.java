@@ -19,6 +19,6 @@ public class ImOfflineDTO implements Serializable {
     private static final long serialVersionUID = -8500140043363863191L;
     private Long userId;
     private Integer appId;
-    private Long roomId;
+    private Integer roomId;
     private Long logoutTime;
 }

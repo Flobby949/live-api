@@ -80,4 +80,28 @@ public interface ILivingRoomService {
      * @return {@link List}<{@link Long}>
      */
     List<Long> queryUserIdByRoomId(LivingRoomReqDTO livingRoomReqDTO);
+
+    /**
+     * 在线PK
+     *
+     * @param livingRoomReqDTO dto
+     * @return boolean
+     */
+    boolean onlinePk(LivingRoomReqDTO livingRoomReqDTO);
+
+    /**
+     * PK离线
+     *
+     * @param livingRoomReqDTO DTO
+     * @return boolean
+     */
+    boolean offlinePk(LivingRoomReqDTO livingRoomReqDTO);
+
+    /**
+     * 在线查询PK用户ID
+     *
+     * @param roomId 房间 ID
+     * @return {@link Long}
+     */
+    Long queryOnlinePkUserId(Integer roomId);
 }

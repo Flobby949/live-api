@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import top.flobby.live.api.dto.LivingRoomPkReqDTO;
 import top.flobby.live.api.service.ILivingRoomService;
 import top.flobby.live.common.exception.BusinessException;
 import top.flobby.live.common.exception.BusinessExceptionEnum;
@@ -53,7 +54,7 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
     @Override
     public boolean closeLiving(Integer roomId) {
         LivingRoomReqDTO livingRoomReqDTO = new LivingRoomReqDTO();
-        livingRoomReqDTO.setId(Long.valueOf(roomId));
+        livingRoomReqDTO.setId(roomId);
         livingRoomReqDTO.setAnchorId(RequestContext.getUserId());
         return livingRoomRpc.closeLiving(livingRoomReqDTO);
     }
@@ -74,5 +75,21 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
         respVo.setAnchor(info.getAnchorId().equals(userId));
         respVo.setRoomId(info.getId());
         return respVo;
+    }
+
+    @Override
+    public boolean onlinePk(LivingRoomPkReqDTO livingRoomPkReqDTO) {
+        LivingRoomReqDTO livingRoomReqDTO = new LivingRoomReqDTO();
+        livingRoomReqDTO.setId(livingRoomPkReqDTO.getRoomId());
+        livingRoomReqDTO.setAnchorId(RequestContext.getUserId());
+        return livingRoomRpc.onlinePk(livingRoomReqDTO);
+    }
+
+    @Override
+    public boolean offlinePk(LivingRoomPkReqDTO livingRoomPkReqDTO) {
+        LivingRoomReqDTO livingRoomReqDTO = new LivingRoomReqDTO();
+        livingRoomReqDTO.setId(livingRoomPkReqDTO.getRoomId());
+        livingRoomReqDTO.setAnchorId(RequestContext.getUserId());
+        return livingRoomRpc.offlinePk(livingRoomReqDTO);
     }
 }

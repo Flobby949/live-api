@@ -24,7 +24,7 @@ public class SendGiftMqDTO implements Serializable {
     private Integer giftId;
     private Integer price;
     private Long receiverId;
-    private Long roomId;
+    private Integer roomId;
     private String uuid;
     private String svgaUrl;
     /**

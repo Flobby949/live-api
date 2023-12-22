@@ -97,7 +97,7 @@ public class LoginMsgHandler implements SimplyHandler {
      * @param userId 用户 ID
      * @param appId  应用 ID
      */
-    public void loginSuccessHandler(ChannelHandlerContext ctx, Long userId, Integer appId, Long roomId) {
+    public void loginSuccessHandler(ChannelHandlerContext ctx, Long userId, Integer appId, Integer roomId) {
         // 按照 userId 保存相关信息
         ChannelHandlerContextCache.put(userId, ctx);
         // 给 ctx 设置属性，方便后续使用
@@ -129,7 +129,7 @@ public class LoginMsgHandler implements SimplyHandler {
      * @param userId 用户 ID
      * @param appId  应用 ID
      */
-    private void sendLoginMQ(Long userId, Integer appId, Long roomId) {
+    private void sendLoginMQ(Long userId, Integer appId, Integer roomId) {
         ImOnlineDTO imOnlineDTO = new ImOnlineDTO();
         imOnlineDTO.setUserId(userId);
         imOnlineDTO.setAppId(appId);

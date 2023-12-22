@@ -149,7 +149,7 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
     @Override
     public void userOnlineHandler(ImOnlineDTO imOnlineDTO) {
         Long userId = imOnlineDTO.getUserId();
-        Long roomId = imOnlineDTO.getRoomId();
+        Integer roomId = imOnlineDTO.getRoomId();
         Integer appId = imOnlineDTO.getAppId();
         // 存入set
         String cacheKey = cacheKeyBuilder.buildLivingRoomUserKey(roomId, appId);
@@ -160,7 +160,7 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
     @Override
     public void userOfflineHandler(ImOfflineDTO imOfflineDTO) {
         Long userId = imOfflineDTO.getUserId();
-        Long roomId = imOfflineDTO.getRoomId();
+        Integer roomId = imOfflineDTO.getRoomId();
         Integer appId = imOfflineDTO.getAppId();
         String cacheKey = cacheKeyBuilder.buildLivingRoomUserKey(roomId, appId);
         redisTemplate.opsForSet().remove(cacheKey, userId);
@@ -168,7 +168,7 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
 
     @Override
     public List<Long> queryUserIdByRoomId(LivingRoomReqDTO livingRoomReqDTO) {
-        Long roomId = livingRoomReqDTO.getId();
+        Integer roomId = livingRoomReqDTO.getId();
         Integer appId = livingRoomReqDTO.getAppId();
         String cacheKey = cacheKeyBuilder.buildLivingRoomUserKey(roomId, appId);
         // 没有全量查询，分页多段扫描
@@ -181,4 +181,23 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
         return userIdList;
     }
 
+    @Override
+    public boolean onlinePk(LivingRoomReqDTO livingRoomReqDTO) {
+        String cacheKey = cacheKeyBuilder.buildLivingRoomOnlinePkKey(livingRoomReqDTO.getId());
+        redisTemplate.opsForValue().set(cacheKey, livingRoomReqDTO.getAnchorId(), CommonUtils.createRandomExpireTime(), TimeUnit.SECONDS);
+        return true;
+    }
+
+    @Override
+    public boolean offlinePk(LivingRoomReqDTO livingRoomReqDTO) {
+        String cacheKey = cacheKeyBuilder.buildLivingRoomOnlinePkKey(livingRoomReqDTO.getId());
+        return Boolean.TRUE.equals(redisTemplate.delete(cacheKey));
+    }
+
+    @Override
+    public Long queryOnlinePkUserId(Integer roomId) {
+        String cacheKey = cacheKeyBuilder.buildLivingRoomOnlinePkKey(roomId);
+        Object userId = redisTemplate.opsForValue().get(cacheKey);
+        return userId != null ? (Long) userId : null;
+    }
 }

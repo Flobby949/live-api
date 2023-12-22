@@ -4,4 +4,4 @@ java:S2184"FCast one of the operands of this multiplication operation to a "l
 d
 java:S2184Ÿ"FCast one of the operands of this multiplication operation to a "long".(ùƒïÚ8û€ß¡Ã1
 u
-java:S6204’"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(½¨¶Íøÿÿÿÿ8¢ß¡Ã1
+java:S6204’"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(½¨¶Íøÿÿÿÿ8™ö”„É1

@@ -22,5 +22,5 @@ public class ImContextAttr {
     public static final AttributeKey<Integer> APP_ID = AttributeKey.valueOf("appId");
 
 
-    public static final AttributeKey<Long> ROOM_ID = AttributeKey.valueOf("roomId");
+    public static final AttributeKey<Integer> ROOM_ID = AttributeKey.valueOf("roomId");
 }

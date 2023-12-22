@@ -652,3 +652,9 @@ y
 Ilive-api/src/main/java/top/flobby/live/api/config/RestTemplateConfig.java,5\3\53a9996d174e2c075312d015089b100ad5650f04
 ‰
 Ylive-gift-interface/src/main/java/top/flobby/live/gift/constant/SendGiftRoomTypeEnum.java,d\1\d1f49ed3b575d2d48604ab81ecb41ae131102aca
+r
+Blive-api/src/main/java/top/flobby/live/api/dto/OnlinePkReqDTO.java,f\b\fbc1930e84b1074370894a4e93d43496b2d17e37
+‚
+Rlive-living-interface/src/main/java/top/flobby/live/living/dto/OnlinePkReqDTO.java,1\4\145dd1f318f4f8a7985cf98a792e20b8761cab4b
+v
+Flive-api/src/main/java/top/flobby/live/api/dto/LivingRoomPkReqDTO.java,8\2\8242102ef612e2d7aa91bdb7245f08d7cde00a03

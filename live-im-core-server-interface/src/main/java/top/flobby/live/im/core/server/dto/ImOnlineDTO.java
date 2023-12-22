@@ -18,6 +18,6 @@ public class ImOnlineDTO implements Serializable {
     private static final long serialVersionUID = 8416205125301081217L;
     private Long userId;
     private Integer appId;
-    private Long roomId;
+    private Integer roomId;
     private Long loginTime;
 }

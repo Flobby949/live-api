@@ -17,6 +17,7 @@ public class LivingProviderCacheKeyBuilder extends RedisKeyBuilder {
     private static final String LIVING_ROOM_OBJ_KEY = "living:room:obj";
     private static final String LIVING_ROOM_LOCK_KEY = "living:room:lock";
     public static final String LIVING_ROOM_ONLINE_SET_KEY = "living:room:online";
+    public static final String LIVING_ROOM_ONLINE_PK_KEY = "living:room:online_pk";
 
     public String buildLivingRoomListKey(Integer type) {
         return super.getPrefix() + LIVING_ROOM_LIST_KEY +
@@ -32,9 +33,14 @@ public class LivingProviderCacheKeyBuilder extends RedisKeyBuilder {
         return super.getPrefix() + LIVING_ROOM_LOCK_KEY;
     }
 
-    public String buildLivingRoomUserKey(Long roomId, Integer appId) {
+    public String buildLivingRoomUserKey(Integer roomId, Integer appId) {
         return super.getPrefix() + LIVING_ROOM_ONLINE_SET_KEY +
                 super.getSplitItem() + appId +
+                super.getSplitItem() + roomId;
+    }
+
+    public String buildLivingRoomOnlinePkKey(Integer roomId) {
+        return super.getPrefix() + LIVING_ROOM_ONLINE_PK_KEY +
                 super.getSplitItem() + roomId;
     }
 }

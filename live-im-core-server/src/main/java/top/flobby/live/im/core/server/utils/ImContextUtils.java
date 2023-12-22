@@ -56,13 +56,13 @@ public class ImContextUtils {
      * 获取房间 ID
      *
      * @param ctx CTX
-     * @return {@link Long}
+     * @return {@link Integer}
      */
-    public static Long getRoomId(ChannelHandlerContext ctx) {
+    public static Integer getRoomId(ChannelHandlerContext ctx) {
         return ctx.attr(ImContextAttr.ROOM_ID).get();
     }
 
-    public static void setRoomId(ChannelHandlerContext ctx, Long roomId) {
+    public static void setRoomId(ChannelHandlerContext ctx, Integer roomId) {
         ctx.attr(ImContextAttr.ROOM_ID).set(roomId);
     }
 

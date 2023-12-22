@@ -25,7 +25,7 @@ public class MessageDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = -4431564211452303890L;
 
-    private Long roomId;
+    private Integer roomId;
     private Long userId;
     private String senderName;
     private String senderAvatar;

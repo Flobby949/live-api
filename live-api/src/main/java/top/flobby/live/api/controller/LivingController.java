@@ -4,6 +4,7 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
+import top.flobby.live.api.dto.LivingRoomPkReqDTO;
 import top.flobby.live.api.service.ILivingRoomService;
 import top.flobby.live.common.resp.CommonResp;
 import top.flobby.live.common.resp.PageRespVO;
@@ -72,5 +73,33 @@ public class LivingController {
             livingRoomPageDTO.setPageSize(10L);
         }
         return CommonResp.success(livingRoomService.list(livingRoomPageDTO));
+    }
+
+    @PostMapping("online-pk")
+    public CommonResp<Object> onlinePk(@RequestBody LivingRoomPkReqDTO livingRoomPkReqDTO) {
+        if (ObjectUtils.isEmpty(livingRoomPkReqDTO)
+                || ObjectUtils.isEmpty(livingRoomPkReqDTO.getRoomId())
+                || livingRoomPkReqDTO.getRoomId() <= 0) {
+            return CommonResp.error("房间号错误");
+        }
+        boolean result = livingRoomService.onlinePk(livingRoomPkReqDTO);
+        if (!result) {
+            return CommonResp.error("连线失败");
+        }
+        return CommonResp.success();
+    }
+
+    @PostMapping("offline-pk")
+    public CommonResp<Object> offlinePk(@RequestBody LivingRoomPkReqDTO livingRoomPkReqDTO) {
+        if (ObjectUtils.isEmpty(livingRoomPkReqDTO)
+                || ObjectUtils.isEmpty(livingRoomPkReqDTO.getRoomId())
+                || livingRoomPkReqDTO.getRoomId() <= 0) {
+            return CommonResp.error("房间号错误");
+        }
+        boolean result = livingRoomService.offlinePk(livingRoomPkReqDTO);
+        if (!result) {
+            return CommonResp.error("断线失败");
+        }
+        return CommonResp.success();
     }
 }
