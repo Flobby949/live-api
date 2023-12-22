@@ -1,5 +1,7 @@
 
+t
+java:S3776E"RRefactor this method to reduce its Cognitive Complexity from 34 to the 15 allowed.(Àø’ìúÿÿÿÿ8Æîö€É1
 O
-java:S1481o"-Remove this unused "pkNumKey" local variable.(Îÿïéÿÿÿÿÿ8©›×È1
+java:S1135y"2Complete the task associated to this TODO comment.(óç¶8¬ëş€É1
 u
-java:S6204 "RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ëÙÈ¡ÿÿÿÿÿ8Ê‚š×È1
+java:S6204Â"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ëÙÈ¡ÿÿÿÿÿ8Ùîö€É1
