@@ -72,7 +72,7 @@ public class WsSharkHandler extends ChannelInboundHandlerAdapter {
         String query = URI.create(uri).getQuery();
         String[] pairs = query.split("&");
         String token = null;
-        Long userId = null;
+        Long userId = 0L;
         Integer roomId = null;
         for (String pair : pairs) {
             String[] split = pair.split("=");
@@ -84,12 +84,15 @@ public class WsSharkHandler extends ChannelInboundHandlerAdapter {
                 roomId = Integer.valueOf(split[1]);
             }
         }
-        Long queryUserId = imTokenRpc.getUserIdByToken(token);
-        if (ObjectUtils.isEmpty(queryUserId) || !queryUserId.equals(userId)) {
-            // token无效，关闭连接
-            log.warn("[WsSharkHandler] token is invalid, token is {}", token);
-            ctx.close();
-            return;
+
+        if (userId != 0L) {
+            Long queryUserId = imTokenRpc.getUserIdByToken(token);
+            if (ObjectUtils.isEmpty(queryUserId) || !queryUserId.equals(userId)) {
+                // token无效，关闭连接
+                log.warn("[WsSharkHandler] token is invalid, token is {}, userId is {}", token, userId);
+                ctx.close();
+                return;
+            }
         }
         // 建立ws的握手连接
         handShaker = wsFactory.newHandshaker(msg);

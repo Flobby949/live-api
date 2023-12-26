@@ -58,6 +58,7 @@ public class WsImServerCoreHandler extends SimpleChannelInboundHandler {
             imMsg.setCode(jsonObject.getInteger("code"));
             imMsg.setLen(jsonObject.getInteger("len"));
             imMsg.setBody(jsonObject.getString("body").getBytes());
+            log.info("[WsImServerCoreHandler] 收到消息 is {}，开始处理", jsonObject);
             imHandlerFactory.doMsgHandler(ctx, imMsg);
         } catch (Exception e) {
             log.error("[WsImServerCoreHandler] msg handler error, msg is {}", msg);

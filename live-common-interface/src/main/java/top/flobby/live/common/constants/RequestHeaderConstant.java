@@ -18,4 +18,9 @@ public interface RequestHeaderConstant {
      * 用户登录 token
      */
     String AUTHORIZATION = "Authorization";
+
+    /**
+     * 不需要验证的接口携带的请求头
+     */
+    String SKIP_VALID = "SKIP_VALID";
 }

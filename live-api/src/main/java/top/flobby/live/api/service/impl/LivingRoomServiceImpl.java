@@ -65,16 +65,20 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
     public LivingRoomInitVO anchorConfig(Long userId, Integer roomId) {
         LivingRoomInfoVO info = livingRoomRpc.queryLivingRoomByRoomId(roomId);
         LivingRoomInitVO respVo = new LivingRoomInitVO();
-        if (ObjectUtils.isEmpty(info) || info.getAnchorId() == null || userId == null) {
+        if (ObjectUtils.isEmpty(info) || info.getAnchorId() == null) {
             // 直播间不存在
             throw new BusinessException(BusinessExceptionEnum.LIVING_ROOM_IS_NOT_EXIST);
         }
-        UserDTO userDTO = userRpc.getByUserId(userId);
+        respVo.setUserId(0L);
+        if (userId != null) {
+            UserDTO userDTO = userRpc.getByUserId(userId);
+            respVo.setUserId(userDTO.getUserId());
+            respVo.setAvatar(userDTO.getAvatar());
+            respVo.setNickName(userDTO.getNickName());
+        }
         UserDTO anchor = userRpc.getByUserId(info.getAnchorId());
-        respVo.setUserId(userId);
-        respVo.setAvatar(userDTO.getAvatar());
-        respVo.setNickName(userDTO.getNickName());
         respVo.setAnchorId(info.getAnchorId());
+        respVo.setAnchorImg(anchor.getAvatar());
         respVo.setAnchorName(anchor.getNickName());
         respVo.setAnchor(info.getAnchorId().equals(userId));
         respVo.setRoomId(info.getId());
