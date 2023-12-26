@@ -30,7 +30,6 @@
 - account
 - id-generator
 - im-provider
-- living-provider
 - bank-provider
 
 #### 依赖部署
@@ -42,3 +41,4 @@
 - msg-provider -> im-router , living-provider
 - user-provider -> account , id-generator
 - gift-provider -> im-router , bank-provider
+- living-provider -> im-router

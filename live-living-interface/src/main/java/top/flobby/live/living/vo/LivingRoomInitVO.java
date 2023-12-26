@@ -38,4 +38,12 @@ public class LivingRoomInitVO {
     private Long userId;
     private String avatar;
     private String nickName;
+    /**
+     * 观众头像
+     */
+    private String watcherAvatar;
+    /**
+     * 默认壁纸
+     */
+    private String defaultBgImg;
 }

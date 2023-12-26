@@ -26,8 +26,8 @@ public class LivingRoomRpcImpl implements ILivingRoomRpc {
 
 
     @Override
-    public LivingRoomInfoVO queryByRoomId(Integer roomId) {
-        return livingRoomService.queryUserIdByRoomId(roomId);
+    public LivingRoomInfoVO queryLivingRoomByRoomId(Integer roomId) {
+        return livingRoomService.queryLivingRoomByRoomId(roomId);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class LivingRoomRpcImpl implements ILivingRoomRpc {
 
     @Override
     public List<Long> queryUserIdByRoomId(LivingRoomReqDTO livingRoomReqDTO) {
-        return livingRoomService.queryUserIdByRoomId(livingRoomReqDTO);
+        return livingRoomService.queryUserIdsByRoomId(livingRoomReqDTO);
     }
 
     @Override

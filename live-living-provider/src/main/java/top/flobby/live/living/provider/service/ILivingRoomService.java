@@ -24,7 +24,7 @@ public interface ILivingRoomService {
      * @param roomId 房间 ID
      * @return {@link LivingRoomInfoVO}
      */
-    LivingRoomInfoVO queryUserIdByRoomId(Integer roomId);
+    LivingRoomInfoVO queryLivingRoomByRoomId(Integer roomId);
 
     /**
      * 开启直播间
@@ -79,7 +79,7 @@ public interface ILivingRoomService {
      * @param livingRoomReqDTO 客厅要求 DTO
      * @return {@link List}<{@link Long}>
      */
-    List<Long> queryUserIdByRoomId(LivingRoomReqDTO livingRoomReqDTO);
+    List<Long> queryUserIdsByRoomId(LivingRoomReqDTO livingRoomReqDTO);
 
     /**
      * 在线PK

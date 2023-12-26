@@ -1,5 +1,13 @@
 
-_
-java:S2259z"BA "NullPointerException" could be thrown; "size" is nullable here.(œ×şø8úÉ¾ƒÉ1
+d
+java:S2184È"FCast one of the operands of this multiplication operation to a "long".(‚ş¤8¾†¾§É1
+`
+java:S2259‚"BA "NullPointerException" could be thrown; "size" is nullable here.(œ×şø8‡¾§É1
+g
+java:S2259È"IA "NullPointerException" could be thrown; "setIfAbsent" is nullable here.(‚ş¤8‡¾§É1
 W
-java:S6213h":Rename this variable to not match a restricted identifier.(ĞÅŸ»8ƒÊ¾ƒÉ1
+java:S6213p":Rename this variable to not match a restricted identifier.(ĞÅŸ»8ª‡¾§É1
+O
+java:S1135Ï"2Complete the task associated to this TODO comment.(ŠÂÌl8Ê‡¾§É1
+p
+java:S6204ñ"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(†öúš8Ï‡¾§É1

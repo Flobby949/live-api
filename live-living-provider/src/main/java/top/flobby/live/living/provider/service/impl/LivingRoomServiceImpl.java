@@ -1,8 +1,10 @@
 package top.flobby.live.living.provider.service.impl;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.ibatis.annotations.Options;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -16,8 +18,12 @@ import top.flobby.live.common.resp.PageRespVO;
 import top.flobby.live.common.utils.CommonUtils;
 import top.flobby.live.common.utils.ConvertBeanUtils;
 import top.flobby.live.framework.redis.starter.key.LivingProviderCacheKeyBuilder;
+import top.flobby.live.im.common.AppIdEnum;
 import top.flobby.live.im.core.server.dto.ImOfflineDTO;
 import top.flobby.live.im.core.server.dto.ImOnlineDTO;
+import top.flobby.live.im.dto.ImMsgBody;
+import top.flobby.live.im.router.constants.ImMsgBizCodeEnum;
+import top.flobby.live.im.router.interfaces.ImRouterRpc;
 import top.flobby.live.living.dto.LivingRoomPageDTO;
 import top.flobby.live.living.dto.LivingRoomReqDTO;
 import top.flobby.live.living.provider.dao.mapper.LivingRoomMapper;
@@ -32,6 +38,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * @author : Flobby
@@ -52,10 +59,11 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
     private RedisTemplate<String, Object> redisTemplate;
     @Resource
     private LivingProviderCacheKeyBuilder cacheKeyBuilder;
-
+    @DubboReference
+    private ImRouterRpc imRouterRpc;
 
     @Override
-    public LivingRoomInfoVO queryUserIdByRoomId(Integer roomId) {
+    public LivingRoomInfoVO queryLivingRoomByRoomId(Integer roomId) {
         // 先查缓存
         String cacheKey = cacheKeyBuilder.buildLivingRoomObjKey(roomId);
         LivingRoomInfoVO queryResult = (LivingRoomInfoVO) redisTemplate.opsForValue().get(cacheKey);
@@ -164,10 +172,15 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
         Integer appId = imOfflineDTO.getAppId();
         String cacheKey = cacheKeyBuilder.buildLivingRoomUserKey(roomId, appId);
         redisTemplate.opsForSet().remove(cacheKey, userId);
+        // PK直播下线
+        LivingRoomReqDTO livingRoomReqDTO = new LivingRoomReqDTO();
+        livingRoomReqDTO.setId(roomId);
+        livingRoomReqDTO.setPkObjId(userId);
+        this.offlinePk(livingRoomReqDTO);
     }
 
     @Override
-    public List<Long> queryUserIdByRoomId(LivingRoomReqDTO livingRoomReqDTO) {
+    public List<Long> queryUserIdsByRoomId(LivingRoomReqDTO livingRoomReqDTO) {
         Integer roomId = livingRoomReqDTO.getId();
         Integer appId = livingRoomReqDTO.getAppId();
         String cacheKey = cacheKeyBuilder.buildLivingRoomUserKey(roomId, appId);
@@ -184,7 +197,15 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
     @Override
     public boolean onlinePk(LivingRoomReqDTO livingRoomReqDTO) {
         String cacheKey = cacheKeyBuilder.buildLivingRoomOnlinePkKey(livingRoomReqDTO.getId());
-        redisTemplate.opsForValue().set(cacheKey, livingRoomReqDTO.getAnchorId(), CommonUtils.createRandomExpireTime(), TimeUnit.SECONDS);
+        boolean tryOnline = redisTemplate.opsForValue().setIfAbsent(cacheKey, livingRoomReqDTO.getPkObjId(), CommonUtils.createRandomExpireTime() * 2, TimeUnit.SECONDS);
+        if (!tryOnline) {
+            return false;
+        }
+        List<Long> userIds = this.queryUserIdsByRoomId(livingRoomReqDTO);
+        JSONObject msgData = new JSONObject();
+        msgData.put("pkObjId", livingRoomReqDTO.getPkObjId());
+        // TODO 如果有推拉流，那么还需要直播流的传输
+        batchSendImMsg(userIds, ImMsgBizCodeEnum.LIVING_ROOM_PK_ONLINE.getCode(), msgData);
         return true;
     }
 
@@ -199,5 +220,25 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
         String cacheKey = cacheKeyBuilder.buildLivingRoomOnlinePkKey(roomId);
         Object userId = redisTemplate.opsForValue().get(cacheKey);
         return userId != null ? (Long) userId : null;
+    }
+
+    /**
+     * 批量发送 IM 消息
+     *
+     * @param userIds 用户 ID
+     * @param bizCode 业务代码
+     * @param msgData 数据
+     */
+    private void batchSendImMsg(List<Long> userIds, Integer bizCode, JSONObject msgData) {
+        List<ImMsgBody> imMsgBodyList = userIds.stream().map(userId -> {
+                    ImMsgBody imMsgBody = new ImMsgBody();
+                    imMsgBody.setBizCode(bizCode);
+                    imMsgBody.setData(msgData.toJSONString());
+                    imMsgBody.setAppId(AppIdEnum.LIVE_BIZ_ID.getCode());
+                    imMsgBody.setUserId(userId);
+                    return imMsgBody;
+                }
+        ).collect(Collectors.toList());
+        imRouterRpc.batchSendMsg(imMsgBodyList);
     }
 }

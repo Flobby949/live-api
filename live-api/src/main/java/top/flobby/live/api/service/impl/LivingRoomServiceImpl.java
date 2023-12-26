@@ -9,6 +9,7 @@ import top.flobby.live.api.service.ILivingRoomService;
 import top.flobby.live.common.exception.BusinessException;
 import top.flobby.live.common.exception.BusinessExceptionEnum;
 import top.flobby.live.common.resp.PageRespVO;
+import top.flobby.live.im.common.AppIdEnum;
 import top.flobby.live.living.dto.LivingRoomPageDTO;
 import top.flobby.live.living.dto.LivingRoomReqDTO;
 import top.flobby.live.living.interfaces.ILivingRoomRpc;
@@ -61,7 +62,7 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
 
     @Override
     public LivingRoomInitVO anchorConfig(Long userId, Integer roomId) {
-        LivingRoomInfoVO info = livingRoomRpc.queryByRoomId(roomId);
+        LivingRoomInfoVO info = livingRoomRpc.queryLivingRoomByRoomId(roomId);
         LivingRoomInitVO respVo = new LivingRoomInitVO();
         if (ObjectUtils.isEmpty(info) || info.getAnchorId() == null || userId == null) {
             // 直播间不存在
@@ -80,8 +81,9 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
     @Override
     public boolean onlinePk(LivingRoomPkReqDTO livingRoomPkReqDTO) {
         LivingRoomReqDTO livingRoomReqDTO = new LivingRoomReqDTO();
+        livingRoomReqDTO.setAppId(AppIdEnum.LIVE_BIZ_ID.getCode());
         livingRoomReqDTO.setId(livingRoomPkReqDTO.getRoomId());
-        livingRoomReqDTO.setAnchorId(RequestContext.getUserId());
+        livingRoomReqDTO.setPkObjId(RequestContext.getUserId());
         return livingRoomRpc.onlinePk(livingRoomReqDTO);
     }
 

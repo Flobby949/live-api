@@ -121,7 +121,7 @@ public class SendGiftConsumer implements InitializingBean {
                          */
                         String pkNumKey = cacheKeyBuilder.buildLivingPkKey(roomId);
                         // 获取PK直播间的两个主播ID
-                        LivingRoomInfoVO respVO = livingRoomRpc.queryByRoomId(roomId);
+                        LivingRoomInfoVO respVO = livingRoomRpc.queryLivingRoomByRoomId(roomId);
                         Long pkUserId = respVO.getAnchorId();
                         Long pkObjectId = livingRoomRpc.queryOnlinePkUserId(roomId);
                         if (ObjectUtils.isEmpty(respVO) || ObjectUtils.isEmpty(pkUserId) || ObjectUtils.isEmpty(pkObjectId)) {

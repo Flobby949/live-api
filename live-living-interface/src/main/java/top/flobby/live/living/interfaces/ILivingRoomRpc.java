@@ -22,7 +22,7 @@ public interface ILivingRoomRpc {
      * @param roomId 房间 ID
      * @return {@link LivingRoomInfoVO}
      */
-    LivingRoomInfoVO queryByRoomId(Integer roomId);
+    LivingRoomInfoVO queryLivingRoomByRoomId(Integer roomId);
 
     /**
      * 开启直播间

@@ -76,6 +76,7 @@ public class LivingController {
     }
 
     @PostMapping("online-pk")
+    @RequestLimit(limit = 1, second = 3)
     public CommonResp<Object> onlinePk(@RequestBody LivingRoomPkReqDTO livingRoomPkReqDTO) {
         if (ObjectUtils.isEmpty(livingRoomPkReqDTO)
                 || ObjectUtils.isEmpty(livingRoomPkReqDTO.getRoomId())
@@ -84,7 +85,7 @@ public class LivingController {
         }
         boolean result = livingRoomService.onlinePk(livingRoomPkReqDTO);
         if (!result) {
-            return CommonResp.error("连线失败");
+            return CommonResp.error("连线繁忙，请稍后再试");
         }
         return CommonResp.success();
     }
