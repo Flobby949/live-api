@@ -5,6 +5,7 @@ import top.flobby.live.im.core.server.dto.ImOfflineDTO;
 import top.flobby.live.im.core.server.dto.ImOnlineDTO;
 import top.flobby.live.living.dto.LivingRoomPageDTO;
 import top.flobby.live.living.dto.LivingRoomReqDTO;
+import top.flobby.live.living.vo.LivingPkRespVO;
 import top.flobby.live.living.vo.LivingRoomInfoVO;
 
 import java.util.List;
@@ -85,9 +86,9 @@ public interface ILivingRoomService {
      * 在线PK
      *
      * @param livingRoomReqDTO dto
-     * @return boolean
+     * @return LivingPkRespVO vo
      */
-    boolean onlinePk(LivingRoomReqDTO livingRoomReqDTO);
+    LivingPkRespVO onlinePk(LivingRoomReqDTO livingRoomReqDTO);
 
     /**
      * PK离线

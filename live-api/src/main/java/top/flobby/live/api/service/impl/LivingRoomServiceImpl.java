@@ -13,6 +13,7 @@ import top.flobby.live.im.common.AppIdEnum;
 import top.flobby.live.living.dto.LivingRoomPageDTO;
 import top.flobby.live.living.dto.LivingRoomReqDTO;
 import top.flobby.live.living.interfaces.ILivingRoomRpc;
+import top.flobby.live.living.vo.LivingPkRespVO;
 import top.flobby.live.living.vo.LivingRoomInfoVO;
 import top.flobby.live.living.vo.LivingRoomInitVO;
 import top.flobby.live.user.dto.UserDTO;
@@ -69,17 +70,19 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
             throw new BusinessException(BusinessExceptionEnum.LIVING_ROOM_IS_NOT_EXIST);
         }
         UserDTO userDTO = userRpc.getByUserId(userId);
+        UserDTO anchor = userRpc.getByUserId(info.getAnchorId());
         respVo.setUserId(userId);
         respVo.setAvatar(userDTO.getAvatar());
         respVo.setNickName(userDTO.getNickName());
         respVo.setAnchorId(info.getAnchorId());
+        respVo.setAnchorName(anchor.getNickName());
         respVo.setAnchor(info.getAnchorId().equals(userId));
         respVo.setRoomId(info.getId());
         return respVo;
     }
 
     @Override
-    public boolean onlinePk(LivingRoomPkReqDTO livingRoomPkReqDTO) {
+    public LivingPkRespVO onlinePk(LivingRoomPkReqDTO livingRoomPkReqDTO) {
         LivingRoomReqDTO livingRoomReqDTO = new LivingRoomReqDTO();
         livingRoomReqDTO.setAppId(AppIdEnum.LIVE_BIZ_ID.getCode());
         livingRoomReqDTO.setId(livingRoomPkReqDTO.getRoomId());

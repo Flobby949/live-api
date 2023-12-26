@@ -16,6 +16,7 @@ public class LivingRoomInitVO {
      * 主播 ID
      */
     private Long anchorId;
+    private String anchorName;
     /**
      * 封面图
      */

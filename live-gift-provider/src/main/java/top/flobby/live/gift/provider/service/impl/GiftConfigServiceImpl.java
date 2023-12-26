@@ -122,8 +122,12 @@ public class GiftConfigServiceImpl implements IGiftConfigService {
         if (!CollectionUtils.isEmpty(giftPOList)) {
             // 如果存在该对象，则缓存到redis中
             List<GiftConfigDTO> resultList = ConvertBeanUtils.convertList(giftPOList, GiftConfigDTO.class);
-            redisTemplate.opsForList().leftPushAll(cacheKey, resultList.toArray());
-            redisTemplate.expire(cacheKey, CommonUtils.createRandomExpireTime(), TimeUnit.SECONDS);
+            Boolean trySetToRedis = redisTemplate.opsForValue().setIfAbsent(cacheKeyBuilder.buildGiftConsumeLockKey(), 1, 3, TimeUnit.SECONDS);
+            if (Boolean.TRUE.equals(trySetToRedis)) {
+                // 如果成功获取到锁
+                redisTemplate.opsForList().leftPushAll(cacheKey, resultList.toArray());
+                redisTemplate.expire(cacheKey, CommonUtils.createRandomExpireTime(), TimeUnit.SECONDS);
+            }
             return resultList;
         }
         // 存入一个空的list进入redis中

@@ -7,6 +7,7 @@ import top.flobby.live.living.dto.LivingRoomPageDTO;
 import top.flobby.live.living.dto.LivingRoomReqDTO;
 import top.flobby.live.living.interfaces.ILivingRoomRpc;
 import top.flobby.live.living.provider.service.ILivingRoomService;
+import top.flobby.live.living.vo.LivingPkRespVO;
 import top.flobby.live.living.vo.LivingRoomInfoVO;
 
 import java.util.List;
@@ -51,7 +52,7 @@ public class LivingRoomRpcImpl implements ILivingRoomRpc {
     }
 
     @Override
-    public boolean onlinePk(LivingRoomReqDTO livingRoomReqDTO) {
+    public LivingPkRespVO onlinePk(LivingRoomReqDTO livingRoomReqDTO) {
         return livingRoomService.onlinePk(livingRoomReqDTO);
     }
 

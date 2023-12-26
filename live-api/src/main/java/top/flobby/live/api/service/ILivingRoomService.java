@@ -3,6 +3,7 @@ package top.flobby.live.api.service;
 import top.flobby.live.api.dto.LivingRoomPkReqDTO;
 import top.flobby.live.common.resp.PageRespVO;
 import top.flobby.live.living.dto.LivingRoomPageDTO;
+import top.flobby.live.living.vo.LivingPkRespVO;
 import top.flobby.live.living.vo.LivingRoomInfoVO;
 import top.flobby.live.living.vo.LivingRoomInitVO;
 
@@ -52,9 +53,9 @@ public interface ILivingRoomService {
      * 在线PK
      *
      * @param livingRoomPkReqDTO dto
-     * @return boolean
+     * @return LivingPkRespVO vo
      */
-    boolean onlinePk(LivingRoomPkReqDTO livingRoomPkReqDTO);
+    LivingPkRespVO onlinePk(LivingRoomPkReqDTO livingRoomPkReqDTO);
 
     /**
      * PK离线

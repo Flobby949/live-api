@@ -31,6 +31,7 @@ import top.flobby.live.living.provider.dao.mapper.LivingRoomRecordMapper;
 import top.flobby.live.living.provider.dao.po.LivingRoomPO;
 import top.flobby.live.living.provider.dao.po.LivingRoomRecordPO;
 import top.flobby.live.living.provider.service.ILivingRoomService;
+import top.flobby.live.living.vo.LivingPkRespVO;
 import top.flobby.live.living.vo.LivingRoomInfoVO;
 
 import java.util.ArrayList;
@@ -195,18 +196,28 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
     }
 
     @Override
-    public boolean onlinePk(LivingRoomReqDTO livingRoomReqDTO) {
+    public LivingPkRespVO onlinePk(LivingRoomReqDTO livingRoomReqDTO) {
+        LivingRoomInfoVO livingRoomInfo = this.queryLivingRoomByRoomId(livingRoomReqDTO.getId());
+        LivingPkRespVO result = new LivingPkRespVO();
+        result.setOnlineStatus(false);
+        if (livingRoomInfo.getAnchorId().equals(livingRoomReqDTO.getPkObjId())) {
+            result.setMsg("主播不能和自己PK");
+            return result;
+        }
         String cacheKey = cacheKeyBuilder.buildLivingRoomOnlinePkKey(livingRoomReqDTO.getId());
         boolean tryOnline = redisTemplate.opsForValue().setIfAbsent(cacheKey, livingRoomReqDTO.getPkObjId(), CommonUtils.createRandomExpireTime() * 2, TimeUnit.SECONDS);
         if (!tryOnline) {
-            return false;
+            result.setMsg("目前有人正在PK中");
+            return result;
         }
         List<Long> userIds = this.queryUserIdsByRoomId(livingRoomReqDTO);
         JSONObject msgData = new JSONObject();
         msgData.put("pkObjId", livingRoomReqDTO.getPkObjId());
+        msgData.put("pkObjAvatar", "");
         // TODO 如果有推拉流，那么还需要直播流的传输
         batchSendImMsg(userIds, ImMsgBizCodeEnum.LIVING_ROOM_PK_ONLINE.getCode(), msgData);
-        return true;
+        result.setOnlineStatus(true);
+        return result;
     }
 
     @Override
@@ -219,7 +230,11 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
     public Long queryOnlinePkUserId(Integer roomId) {
         String cacheKey = cacheKeyBuilder.buildLivingRoomOnlinePkKey(roomId);
         Object userId = redisTemplate.opsForValue().get(cacheKey);
-        return userId != null ? (Long) userId : null;
+        log.info("查询PK直播间的用户ID，roomId={},userId={}", roomId, userId);
+        if (ObjectUtils.isEmpty(userId)) {
+            return null;
+        }
+        return Long.valueOf(userId.toString());
     }
 
     /**

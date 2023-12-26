@@ -1,5 +1,13 @@
 
-t
-java:S3776G"RRefactor this method to reduce its Cognitive Complexity from 40 to the 15 allowed.(Àø’ìúÿÿÿÿ8 ´ãƒÉ1
+v	java:S116O"URename this field "LUA_SCRIPT" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÝÚÜ¨ûÿÿÿÿ8öèÉ Ê1
+C
+java:S1170O"!Make this final field static too.(ÝÚÜ¨ûÿÿÿÿ8öèÉ Ê1
 u
-java:S6204È"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ëÙÈ¡ÿÿÿÿÿ8°´ãƒÉ1
+java:S6204·"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ëÙÈ¡ÿÿÿÿÿ8‹éÉ Ê1
+\
+java:S1854Ñ">Remove this useless assignment to local variable "incrSeqKey".(ÚÇÄÉ8ü…Ó Ê1
+M
+java:S1481Ñ"/Remove this unused "incrSeqKey" local variable.(ÚÇÄÉ8„†Ó Ê1
+^	java:S125Ò"<This block of commented-out lines of code should be removed.(ÄßÈ¢úÿÿÿÿ8‡†Ó Ê1
+Y	java:S125Û"<This block of commented-out lines of code should be removed.(´¨Úœ8îÜÒ Ê1
+Y	java:S125ð"<This block of commented-out lines of code should be removed.(·ÆÄš8¿ÆÔ Ê1

@@ -60,6 +60,7 @@ public class ImRouterServiceImpl implements ImRouterService {
                 .collect(Collectors.toList());
         // 从缓存冲批量获取ip地址
         List<String> ipList = stringRedisTemplate.opsForValue().multiGet(cacheKeyList);
+        log.info("[ImRouterServiceImpl] batchSendMsg,ipList:{}", ipList);
         if (CollectionUtils.isEmpty(ipList)) {
             return;
         }

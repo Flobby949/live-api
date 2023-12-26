@@ -9,6 +9,7 @@ import top.flobby.live.api.service.ILivingRoomService;
 import top.flobby.live.common.resp.CommonResp;
 import top.flobby.live.common.resp.PageRespVO;
 import top.flobby.live.living.dto.LivingRoomPageDTO;
+import top.flobby.live.living.vo.LivingPkRespVO;
 import top.flobby.live.living.vo.LivingRoomInfoVO;
 import top.flobby.live.living.vo.LivingRoomInitVO;
 import top.flobby.live.web.starter.context.RequestContext;
@@ -83,9 +84,10 @@ public class LivingController {
                 || livingRoomPkReqDTO.getRoomId() <= 0) {
             return CommonResp.error("房间号错误");
         }
-        boolean result = livingRoomService.onlinePk(livingRoomPkReqDTO);
-        if (!result) {
-            return CommonResp.error("连线繁忙，请稍后再试");
+
+        LivingPkRespVO result = livingRoomService.onlinePk(livingRoomPkReqDTO);
+        if (!result.isOnlineStatus()) {
+            return CommonResp.error(result.getMsg());
         }
         return CommonResp.success();
     }

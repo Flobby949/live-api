@@ -13,6 +13,7 @@ import org.apache.rocketmq.common.message.MessageExt;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.util.ObjectUtils;
 import top.flobby.live.bank.dto.AccountTradeDTO;
 import top.flobby.live.bank.interfaces.ICurrencyAccountRpc;
@@ -30,6 +31,7 @@ import top.flobby.live.living.dto.LivingRoomReqDTO;
 import top.flobby.live.living.interfaces.ILivingRoomRpc;
 import top.flobby.live.living.vo.LivingRoomInfoVO;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -61,11 +63,29 @@ public class SendGiftConsumer implements InitializingBean {
     /**
      * PK 最大数值
      */
-    public static final Long PK_MAX_NUM = 1000L;
+    public static final Long PK_MAX_NUM = 100L;
     /**
      * PK 最大数值
      */
     public static final Long PK_MIN_NUM = 0L;
+    /**
+     * PK 初始
+     */
+    public static final Long PK_INIT_NUM = 50L;
+
+    /**
+     * Lua 脚本,用于更新进度条
+     */
+    private final String LUA_SCRIPT =
+            "if (redis.call('exists', KEYS[1])) == 1 then " +
+                    " local currentNum=redis.call('get',KEYS[1]) " +
+                    " if (tonumber(currentNum)<=tonumber(ARGV[2]) and tonumber(currentNum)>=tonumber(ARGV[3])) then " +
+                    " return redis.call('incrby',KEYS[1],tonumber(ARGV[4])) " +
+                    " else return currentNum end " +
+                    "else " +
+                    "redis.call('set', KEYS[1], tonumber(ARGV[1])) " +
+                    "redis.call('EXPIRE', KEYS[1], 3600 * 12) " +
+                    "return ARGV[1] end";
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -113,44 +133,7 @@ public class SendGiftConsumer implements InitializingBean {
                     msgDataBody.put("url", sendGiftMqDTO.getSvgaUrl());
                     // 按类型群发
                     if (SendGiftRoomTypeEnum.PK_SEND_GIFT_ROOM.getCode().equals(sendGiftType)) {
-                        // PK类型设计进度条
-                        // 假设进度条总长度为1000（500:500）
-                        /*
-                          直播间以roomId为维度，给a送礼就是incr，给b送礼就是decr
-                          开启PK直播间的时候，需要记录两个直播间的信息
-                         */
-                        String pkNumKey = cacheKeyBuilder.buildLivingPkKey(roomId);
-                        // 获取PK直播间的两个主播ID
-                        LivingRoomInfoVO respVO = livingRoomRpc.queryLivingRoomByRoomId(roomId);
-                        Long pkUserId = respVO.getAnchorId();
-                        Long pkObjectId = livingRoomRpc.queryOnlinePkUserId(roomId);
-                        if (ObjectUtils.isEmpty(respVO) || ObjectUtils.isEmpty(pkUserId) || ObjectUtils.isEmpty(pkObjectId)) {
-                            return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
-                        }
-                        Long resultNum;
-                        long pkNum = 0;
-                        String incrSeqKey = cacheKeyBuilder.buildLivingPkSendSeq(roomId);
-                        Long sendGiftSeqNum = redisTemplate.opsForValue().increment(incrSeqKey);
-                        if (sendGiftMqDTO.getReceiverId().equals(pkUserId)) {
-                            resultNum = redisTemplate.opsForValue().increment(pkNumKey, sendGiftMqDTO.getPrice());
-                            if (PK_MAX_NUM <= resultNum) {
-                                msgDataBody.put("winnerId", pkUserId);
-                                pkNum = PK_MAX_NUM;
-                            } else {
-                                pkNum = resultNum;
-                            }
-                        } else if (sendGiftMqDTO.getReceiverId().equals(pkObjectId)) {
-                            resultNum = redisTemplate.opsForValue().decrement(pkNumKey, sendGiftMqDTO.getPrice());
-                            if (PK_MIN_NUM <= resultNum) {
-                                msgDataBody.put("winnerId", pkObjectId);
-                                pkNum = PK_MIN_NUM;
-                            } else {
-                                pkNum = resultNum;
-                            }
-                        }
-                        msgDataBody.put("sendGiftSeqNum", sendGiftSeqNum);
-                        msgDataBody.put("pkNum", pkNum);
-                        batchSendImMsg(userIdList, ImMsgBizCodeEnum.PK_LIVING_ROOM_IM_GIFT_SUCCESS_MSG.getCode(), msgDataBody);
+                        sendPkImMsg(roomId, sendGiftMqDTO, msgDataBody, userIdList);
                     } else {
                         batchSendImMsg(userIdList, ImMsgBizCodeEnum.LIVING_ROOM_IM_GIFT_SUCCESS_MSG.getCode(), msgDataBody);
                     }
@@ -200,5 +183,73 @@ public class SendGiftConsumer implements InitializingBean {
                 .build()).collect(Collectors.toList());
         log.info("[SendGiftConsumer] 返回消息 is {}", imMsgBodies.get(0));
         routerRpc.batchSendMsg(imMsgBodies);
+    }
+
+    private void sendPkImMsg(Integer roomId, SendGiftMqDTO sendGiftMqDTO, JSONObject msgDataBody, List<Long> userIdList) {
+        String isOverCacheKey = cacheKeyBuilder.buildLivingPkIsOverKey(roomId);
+        if (Boolean.TRUE.equals(redisTemplate.hasKey(isOverCacheKey))) {
+            return;
+        }
+        // PK类型设计进度条
+        // 假设进度条总长度为1000（500:500）
+        /*
+         直播间以roomId为维度，给a送礼就是incr，给b送礼就是decr
+         开启PK直播间的时候，需要记录两个直播间的信息
+        */
+        // 获取PK直播间的两个主播ID
+        LivingRoomInfoVO respVO = livingRoomRpc.queryLivingRoomByRoomId(roomId);
+        Long pkUserId = respVO.getAnchorId();
+        Long pkObjectId = livingRoomRpc.queryOnlinePkUserId(roomId);
+        if (ObjectUtils.isEmpty(respVO) || ObjectUtils.isEmpty(pkUserId) || ObjectUtils.isEmpty(pkObjectId)) {
+            log.error("[SendGiftConsumer] PK直播间信息查询失败，roomId is {}", roomId);
+            return;
+        }
+        long pkNum = 0;
+        String pkNumKey = cacheKeyBuilder.buildLivingPkKey(roomId);
+        String incrSeqKey = cacheKeyBuilder.buildLivingPkSendSeq(roomId);
+        // Long sendGiftSeqNum = redisTemplate.opsForValue().increment(incrSeqKey);
+        DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>(LUA_SCRIPT, Long.class);
+        Long sendGiftSeqNum = System.currentTimeMillis();
+        if (sendGiftMqDTO.getReceiverId().equals(pkUserId)) {
+            Integer moveStep = sendGiftMqDTO.getPrice() / 10;
+            pkNum = redisTemplate.execute(redisScript, Collections.singletonList(pkNumKey), PK_INIT_NUM, PK_MAX_NUM, PK_MIN_NUM, moveStep);
+            if (PK_MAX_NUM <= pkNum) {
+                msgDataBody.put("winnerId", pkUserId);
+            }
+            // resultNum = redisTemplate.opsForValue().increment(pkNumKey, sendGiftMqDTO.getPrice());
+            // if (PK_MAX_NUM <= resultNum) {
+            //     msgDataBody.put("winnerId", pkUserId);
+            //     pkNum = PK_MAX_NUM;
+            //     String livingPkIsOverKey = cacheKeyBuilder.buildLivingPkIsOverKey(roomId);
+            //     redisTemplate.opsForValue().set(livingPkIsOverKey, true, 5, TimeUnit.MINUTES);
+            // } else {
+            //     pkNum = resultNum;
+            // }
+        } else if (sendGiftMqDTO.getReceiverId().equals(pkObjectId)) {
+            Integer moveStep = sendGiftMqDTO.getPrice() / 10 * -1;
+            pkNum = this.redisTemplate.execute(redisScript,
+                    Collections.singletonList(pkNumKey),
+                    PK_INIT_NUM,
+                    PK_MAX_NUM,
+                    PK_MIN_NUM,
+                    moveStep);
+            if (PK_MIN_NUM >= pkNum) {
+                this.redisTemplate.opsForValue().set(cacheKeyBuilder.buildLivingPkIsOverKey(roomId), -1, 5, TimeUnit.MINUTES);
+                msgDataBody.put("winnerId", pkObjectId);
+            }
+            // resultNum = redisTemplate.opsForValue().decrement(pkNumKey, sendGiftMqDTO.getPrice());
+            // if (PK_MIN_NUM <= resultNum) {
+            //     msgDataBody.put("winnerId", pkObjectId);
+            //     String livingPkIsOverKey = cacheKeyBuilder.buildLivingPkIsOverKey(roomId);
+            //     redisTemplate.opsForValue().set(livingPkIsOverKey, true, 5, TimeUnit.MINUTES);
+            //     pkNum = PK_MIN_NUM;
+            // } else {
+            //     pkNum = resultNum;
+            // }
+        }
+        msgDataBody.put("receiverId", sendGiftMqDTO.getReceiverId());
+        msgDataBody.put("sendGiftSeqNum", sendGiftSeqNum);
+        msgDataBody.put("pkNum", pkNum);
+        batchSendImMsg(userIdList, ImMsgBizCodeEnum.PK_LIVING_ROOM_IM_GIFT_SUCCESS_MSG.getCode(), msgDataBody);
     }
 }
