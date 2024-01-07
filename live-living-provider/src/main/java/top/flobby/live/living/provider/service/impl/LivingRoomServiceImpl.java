@@ -90,6 +90,19 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
     }
 
     @Override
+    public LivingRoomInfoVO queryLivingRoomByAnchorId(Long anchorId) {
+        LambdaQueryWrapper<LivingRoomPO> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(LivingRoomPO::getAnchorId, anchorId);
+        wrapper.eq(LivingRoomPO::getStatus, CommonStatusEnum.VALID.getCode());
+        LivingRoomPO livingRoom = livingRoomMapper.selectOne(wrapper);
+        if (ObjectUtils.isEmpty(livingRoom)
+                || livingRoom.getId() == null) {
+            return null;
+        }
+        return ConvertBeanUtils.convert(livingRoom, LivingRoomInfoVO.class);
+    }
+
+    @Override
     @Options(useGeneratedKeys = true, keyProperty = "id")
     public Integer startLivingRoom(LivingRoomReqDTO livingRoomReqDTO) {
         LivingRoomPO livingRoomPO = ConvertBeanUtils.convert(livingRoomReqDTO, LivingRoomPO.class);

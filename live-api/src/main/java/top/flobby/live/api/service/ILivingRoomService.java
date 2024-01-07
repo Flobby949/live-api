@@ -1,7 +1,9 @@
 package top.flobby.live.api.service;
 
 import top.flobby.live.api.dto.LivingRoomPkReqDTO;
+import top.flobby.live.api.dto.StartRedPacketDTO;
 import top.flobby.live.common.resp.PageRespVO;
+import top.flobby.live.gift.vo.RedPacketReceiveVO;
 import top.flobby.live.living.dto.LivingRoomPageDTO;
 import top.flobby.live.living.vo.LivingPkRespVO;
 import top.flobby.live.living.vo.LivingRoomInfoVO;
@@ -64,4 +66,31 @@ public interface ILivingRoomService {
      * @return boolean
      */
     boolean offlinePk(LivingRoomPkReqDTO livingRoomPkReqDTO);
+
+    /**
+     * 准备红包
+     *
+     * @param userId 用户 ID
+     * @param roomId 房间 ID
+     * @return boolean
+     */
+    boolean prepareRedPacket(Long userId, Integer roomId);
+
+    /**
+     * 开始红包雨
+     *
+     * @param startRedPacketDTO 启动红包 DTO
+     * @return boolean
+     */
+    boolean startRedPacket(StartRedPacketDTO startRedPacketDTO);
+
+
+    /**
+     * 获取红包
+     *
+     * @param userId 用户 ID
+     * @param code   code
+     * @return {@link RedPacketReceiveVO}
+     */
+    RedPacketReceiveVO getRedPacket(Long userId, String code);
 }

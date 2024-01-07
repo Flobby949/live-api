@@ -22,9 +22,12 @@ public class GiftProviderCacheKeyBuilder extends RedisKeyBuilder {
     public static final String LIVING_PK_IS_OVER = "living_pk_is_over";
     public static final String RED_PACKET_LIST_KEY = "red_packet:list_cache";
     public static final String RED_PACKET_LIST_INIT_LOCK = "red_packet:list_init_lock";
+    public static final String RED_PACKET_LIST_PREPARE_DONE = "red_packet:list_prepare_done";
     public static final String RED_PACKET_TOTAL_GET_CACHE = "red_packet:total_get_cache";
     public static final String RED_PACKET_TOTAL_GET_PRICE = "red_packet:total_get_price";
     public static final String RED_PACKET_MAX_GET_PRICE_CACHE = "red_packet:max_get_price_cache";
+    public static final String RED_PACKET_USER_TOTAL_PRICE = "red_packet:user_total_price";
+    public static final String RED_PACKET_NOTIFY = "red_packet:notify";
 
     public String buildGiftListKey() {
         return super.getPrefix() + GIFT_LIST_KEY;
@@ -64,6 +67,10 @@ public class GiftProviderCacheKeyBuilder extends RedisKeyBuilder {
         return super.getPrefix() + RED_PACKET_LIST_INIT_LOCK + super.getSplitItem() + code;
     }
 
+    public String buildRedPacketListPrepareDone(String code) {
+        return super.getPrefix() + RED_PACKET_LIST_PREPARE_DONE + super.getSplitItem() + code;
+    }
+
     public String buildRedPacketTotalGetCache(String code) {
         return super.getPrefix() + RED_PACKET_TOTAL_GET_CACHE + super.getSplitItem() + code;
     }
@@ -74,5 +81,13 @@ public class GiftProviderCacheKeyBuilder extends RedisKeyBuilder {
 
     public String buildRedPacketMaxGetPriceCache(String code) {
         return super.getPrefix() + RED_PACKET_MAX_GET_PRICE_CACHE + super.getSplitItem() + code;
+    }
+
+    public String buildRedPacketUserTotalPrice(String code, Long userId) {
+        return super.getPrefix() + RED_PACKET_USER_TOTAL_PRICE + super.getSplitItem() + code + super.getSplitItem() + userId;
+    }
+
+    public String buildRedPacketNotify(String code) {
+        return super.getPrefix() + RED_PACKET_NOTIFY + super.getSplitItem() + code;
     }
 }

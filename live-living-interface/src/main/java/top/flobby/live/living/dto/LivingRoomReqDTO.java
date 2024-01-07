@@ -1,6 +1,9 @@
 package top.flobby.live.living.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author : Flobby
@@ -10,6 +13,9 @@ import lombok.Data;
  **/
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class LivingRoomReqDTO {
 
     private Integer id;

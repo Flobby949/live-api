@@ -1,7 +1,11 @@
 
+\
+java:S3516¨"9Refactor this method to not always return the same value.(éÚşªûÿÿÿÿ8ò¡Î1
 P
-java:S1135ƒ"2Complete the task associated to this TODO comment.(«Ë¤Ï8…¢Á•Î1
+java:S1135¡"2Complete the task associated to this TODO comment.(«Ë¤Ï8œò¡Î1
 U
-java:S1135„"2Complete the task associated to this TODO comment.(¼§Ôñùÿÿÿÿ8ñÂÃ•Î1
+java:S1135¢"2Complete the task associated to this TODO comment.(¼§Ôñùÿÿÿÿ8œò¡Î1
 P
-java:S1135…"2Complete the task associated to this TODO comment.(–§ğ8ş“¾•Î1
+java:S1135£"2Complete the task associated to this TODO comment.(–§ğ8œò¡Î1
+p
+java:S6204Ë"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(õıƒÏ8¤ò¡Î1

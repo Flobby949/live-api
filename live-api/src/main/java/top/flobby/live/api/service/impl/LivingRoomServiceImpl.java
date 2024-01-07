@@ -5,10 +5,15 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import top.flobby.live.api.dto.LivingRoomPkReqDTO;
+import top.flobby.live.api.dto.StartRedPacketDTO;
 import top.flobby.live.api.service.ILivingRoomService;
 import top.flobby.live.common.exception.BusinessException;
 import top.flobby.live.common.exception.BusinessExceptionEnum;
 import top.flobby.live.common.resp.PageRespVO;
+import top.flobby.live.gift.dto.GetRedPacketDTO;
+import top.flobby.live.gift.dto.RedPacketConfigDTO;
+import top.flobby.live.gift.interfaces.IRedPacketRpc;
+import top.flobby.live.gift.vo.RedPacketReceiveVO;
 import top.flobby.live.im.common.AppIdEnum;
 import top.flobby.live.living.dto.LivingRoomPageDTO;
 import top.flobby.live.living.dto.LivingRoomReqDTO;
@@ -35,6 +40,8 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
     private ILivingRoomRpc livingRoomRpc;
     @DubboReference
     private IUserRpc userRpc;
+    @DubboReference
+    private IRedPacketRpc redPacketRpc;
 
     @Override
     public PageRespVO<LivingRoomInfoVO> list(LivingRoomPageDTO livingRoomPageDTO) {
@@ -64,8 +71,9 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
     @Override
     public LivingRoomInitVO anchorConfig(Long userId, Integer roomId) {
         LivingRoomInfoVO info = livingRoomRpc.queryLivingRoomByRoomId(roomId);
+        Long anchorId = info.getAnchorId();
         LivingRoomInitVO respVo = new LivingRoomInitVO();
-        if (ObjectUtils.isEmpty(info) || info.getAnchorId() == null) {
+        if (ObjectUtils.isEmpty(info) || anchorId == null) {
             // 直播间不存在
             throw new BusinessException(BusinessExceptionEnum.LIVING_ROOM_IS_NOT_EXIST);
         }
@@ -76,12 +84,20 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
             respVo.setAvatar(userDTO.getAvatar());
             respVo.setNickName(userDTO.getNickName());
         }
-        UserDTO anchor = userRpc.getByUserId(info.getAnchorId());
-        respVo.setAnchorId(info.getAnchorId());
+        UserDTO anchor = userRpc.getByUserId(anchorId);
+        respVo.setAnchorId(anchorId);
         respVo.setAnchorImg(anchor.getAvatar());
         respVo.setAnchorName(anchor.getNickName());
-        respVo.setAnchor(info.getAnchorId().equals(userId));
+        boolean isAnchor = anchorId.equals(userId);
+        respVo.setAnchor(isAnchor);
         respVo.setRoomId(info.getId());
+        if (isAnchor) {
+            RedPacketConfigDTO redPacketConfig = redPacketRpc.queryRedPacketConfigByAnchorId(anchorId);
+            if (redPacketConfig != null) {
+                // 如果主播有红包雨配置，返回红包雨配置代码
+                respVo.setRedPacketConfigCode(redPacketConfig.getConfigCode());
+            }
+        }
         return respVo;
     }
 
@@ -100,5 +116,42 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
         livingRoomReqDTO.setId(livingRoomPkReqDTO.getRoomId());
         livingRoomReqDTO.setAnchorId(RequestContext.getUserId());
         return livingRoomRpc.offlinePk(livingRoomReqDTO);
+    }
+
+    @Override
+    public boolean prepareRedPacket(Long userId, Integer roomId) {
+        LivingRoomInfoVO livingRoom = livingRoomRpc.queryLivingRoomByRoomId(roomId);
+        if (livingRoom == null) {
+            throw new BusinessException(BusinessExceptionEnum.LIVING_ROOM_IS_NOT_EXIST);
+        }
+        if (!livingRoom.getAnchorId().equals(userId)) {
+            throw new BusinessException(BusinessExceptionEnum.USER_IS_NOT_ANCHOR);
+        }
+        return redPacketRpc.prepareRedPacket(userId);
+    }
+
+    @Override
+    public boolean startRedPacket(StartRedPacketDTO startRedPacketDTO) {
+        GetRedPacketDTO getRedPacketDTO = new GetRedPacketDTO();
+        getRedPacketDTO.setUserId(startRedPacketDTO.getUserId());
+        getRedPacketDTO.setConfigCode(startRedPacketDTO.getRedPacketConfigCode());
+        LivingRoomInfoVO livingRoomInfo = livingRoomRpc.queryLivingRoomByAnchorId(startRedPacketDTO.getAnchorId());
+        if (ObjectUtils.isEmpty(livingRoomInfo) || livingRoomInfo.getId() == null) {
+            throw new BusinessException(BusinessExceptionEnum.LIVING_ROOM_IS_NOT_EXIST);
+        }
+        getRedPacketDTO.setRoomId(livingRoomInfo.getId());
+        return redPacketRpc.startRedPacket(getRedPacketDTO);
+    }
+
+    @Override
+    public RedPacketReceiveVO getRedPacket(Long userId, String code) {
+        GetRedPacketDTO getRedPacketDTO = new GetRedPacketDTO();
+        getRedPacketDTO.setUserId(userId);
+        getRedPacketDTO.setConfigCode(code);
+        RedPacketReceiveVO resultVO = redPacketRpc.receiveRedPacket(getRedPacketDTO);
+        if (resultVO == null) {
+            throw new BusinessException(BusinessExceptionEnum.RED_PACKET_IS_NOT_ENOUGH);
+        }
+        return resultVO;
     }
 }

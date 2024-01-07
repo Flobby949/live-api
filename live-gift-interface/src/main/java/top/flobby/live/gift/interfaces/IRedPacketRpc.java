@@ -1,8 +1,9 @@
 package top.flobby.live.gift.interfaces;
 
+import top.flobby.live.gift.dto.GetRedPacketDTO;
 import top.flobby.live.gift.dto.RedPacketConfigDTO;
-import top.flobby.live.gift.dto.RedPacketReceiveDTO;
 import top.flobby.live.gift.dto.RedPacketReqDTO;
+import top.flobby.live.gift.vo.RedPacketReceiveVO;
 
 /**
  * @author : Flobby
@@ -48,8 +49,16 @@ public interface IRedPacketRpc {
     /**
      * 红包领取
      *
-     * @param configCode 配置代码
-     * @return {@link RedPacketReceiveDTO}
+     * @param getRedPacketDTO DTO
+     * @return {@link RedPacketReceiveVO}
      */
-    RedPacketReceiveDTO receiveRedPacket(String configCode);
+    RedPacketReceiveVO receiveRedPacket(GetRedPacketDTO getRedPacketDTO);
+
+    /**
+     * 启动红包
+     *
+     * @param getRedPacketDTO DTO
+     * @return boolean
+     */
+    boolean startRedPacket(GetRedPacketDTO getRedPacketDTO);
 }

@@ -28,6 +28,14 @@ public interface ILivingRoomService {
     LivingRoomInfoVO queryLivingRoomByRoomId(Integer roomId);
 
     /**
+     * 按主播 ID 查询
+     *
+     * @param anchorId 锚点 ID
+     * @return {@link LivingRoomInfoVO}
+     */
+    LivingRoomInfoVO queryLivingRoomByAnchorId(Long anchorId);
+
+    /**
      * 开启直播间
      *
      * @param livingRoomReqDTO DTO

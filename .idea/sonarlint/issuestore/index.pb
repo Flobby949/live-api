@@ -678,5 +678,11 @@ Rlive-gift-interface/src/main/java/top/flobby/live/gift/dto/RedPacketConfigDTO.j
 Olive-gift-interface/src/main/java/top/flobby/live/gift/dto/RedPacketReqDTO.java,e\1\e1df59fd5b21217ff7ffaacddadec837e0f8d69e
 
 Olive-common-interface/src/main/java/top/flobby/live/common/utils/ListUtils.java,4\2\42b30531eedfc61ce4961f7918557674f8551ade
-É
-Slive-gift-interface/src/main/java/top/flobby/live/gift/dto/RedPacketReceiveDTO.java,a\f\af1bb2078319f3b92ad84d6c0754bb95980cede1
+
+Olive-gift-interface/src/main/java/top/flobby/live/gift/dto/GetRedPacketDTO.java,c\3\c3e184dc0a9bed55863e788764fcb875a58ac019
+Å
+Qlive-gift-interface/src/main/java/top/flobby/live/gift/vo/RedPacketReceiveVO.java,b\0\b072f87024c21b73a45d6ae345ecbc1b7f275eae
+u
+Elive-api/src/main/java/top/flobby/live/api/dto/StartRedPacketDTO.java,0\f\0f6e957fbd84611393153a98cde27de5d8c9602d
+u
+Elive-api/src/main/java/top/flobby/live/api/dto/startRedPacketDTO.java,7\0\70b319f1a2a46df8519e89d409988244d86cc752

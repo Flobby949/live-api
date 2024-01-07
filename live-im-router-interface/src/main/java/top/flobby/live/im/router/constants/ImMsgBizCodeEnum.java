@@ -17,7 +17,7 @@ public enum ImMsgBizCodeEnum {
     LIVING_ROOM_IM_GIFT_FAIL_MSG(5557, "直播间送礼失败消息"),
     PK_LIVING_ROOM_IM_GIFT_SUCCESS_MSG(5558, "PK直播间送礼成功"),
     LIVING_ROOM_PK_ONLINE(5559, "直播间在线PK"),
-
+    START_RED_PACKET(5560, "开启红包雨活动"),
     ;
 
     final Integer code;

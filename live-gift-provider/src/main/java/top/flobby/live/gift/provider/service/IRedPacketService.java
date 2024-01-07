@@ -1,7 +1,9 @@
 package top.flobby.live.gift.provider.service;
 
-import top.flobby.live.gift.dto.RedPacketReceiveDTO;
+import top.flobby.live.gift.dto.GetRedPacketDTO;
+import top.flobby.live.gift.dto.RedPacketConfigDTO;
 import top.flobby.live.gift.provider.dao.po.RedPacketConfigPO;
+import top.flobby.live.gift.vo.RedPacketReceiveVO;
 
 /**
  * @author : Flobby
@@ -19,6 +21,14 @@ public interface IRedPacketService {
      * @return {@link RedPacketConfigPO}
      */
     RedPacketConfigPO queryRedPacketConfigByAnchorId(Long anchorId);
+
+    /**
+     * 通过配置代码查询
+     *
+     * @param configCode 配置代码
+     * @return {@link RedPacketConfigDTO}
+     */
+    RedPacketConfigDTO queryByConfigCode(String configCode);
 
     /**
      * 添加红包配置
@@ -47,8 +57,16 @@ public interface IRedPacketService {
     /**
      * 红包领取
      *
-     * @param configCode 配置代码
-     * @return {@link RedPacketReceiveDTO}
+     * @param getRedPacketDTO DTO
+     * @return {@link RedPacketReceiveVO}
      */
-    RedPacketReceiveDTO receiveRedPacket(String configCode);
+    RedPacketReceiveVO receiveRedPacket(GetRedPacketDTO getRedPacketDTO);
+
+    /**
+     * 启动红包
+     *
+     * @param getRedPacketDTO DTO
+     * @return boolean
+     */
+    boolean startRedPacket(GetRedPacketDTO getRedPacketDTO);
 }

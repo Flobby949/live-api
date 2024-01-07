@@ -3,12 +3,13 @@ package top.flobby.live.gift.provider.rpc;
 import jakarta.annotation.Resource;
 import org.apache.dubbo.config.annotation.DubboService;
 import top.flobby.live.common.utils.ConvertBeanUtils;
+import top.flobby.live.gift.dto.GetRedPacketDTO;
 import top.flobby.live.gift.dto.RedPacketConfigDTO;
-import top.flobby.live.gift.dto.RedPacketReceiveDTO;
 import top.flobby.live.gift.dto.RedPacketReqDTO;
 import top.flobby.live.gift.interfaces.IRedPacketRpc;
 import top.flobby.live.gift.provider.dao.po.RedPacketConfigPO;
 import top.flobby.live.gift.provider.service.IRedPacketService;
+import top.flobby.live.gift.vo.RedPacketReceiveVO;
 
 /**
  * @author : Flobby
@@ -47,7 +48,12 @@ public class RedPacketRpcImpl implements IRedPacketRpc {
     }
 
     @Override
-    public RedPacketReceiveDTO receiveRedPacket(String configCode) {
-        return redPacketService.receiveRedPacket(configCode);
+    public RedPacketReceiveVO receiveRedPacket(GetRedPacketDTO getRedPacketDTO) {
+        return redPacketService.receiveRedPacket(getRedPacketDTO);
+    }
+
+    @Override
+    public boolean startRedPacket(GetRedPacketDTO getRedPacketDTO) {
+        return redPacketService.startRedPacket(getRedPacketDTO);
     }
 }

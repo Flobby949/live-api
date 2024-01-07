@@ -2,12 +2,15 @@ package top.flobby.live.api.controller;
 
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import top.flobby.live.api.dto.LivingRoomPkReqDTO;
+import top.flobby.live.api.dto.StartRedPacketDTO;
 import top.flobby.live.api.service.ILivingRoomService;
 import top.flobby.live.common.resp.CommonResp;
 import top.flobby.live.common.resp.PageRespVO;
+import top.flobby.live.gift.vo.RedPacketReceiveVO;
 import top.flobby.live.living.dto.LivingRoomPageDTO;
 import top.flobby.live.living.vo.LivingPkRespVO;
 import top.flobby.live.living.vo.LivingRoomInfoVO;
@@ -104,5 +107,30 @@ public class LivingController {
             return CommonResp.error("断线失败");
         }
         return CommonResp.success();
+    }
+
+    @PostMapping("prepare-redPacket")
+    @RequestLimit(limit = 1, second = 10)
+    public CommonResp<Object> prepareRedPacket(@RequestParam Integer roomId) {
+        if (ObjectUtils.isEmpty(roomId) || roomId <= 0) {
+            return CommonResp.error("房间号错误");
+        }
+        return CommonResp.success(livingRoomService.prepareRedPacket(RequestContext.getUserId(), roomId));
+    }
+
+    @PostMapping("start-redPacket")
+    @RequestLimit(limit = 1, second = 10)
+    public CommonResp<Object> startRedPacket(@RequestBody StartRedPacketDTO startRedPacketDTO) {
+        startRedPacketDTO.setUserId(RequestContext.getUserId());
+        return CommonResp.success(livingRoomService.startRedPacket(startRedPacketDTO));
+    }
+
+    @PostMapping("getRedPacket")
+    @RequestLimit(limit = 1, second = 3)
+    public CommonResp<RedPacketReceiveVO> getRedPacket(@RequestParam String code) {
+        if (StringUtils.isBlank(code)) {
+            return CommonResp.error("红包雨代码错误");
+        }
+        return CommonResp.success(livingRoomService.getRedPacket(RequestContext.getUserId(), code));
     }
 }

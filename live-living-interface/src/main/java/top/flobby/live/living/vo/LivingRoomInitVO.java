@@ -34,15 +34,15 @@ public class LivingRoomInitVO {
      */
     private Integer roomId;
     /**
+     * 红包雨代码
+     */
+    private String redPacketConfigCode;
+    /**
      * 进入直播间的用户的信息
      */
     private Long userId;
     private String avatar;
     private String nickName;
-    /**
-     * 观众头像
-     */
-    private String watcherAvatar;
     /**
      * 默认壁纸
      */

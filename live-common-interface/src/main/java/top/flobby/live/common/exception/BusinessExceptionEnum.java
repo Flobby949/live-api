@@ -22,7 +22,9 @@ public enum BusinessExceptionEnum {
     TOKEN_ERROR("token异常"),
     LIVING_ROOM_IS_NOT_EXIST("直播间不存在"),
     REQUEST_LIMIT("请求过于频繁，请稍后再试"),
-    SEND_GIFT_FAIL("送礼失败");
+    SEND_GIFT_FAIL("送礼失败"),
+    USER_IS_NOT_ANCHOR("用户不是主播"),
+    RED_PACKET_IS_NOT_ENOUGH("红包已抢完");
 
     private final String desc;
 

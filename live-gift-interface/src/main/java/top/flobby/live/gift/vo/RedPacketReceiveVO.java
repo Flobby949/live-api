@@ -1,4 +1,4 @@
-package top.flobby.live.gift.dto;
+package top.flobby.live.gift.vo;
 
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +14,7 @@ import java.io.Serial;
 
 @Data
 @Builder
-public class RedPacketReceiveDTO implements java.io.Serializable {
+public class RedPacketReceiveVO implements java.io.Serializable {
 
     @Serial
     private static final long serialVersionUID = -8386349662514640538L;
