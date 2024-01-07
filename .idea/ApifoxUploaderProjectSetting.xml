@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ApifoxUploaderProjectSetting">
+    <option name="apifoxAccessToken" value="APS-ZytX9mtNhu0kZPhOQl7RujoMgIYFbvar" />
+    <option name="apifoxProjectIds">
+      <array>
+        <option value="# ModuleName:ProjectID" />
+        <option value="live-api:3829852" />
+        <option value="live-bank-api:3829852" />
+      </array>
+    </option>
+    <option name="yapiTokens" value="" />
+  </component>
+</project>

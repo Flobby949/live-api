@@ -1,6 +1,8 @@
 package top.flobby.live.api.service.impl;
 
 import com.alibaba.fastjson2.JSON;
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -23,6 +25,7 @@ import top.flobby.live.web.starter.context.RequestContext;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author : Flobby
@@ -40,6 +43,11 @@ public class GiftServiceImpl implements IGiftService {
     @Resource
     private MQProducer mqProducer;
 
+    private Cache<Integer, GiftConfigDTO> giftConfigDTOCache = Caffeine.newBuilder()
+            .maximumSize(100)
+            .expireAfterWrite(90, TimeUnit.SECONDS)
+            .build();
+
     @Override
     public List<GiftConfigVO> listGift() {
         List<GiftConfigDTO> giftConfigDTOS = giftRpc.queryGiftList();
@@ -49,7 +57,8 @@ public class GiftServiceImpl implements IGiftService {
     @Override
     public boolean sendGift(GiftDTO giftDTO) {
         int giftId = giftDTO.getGiftId();
-        GiftConfigDTO giftDtoById = giftRpc.getGiftById(giftId);
+        // 从缓存中获取礼物信息,如果缓存中没有则RPC获取并放入缓存
+        GiftConfigDTO giftDtoById = giftConfigDTOCache.get(giftId, k -> giftRpc.getGiftById(giftId));
         if (ObjectUtils.isEmpty(giftDtoById)) {
             throw new BusinessException(BusinessExceptionEnum.SEND_GIFT_FAIL);
         }
