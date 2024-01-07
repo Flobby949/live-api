@@ -2,11 +2,13 @@ package top.flobby.live.gift.provider.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import top.flobby.live.common.enums.CommonStatusEnum;
 import top.flobby.live.common.utils.ListUtils;
 import top.flobby.live.framework.redis.starter.key.GiftProviderCacheKeyBuilder;
+import top.flobby.live.gift.dto.RedPacketReceiveDTO;
 import top.flobby.live.gift.provider.dao.mapper.RedPacketConfigMapper;
 import top.flobby.live.gift.provider.dao.po.RedPacketConfigPO;
 import top.flobby.live.gift.provider.service.IRedPacketService;
@@ -24,6 +26,7 @@ import java.util.concurrent.TimeUnit;
  * @create : 2024-01-07 13:20
  **/
 
+@Slf4j
 @Service
 public class RedPacketServiceImpl implements IRedPacketService {
     @Resource
@@ -104,5 +107,30 @@ public class RedPacketServiceImpl implements IRedPacketService {
             redPacketBalanceList.add(currentPrice);
         }
         return redPacketBalanceList;
+    }
+
+    @Override
+    public RedPacketReceiveDTO receiveRedPacket(String configCode) {
+        String cacheKey = cacheKeyBuilder.buildRedPacketListKey(configCode);
+        Object redPacketBalanceObj = redisTemplate.opsForList().rightPop(cacheKey);
+        if (redPacketBalanceObj == null) {
+            // 红包已经领完
+            return null;
+        }
+        Integer redPacketBalance = (Integer) redPacketBalanceObj;
+        log.info("[RedPacketServiceImpl] 红包领取成功,configCode:{},price:{}", configCode, redPacketBalance);
+        // 记录红包领取信息
+        // 领取数量
+        String totalGetCacheKey = cacheKeyBuilder.buildRedPacketTotalGetCache(configCode);
+        redisTemplate.opsForValue().increment(totalGetCacheKey);
+        redisTemplate.expire(totalGetCacheKey, 1, TimeUnit.DAYS);
+        // 领取金额
+        String totalGetPriceCacheKey = cacheKeyBuilder.buildRedPacketTotalGetPrice(configCode);
+        redisTemplate.opsForValue().increment(totalGetPriceCacheKey, redPacketBalance);
+        redisTemplate.expire(totalGetPriceCacheKey, 1, TimeUnit.DAYS);
+        // TODO 红包领取最大值，lua脚本实现，避免并发问题
+        // TODO 等主播下播时，再统一保存到数据库
+        // TODO 保存金额到用户账户
+        return RedPacketReceiveDTO.builder().price(redPacketBalance).build();
     }
 }

@@ -1,6 +1,7 @@
 package top.flobby.live.gift.interfaces;
 
 import top.flobby.live.gift.dto.RedPacketConfigDTO;
+import top.flobby.live.gift.dto.RedPacketReceiveDTO;
 import top.flobby.live.gift.dto.RedPacketReqDTO;
 
 /**
@@ -35,4 +36,20 @@ public interface IRedPacketRpc {
      * @return boolean
      */
     boolean updateRedPacketByAnchorId(RedPacketReqDTO reqDTO);
+
+    /**
+     * 红包生成
+     *
+     * @param anchorId 主播 ID
+     * @return boolean
+     */
+    boolean prepareRedPacket(Long anchorId);
+
+    /**
+     * 红包领取
+     *
+     * @param configCode 配置代码
+     * @return {@link RedPacketReceiveDTO}
+     */
+    RedPacketReceiveDTO receiveRedPacket(String configCode);
 }

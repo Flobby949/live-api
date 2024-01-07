@@ -1,5 +1,6 @@
 package top.flobby.live.gift.provider.service;
 
+import top.flobby.live.gift.dto.RedPacketReceiveDTO;
 import top.flobby.live.gift.provider.dao.po.RedPacketConfigPO;
 
 /**
@@ -45,5 +46,9 @@ public interface IRedPacketService {
 
     /**
      * 红包领取
+     *
+     * @param configCode 配置代码
+     * @return {@link RedPacketReceiveDTO}
      */
+    RedPacketReceiveDTO receiveRedPacket(String configCode);
 }
