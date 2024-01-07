@@ -41,7 +41,7 @@ public class RedPacketConfigPO {
     private Integer totalGet;
 
     /**
-     * 一共领取金额。
+     * 红包活动结束后统计一共领取金额。
      */
     private Integer totalGetPrice;
 

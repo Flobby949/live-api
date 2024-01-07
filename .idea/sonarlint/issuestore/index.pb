@@ -660,8 +660,6 @@ Flive-api/src/main/java/top/flobby/live/api/dto/LivingRoomPkReqDTO.java,8\2\824
 Qlive-living-interface/src/main/java/top/flobby/live/living/vo/LivingPkRespVO.java,6\1\6151bf4ca75dadfd31508b6a5481fa9c232757bd
 Ÿ
 olive-framework/live-framework-web-starter/src/main/java/top/flobby/live/web/starter/context/RequestContext.java,8\6\86d1f58455b05f1a5b5a71c24eb4b1088db0f718
-Š
-Zlive-gift-provider/src/main/java/top/flobby/live/gift/provider/dao/po/RedPacketConfig.java,e\1\e1ab58ccfb0d02224b07b1d2b5ea5ada7a92a7ea
 Œ
 \live-gift-provider/src/main/java/top/flobby/live/gift/provider/dao/po/RedPacketConfigPO.java,9\b\9baf512f2ade0fc9832094eae5fbfb7f9122bfdc
 ”
@@ -678,3 +676,5 @@ Tlive-gift-interface/src/main/java/top/flobby/live/gift/interfaces/IRedPacketRpc
 Rlive-gift-interface/src/main/java/top/flobby/live/gift/dto/RedPacketConfigDTO.java,f\c\fc72342fd6f2f7c0d7dc8212c55cd65c2be7ac9b
 
 Olive-gift-interface/src/main/java/top/flobby/live/gift/dto/RedPacketReqDTO.java,e\1\e1df59fd5b21217ff7ffaacddadec837e0f8d69e
+
+Olive-common-interface/src/main/java/top/flobby/live/common/utils/ListUtils.java,4\2\42b30531eedfc61ce4961f7918557674f8551ade

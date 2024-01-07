@@ -37,7 +37,11 @@ public interface IRedPacketService {
 
     /**
      * 红包生成
+     *
+     * @param anchorId 主播 ID
+     * @return boolean
      */
+    boolean prepareRedPacket(Long anchorId);
 
     /**
      * 红包领取
