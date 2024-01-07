@@ -1,0 +1,25 @@
+
+G
+java:S1068",Remove this unused "anchorId" private field.(àŞ’Òÿÿÿÿÿ
+H
+java:S1068"-Remove this unused "startTime" private field.(öÆÖ¤ûÿÿÿÿ
+B
+java:S1068!",Remove this unused "totalGet" private field.(Ÿà©û
+L
+java:S1068&"1Remove this unused "totalGetPrice" private field.(©èËıùÿÿÿÿ
+E
+java:S1068+"/Remove this unused "maxGetPrice" private field.(Ò„‹Æ
+@
+java:S10680"*Remove this unused "status" private field.(®°†ò
+D
+java:S10685".Remove this unused "totalPrice" private field.(ëÌ’Ã
+I
+java:S1068:".Remove this unused "totalCount" private field.(ıÂÖùÿÿÿÿ
+D
+java:S1068?".Remove this unused "configCode" private field.(•„‰”
+@
+java:S1068D"*Remove this unused "remark" private field.(µ»Ûã
+D
+java:S1068I".Remove this unused "createTime" private field.(òáÄİ
+D
+java:S1068N".Remove this unused "updateTime" private field.(œ˜Ë†
