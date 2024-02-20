@@ -115,7 +115,11 @@ public class LivingController {
         if (ObjectUtils.isEmpty(roomId) || roomId <= 0) {
             return CommonResp.error("房间号错误");
         }
-        return CommonResp.success(livingRoomService.prepareRedPacket(RequestContext.getUserId(), roomId));
+        boolean flag = livingRoomService.prepareRedPacket(RequestContext.getUserId(), roomId);
+        if (!flag) {
+            return CommonResp.error("红包雨准备失败");
+        }
+        return CommonResp.success();
     }
 
     @PostMapping("start-redPacket")
@@ -126,11 +130,15 @@ public class LivingController {
     }
 
     @PostMapping("getRedPacket")
-    @RequestLimit(limit = 1, second = 3)
+    @RequestLimit(limit = 1, second = 1)
     public CommonResp<RedPacketReceiveVO> getRedPacket(@RequestParam String code) {
         if (StringUtils.isBlank(code)) {
             return CommonResp.error("红包雨代码错误");
         }
-        return CommonResp.success(livingRoomService.getRedPacket(RequestContext.getUserId(), code));
+        RedPacketReceiveVO result = livingRoomService.getRedPacket(RequestContext.getUserId(), code);
+        if (Boolean.TRUE.equals(result.getStatus())) {
+            return CommonResp.success("恭喜你，抢到了" + result.getPrice() + "旗鱼币", result);
+        }
+        return CommonResp.error("红包被抢走了，下次手速要快哦");
     }
 }

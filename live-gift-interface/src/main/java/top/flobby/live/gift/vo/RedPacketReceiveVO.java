@@ -1,7 +1,9 @@
 package top.flobby.live.gift.vo;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 
@@ -14,6 +16,8 @@ import java.io.Serial;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class RedPacketReceiveVO implements java.io.Serializable {
 
     @Serial
@@ -23,4 +27,9 @@ public class RedPacketReceiveVO implements java.io.Serializable {
      * 金额
      */
     private Integer price;
+
+    /**
+     * 状态
+     */
+    private Boolean status;
 }

@@ -1,11 +1,12 @@
 
+h	java:S112®"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8ßï·Ü1
 \
-java:S3516¨"9Refactor this method to not always return the same value.(éÚşªûÿÿÿÿ8ò¡Î1
-P
-java:S1135¡"2Complete the task associated to this TODO comment.(«Ë¤Ï8œò¡Î1
-U
-java:S1135¢"2Complete the task associated to this TODO comment.(¼§Ôñùÿÿÿÿ8œò¡Î1
-P
-java:S1135£"2Complete the task associated to this TODO comment.(–§ğ8œò¡Î1
+java:S3516´"9Refactor this method to not always return the same value.(éÚşªûÿÿÿÿ8•ğ·Ü1
+|
+java:S2142­"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(”ı¾8«ğ·Ü1
 p
-java:S6204Ë"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(õıƒÏ8¤ò¡Î1
+java:S6204Ú"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(õıƒÏ8´ğ·Ü1
+P
+java:S1135ò"2Complete the task associated to this TODO comment.(«Ë¤Ï8”œÍãÏ1
+U
+java:S1135ó"2Complete the task associated to this TODO comment.(¼§Ôñùÿÿÿÿ8·ğ·Ü1

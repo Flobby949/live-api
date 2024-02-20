@@ -686,3 +686,9 @@ u
 Elive-api/src/main/java/top/flobby/live/api/dto/StartRedPacketDTO.java,0\f\0f6e957fbd84611393153a98cde27de5d8c9602d
 u
 Elive-api/src/main/java/top/flobby/live/api/dto/startRedPacketDTO.java,7\0\70b319f1a2a46df8519e89d409988244d86cc752
+ˆ
+Xlive-gift-interface/src/main/java/top/flobby/live/gift/constant/RedPacketStatusEnum.java,f\2\f282037d1f25323db0227b46fbdd89e5aebc3340
+•
+elive-gift-provider/src/main/java/top/flobby/live/gift/provider/consumer/ReceiveRedPacketConsumer.java,b\9\b9db28e264e2ba4d6e3685cfef56adbda8c7de9a
+Ž
+^live-gift-provider/src/main/java/top/flobby/live/gift/provider/service/bo/SendRedPacketBO.java,4\4\44d44e02352339dcc5d87914296744be17c24eca

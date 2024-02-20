@@ -67,6 +67,7 @@ public class ImRouterServiceImpl implements ImRouterService {
         Map<String, List<Long>> userIdMap = new HashMap<>();
         // 按ip分组
         ipList.forEach(address -> {
+            // TODO address空值校验
             String[] addressInfoArray = address.split("%");
             String currentAddress = addressInfoArray[0];
             List<Long> currentUserIdMapValue = userIdMap.getOrDefault(currentAddress, new ArrayList<>());

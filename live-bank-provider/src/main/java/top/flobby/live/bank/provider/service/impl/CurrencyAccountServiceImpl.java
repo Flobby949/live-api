@@ -1,5 +1,6 @@
 package top.flobby.live.bank.provider.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -62,12 +63,23 @@ public class CurrencyAccountServiceImpl implements ICurrencyAccountService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void increment(Long userId, int num) {
         String cacheKey = cacheKeyBuilder.buildUserBalanceKey(userId);
         if (Boolean.FALSE.equals(redisTemplate.hasKey(cacheKey))) {
             return;
         }
-        redisTemplate.opsForValue().increment(cacheKey, num);
+        Object cacheValue = redisTemplate.opsForValue().get(cacheKey);
+        if (ObjectUtils.isEmpty(cacheValue)) {
+            return;
+        }
+        Integer cacheResult = (Integer) cacheValue;
+        if (cacheResult == -1) {
+            // 原缓存为空值缓存，额外加一
+            redisTemplate.opsForValue().increment(cacheKey, num + 1);
+        } else {
+            redisTemplate.opsForValue().increment(cacheKey, num);
+        }
         redisTemplate.expire(cacheKey, CommonUtils.createRandomExpireTime(), TimeUnit.SECONDS);
         threadPoolExecutor.execute(() -> consumeIncrDbHandler(userId, num));
     }
@@ -156,6 +168,12 @@ public class CurrencyAccountServiceImpl implements ICurrencyAccountService {
      */
     @Transactional(rollbackFor = Exception.class)
     public void consumeIncrDbHandler(long userId, int num) {
+        // 校验用户账户是否创建
+        LambdaQueryWrapper<CurrencyAccountPO> queryWrapper = new LambdaQueryWrapper<>();
+        CurrencyAccountPO currencyAccountPO = currencyAccountMapper.selectOne(queryWrapper.eq(CurrencyAccountPO::getUserId, userId));
+        if (ObjectUtils.isEmpty(currencyAccountPO)) {
+            insertOneAccount(userId);
+        }
         // 增加余额
         currencyAccountMapper.increment(userId, num);
         // 流水记录

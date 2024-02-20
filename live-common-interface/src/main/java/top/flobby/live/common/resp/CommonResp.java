@@ -24,6 +24,14 @@ public class CommonResp<T> {
      */
     private T data;
 
+    public static <T> CommonResp<T> success(String msg, T data) {
+        CommonResp<T> res = new CommonResp<>();
+        res.setSuccess(true);
+        res.setMessage(msg);
+        res.setData(data);
+        return res;
+    }
+
     public static <T> CommonResp<T> success(T data) {
         CommonResp<T> res = new CommonResp<>();
         res.setData(data);

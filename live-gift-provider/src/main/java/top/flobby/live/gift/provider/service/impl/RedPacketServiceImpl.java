@@ -6,18 +6,23 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.rocketmq.client.producer.MQProducer;
+import org.apache.rocketmq.client.producer.SendResult;
+import org.apache.rocketmq.client.producer.SendStatus;
+import org.apache.rocketmq.common.message.Message;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import top.flobby.live.common.enums.CommonStatusEnum;
-import top.flobby.live.common.utils.ConvertBeanUtils;
+import top.flobby.live.bank.interfaces.ICurrencyAccountRpc;
+import top.flobby.live.common.constants.GiftProviderTopicNamesConstant;
 import top.flobby.live.common.utils.ListUtils;
 import top.flobby.live.framework.redis.starter.key.GiftProviderCacheKeyBuilder;
+import top.flobby.live.gift.constant.RedPacketStatusEnum;
 import top.flobby.live.gift.dto.GetRedPacketDTO;
-import top.flobby.live.gift.dto.RedPacketConfigDTO;
 import top.flobby.live.gift.provider.dao.mapper.RedPacketConfigMapper;
 import top.flobby.live.gift.provider.dao.po.RedPacketConfigPO;
 import top.flobby.live.gift.provider.service.IRedPacketService;
+import top.flobby.live.gift.provider.service.bo.SendRedPacketBO;
 import top.flobby.live.gift.vo.RedPacketReceiveVO;
 import top.flobby.live.im.common.AppIdEnum;
 import top.flobby.live.im.dto.ImMsgBody;
@@ -53,19 +58,23 @@ public class RedPacketServiceImpl implements IRedPacketService {
     private ImRouterRpc routerRpc;
     @DubboReference
     private ILivingRoomRpc livingRoomRpc;
+    @Resource
+    private MQProducer mqProducer;
+    @DubboReference
+    private ICurrencyAccountRpc currencyAccountRpc;
 
     @Override
     public RedPacketConfigPO queryRedPacketConfigByAnchorId(Long anchorId) {
         LambdaQueryWrapper<RedPacketConfigPO> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(RedPacketConfigPO::getAnchorId, anchorId).eq(RedPacketConfigPO::getStatus, CommonStatusEnum.VALID.getCode()).orderByDesc(RedPacketConfigPO::getCreateTime);
+        wrapper.eq(RedPacketConfigPO::getAnchorId, anchorId).eq(RedPacketConfigPO::getStatus, RedPacketStatusEnum.WAITING.getCode()).orderByDesc(RedPacketConfigPO::getCreateTime);
         return redPacketConfigMapper.selectOne(wrapper);
     }
 
     @Override
-    public RedPacketConfigDTO queryByConfigCode(String configCode) {
+    public RedPacketConfigPO queryPreparedByConfigCode(String configCode) {
         LambdaQueryWrapper<RedPacketConfigPO> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(RedPacketConfigPO::getConfigCode, configCode).eq(RedPacketConfigPO::getStatus, CommonStatusEnum.VALID.getCode()).orderByDesc(RedPacketConfigPO::getCreateTime);
-        return ConvertBeanUtils.convert(redPacketConfigMapper.selectOne(wrapper), RedPacketConfigDTO.class);
+        wrapper.eq(RedPacketConfigPO::getConfigCode, configCode).eq(RedPacketConfigPO::getStatus, RedPacketStatusEnum.PREPARED.getCode()).orderByDesc(RedPacketConfigPO::getCreateTime);
+        return redPacketConfigMapper.selectOne(wrapper);
     }
 
     @Override
@@ -100,9 +109,11 @@ public class RedPacketServiceImpl implements IRedPacketService {
         List<Integer> redPacketBalanceList = this.createRedPacketBalanceList(totalCount, totalPrice);
         String cacheKey = cacheKeyBuilder.buildRedPacketListKey(configCode);
         // 拆分list，分批次存入redis
-        ListUtils.spiltList(redPacketBalanceList, 100).forEach(list -> redisTemplate.opsForList().leftPushAll(cacheKey, list));
+        ListUtils.spiltList(redPacketBalanceList, 100).forEach(list ->
+                redisTemplate.opsForList().leftPushAll(cacheKey, list.toArray()));
+        redisTemplate.expire(cacheKey, 1, TimeUnit.DAYS);
         // 更新状态
-        redPacketConfig.setStatus(CommonStatusEnum.INVALID.getCode());
+        redPacketConfig.setStatus(RedPacketStatusEnum.PREPARED.getCode());
         this.updateRedPacketByAnchorId(redPacketConfig);
         // 记录初始化完成
         String initDoneKey = cacheKeyBuilder.buildRedPacketListPrepareDone(configCode);
@@ -145,23 +156,24 @@ public class RedPacketServiceImpl implements IRedPacketService {
             return null;
         }
         Integer redPacketBalance = (Integer) redPacketBalanceObj;
-        log.info("[RedPacketServiceImpl] 红包领取成功,configCode:{},price:{}", configCode, redPacketBalance);
-        // 记录红包领取信息
-        // 记录用户领取总金额
-        String userTotalPrice = cacheKeyBuilder.buildRedPacketUserTotalPrice(configCode, getRedPacketDTO.getUserId());
-        redisTemplate.opsForValue().increment(userTotalPrice, redPacketBalance);
-        // 领取数量
-        String totalGetCacheKey = cacheKeyBuilder.buildRedPacketTotalGetCache(configCode);
-        redisTemplate.opsForValue().increment(totalGetCacheKey);
-        redisTemplate.expire(totalGetCacheKey, 1, TimeUnit.DAYS);
-        // 领取金额
-        String totalGetPriceCacheKey = cacheKeyBuilder.buildRedPacketTotalGetPrice(configCode);
-        redisTemplate.opsForValue().increment(totalGetPriceCacheKey, redPacketBalance);
-        redisTemplate.expire(totalGetPriceCacheKey, 1, TimeUnit.DAYS);
-        // TODO 红包领取最大值，lua脚本实现，避免并发问题
-        // TODO 等主播下播时，再统一保存到数据库
-        // TODO 保存金额到用户账户
-        return RedPacketReceiveVO.builder().price(redPacketBalance).build();
+        log.info("[RedPacketServiceImpl] 红包领取,configCode:{},price:{}", configCode, redPacketBalance);
+        SendRedPacketBO sendRedPacketBO = SendRedPacketBO.builder()
+                .reqDTO(getRedPacketDTO)
+                .price(redPacketBalance)
+                .build();
+        Message message = new Message();
+        message.setTopic(GiftProviderTopicNamesConstant.RECEIVE_RED_PACKET);
+        message.setBody(JSON.toJSONBytes(sendRedPacketBO));
+        try {
+            SendResult result = mqProducer.send(message);
+            log.info("[RedPacketServiceImpl]  发送消息完毕 , result:{}", result);
+            if (SendStatus.SEND_OK.equals(result.getSendStatus())) {
+                return RedPacketReceiveVO.builder().price(redPacketBalance).status(true).build();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return RedPacketReceiveVO.builder().status(false).build();
     }
 
     @Override
@@ -177,7 +189,7 @@ public class RedPacketServiceImpl implements IRedPacketService {
             return false;
         }
         // 开始广播
-        RedPacketConfigDTO redPacketConfig = this.queryByConfigCode(configCode);
+        RedPacketConfigPO redPacketConfig = this.queryPreparedByConfigCode(configCode);
         JSONObject msgDataBody = new JSONObject();
         msgDataBody.put("redPacketConfig", JSON.toJSONString(redPacketConfig));
         List<Long> userIdList = livingRoomRpc.queryUserIdByRoomId(LivingRoomReqDTO.builder()
@@ -189,6 +201,9 @@ public class RedPacketServiceImpl implements IRedPacketService {
         }
         this.batchSendImMsg(userIdList, ImMsgBizCodeEnum.START_RED_PACKET.getCode(), msgDataBody);
         redisTemplate.opsForValue().set(notifyKey, 1, 1, TimeUnit.DAYS);
+        // 更新状态
+        redPacketConfig.setStatus(RedPacketStatusEnum.HAS_SENT.getCode());
+        this.updateRedPacketByAnchorId(redPacketConfig);
         return true;
     }
 
@@ -203,5 +218,28 @@ public class RedPacketServiceImpl implements IRedPacketService {
         List<ImMsgBody> imMsgBodies = userIdList.stream().map(userId -> ImMsgBody.builder().appId(AppIdEnum.LIVE_BIZ_ID.getCode()).bizCode(bizCode).userId(userId).data(msgDataBody.toJSONString()).build()).collect(Collectors.toList());
         log.info("[LivingRoomServiceImpl] 发送消息 is {}", imMsgBodies.get(0));
         routerRpc.batchSendMsg(imMsgBodies);
+    }
+
+    @Override
+    public void receiveRedPacketHandle(GetRedPacketDTO reqDTO, Integer price) {
+        String configCode = reqDTO.getConfigCode();
+        // 记录用户领取总金额
+        String userTotalPrice = cacheKeyBuilder.buildRedPacketUserTotalPrice(configCode, reqDTO.getUserId());
+        redisTemplate.opsForValue().increment(userTotalPrice, price);
+        // 领取数量
+        String totalGetCacheKey = cacheKeyBuilder.buildRedPacketTotalGetCache(configCode);
+        redisTemplate.opsForValue().increment(totalGetCacheKey);
+        redisTemplate.expire(totalGetCacheKey, 1, TimeUnit.DAYS);
+        // 领取金额
+        String totalGetPriceCacheKey = cacheKeyBuilder.buildRedPacketTotalGetPrice(configCode);
+        redisTemplate.opsForValue().increment(totalGetPriceCacheKey, price);
+        redisTemplate.expire(totalGetPriceCacheKey, 1, TimeUnit.DAYS);
+        // 持久化数据
+        redPacketConfigMapper.incrTotalGet(configCode);
+        redPacketConfigMapper.incrTotalGetPrice(configCode, price);
+        // 保存金额到用户账户
+        currencyAccountRpc.increment(reqDTO.getUserId(), price);
+        // TODO 红包领取最大值，lua脚本实现，避免并发问题
+        // TODO 等主播下播时，再统一保存到数据库
     }
 }

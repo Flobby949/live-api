@@ -12,16 +12,16 @@
 - api -> 随机端口
 - bank-api -> 随机端口
 - gateway -> 8000
-- im-core-server -> dubbo:9010 netty:8888 ws:8877
+- im-core-server -> dubbo:9010 netty:8888 ws:8887
 - user-provider -> 9090
-- account -> 139.196.144.39:9091
-- msg-provider -> 139.196.144.39:9092
+- account -> 9091
+- msg-provider -> 9092
 - gift-provider -> 9093
 - bank-provider -> 9094
-- id-generator -> 139.196.144.39:9095
-- im-provider -> 139.196.144.39:9096
-- im-router-provider -> 139.196.144.39:9097
-- living-provider -> 139.196.144.39:9098
+- id-generator -> 9095
+- im-provider -> 9096
+- im-router-provider -> 9097
+- living-provider -> 9098
 
 ### 依赖情况
 
@@ -38,7 +38,6 @@
 - bank-api -> bank-provider
 - gateway -> account
 - im-router -> im-core-server -> im-provider
-- msg-provider -> im-router , living-provider
+- msg-provider -> living-provider -> im-router
 - user-provider -> account , id-generator
 - gift-provider -> im-router , bank-provider
-- living-provider -> im-router

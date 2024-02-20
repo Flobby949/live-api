@@ -12,4 +12,5 @@ public interface GiftProviderTopicNamesConstant {
     String REMOVE_GIFT_CACHE = "remove-gift-cache";
 
     String SEND_GIFT = "send-gift";
+    String RECEIVE_RED_PACKET = "receive-red-packet";
 }
