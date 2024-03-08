@@ -760,3 +760,17 @@ p
 Plive-gift-interface/src/main/java/top/flobby/live/gift/vo/ShopCarItemRespVO.java,5\b\5b19f0df2e63e0a68c8fa7fef9431ff513de5966
 á
 Wlive-gift-provider/src/main/java/top/flobby/live/gift/provider/rpc/IShopCarRpcImpl.java,4\e\4eb2971d492039b8effd566804709ffb07e9f7a4
+á
+Wlive-gift-interface/src/main/java/top/flobby/live/gift/interfaces/ISkuStockInfoRPC.java,1\d\1d84b8fd01d7d374bed5a0023c8dd7ec04480454
+î
+dlive-gift-provider/src/main/java/top/flobby/live/gift/provider/service/impl/SkuStockInfoRPCImpl.java,5\9\5918ea3b7364454587f631a6d34e0fca83ef6c51
+å
+\live-gift-provider/src/main/java/top/flobby/live/gift/provider/service/ISkuStockInfoRPC.java,e\6\e6f42b45f99ab468d7de7ef7fdb20e3122f62e68
+ã
+[live-gift-provider/src/main/java/top/flobby/live/gift/provider/rpc/SkuStockInfoRPCImpl.java,d\9\d9e85671b632beeb5762af72ba0ca91fafda9f34
+ê
+`live-gift-provider/src/main/java/top/flobby/live/gift/provider/service/ISkuStockInfoService.java,f\3\f3fd565102f5c1ea147f614d1a299b2df3dff664
+å
+\live-gift-provider/src/main/java/top/flobby/live/gift/provider/service/bo/DcrStockNumBO.java,2\8\2867a5f634d8f42dd1a18e19408f107afe5602b5
+ò
+hlive-gift-provider/src/main/java/top/flobby/live/gift/provider/service/impl/SkuStockInfoServiceImpl.java,b\f\bf30b9422105e12bb5bbbd3c47373aa8d89dbdd8

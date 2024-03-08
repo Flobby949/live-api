@@ -46,4 +46,12 @@ public interface IShopCarService {
      * @param shopCarReqDTO
      */
     Boolean addCarItemNum(ShopCarReqDTO shopCarReqDTO);
+
+    /**
+     * 扣减
+     *
+     * @param shopCarReqDTO dto
+     * @return {@link Boolean}
+     */
+    Boolean decrCarItemNum(ShopCarReqDTO shopCarReqDTO);
 }

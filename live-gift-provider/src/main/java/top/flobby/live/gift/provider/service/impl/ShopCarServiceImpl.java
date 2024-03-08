@@ -46,7 +46,7 @@ public class ShopCarServiceImpl implements IShopCarService {
         Map<Long, Integer> skuCountMap = new HashMap<>();
         while (allCarData.hasNext()) {
             Map.Entry<Object, Object> entry = allCarData.next();
-            skuCountMap.put((Long) entry.getKey(), (Integer) entry.getValue());
+            skuCountMap.put(Long.parseLong(entry.getKey().toString()), (Integer) entry.getValue());
         }
         List<SkuInfoPO> skuInfoDTOList = skuInfoService.queryBySkuIds(new ArrayList<>(skuCountMap.keySet()));
         for (SkuInfoPO skuInfoPO : skuInfoDTOList) {
@@ -69,15 +69,15 @@ public class ShopCarServiceImpl implements IShopCarService {
         // 每个商品都有数量（目前的业务场景中，没有体现）
         // string （对象，对象里面关联上商品的数据信息）
         // set / list
-        // map （k,v） key是skuId，value是商品的数量
-        redisTemplate.opsForHash().put(cacheKey, shopCarReqDTO.getSkuId(), 1);
+        // map （k,v） key是skuId，value是商品的数量,hIncr
+        redisTemplate.opsForHash().put(cacheKey, shopCarReqDTO.getSkuId().toString(), 1);
         return true;
     }
 
     @Override
     public Boolean removeFromCar(ShopCarReqDTO shopCarReqDTO) {
         String cacheKey = cacheKeyBuilder.buildUserShopCar(shopCarReqDTO.getUserId(), shopCarReqDTO.getRoomId());
-        redisTemplate.opsForHash().delete(cacheKey, shopCarReqDTO.getSkuId());
+        redisTemplate.opsForHash().delete(cacheKey, shopCarReqDTO.getSkuId().toString());
         return true;
     }
 
@@ -91,9 +91,15 @@ public class ShopCarServiceImpl implements IShopCarService {
 
     @Override
     public Boolean addCarItemNum(ShopCarReqDTO shopCarReqDTO) {
-        // 可以去自行测试下
         String cacheKey = cacheKeyBuilder.buildUserShopCar(shopCarReqDTO.getUserId(), shopCarReqDTO.getRoomId());
-        redisTemplate.opsForHash().increment(cacheKey, shopCarReqDTO.getSkuId(), 1);
+        redisTemplate.opsForHash().increment(cacheKey, shopCarReqDTO.getSkuId().toString(), 1);
+        return true;
+    }
+
+    @Override
+    public Boolean decrCarItemNum(ShopCarReqDTO shopCarReqDTO) {
+        String cacheKey = cacheKeyBuilder.buildUserShopCar(shopCarReqDTO.getUserId(), shopCarReqDTO.getRoomId());
+        redisTemplate.opsForHash().increment(cacheKey, shopCarReqDTO.getSkuId().toString(), -1);
         return true;
     }
 }

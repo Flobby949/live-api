@@ -2,6 +2,7 @@ package top.flobby.live.gift.provider.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import top.flobby.live.common.enums.CommonStatusEnum;
@@ -19,6 +20,8 @@ import java.util.concurrent.TimeUnit;
  * @author Flobby
  * @date 2024/02/26
  */
+
+@Slf4j
 @Service
 public class SkuInfoServiceImpl implements ISkuInfoService {
 
@@ -31,8 +34,9 @@ public class SkuInfoServiceImpl implements ISkuInfoService {
 
     @Override
     public List<SkuInfoPO> queryBySkuIds(List<Long> skuIdList) {
+        log.info("查询商品信息，skuIdList:{}", skuIdList);
         LambdaQueryWrapper<SkuInfoPO> qw = new LambdaQueryWrapper<>();
-        qw.in(SkuInfoPO::getSkuId, skuIdList);
+        qw.in(!skuIdList.isEmpty(), SkuInfoPO::getSkuId, skuIdList);
         qw.eq(SkuInfoPO::getStatus, CommonStatusEnum.VALID.getCode());
         return skuInfoMapper.selectList(qw);
     }
