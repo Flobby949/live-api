@@ -29,6 +29,7 @@ public class GiftProviderCacheKeyBuilder extends RedisKeyBuilder {
     public static final String RED_PACKET_USER_TOTAL_PRICE = "red_packet:user_total_price";
     public static final String RED_PACKET_NOTIFY = "red_packet:notify";
     public static final String SKU_DETAIL_KEY = "sku:detail";
+    private static String SHOP_CART = "shop_cart";
 
     public String buildGiftListKey() {
         return super.getPrefix() + GIFT_LIST_KEY;
@@ -94,5 +95,9 @@ public class GiftProviderCacheKeyBuilder extends RedisKeyBuilder {
 
     public String buildSkuDetail(Long skuId) {
         return super.getPrefix() + SKU_DETAIL_KEY + super.getSplitItem() + skuId;
+    }
+
+    public String buildUserShopCar(Long userId, Integer roomId) {
+        return super.getPrefix() + SHOP_CART + super.getSplitItem() + userId + super.getSplitItem() + roomId;
     }
 }

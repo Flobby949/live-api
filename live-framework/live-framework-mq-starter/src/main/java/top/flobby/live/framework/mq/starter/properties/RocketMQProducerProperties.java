@@ -36,4 +36,12 @@ public class RocketMQProducerProperties {
      * 重试次数
      */
     private Integer retryTimes;
+    /**
+     * 访问密钥
+     */
+    private String accessKey;
+    /**
+     * 密钥
+     */
+    private String secretKey;
 }

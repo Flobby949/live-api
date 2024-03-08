@@ -25,6 +25,7 @@ public class NacosDriverURLProvider implements ShardingSphereDriverURLProvider {
     public static final String NACOS_TYPE = "nacos:";
     public static final String DEFAULT_GROUP = "DEFAULT_GROUP";
     public static final String DEFAULT_NACOS_ACCOUNT = "nacos";
+    public static final String DEFAULT_NACOS_PASSWORD = "flobby";
 
     /**
      * 判断 url 是否符合 nacos 的格式
@@ -96,7 +97,7 @@ public class NacosDriverURLProvider implements ShardingSphereDriverURLProvider {
             String value = propertyItem[1];
             // 设置默认账号密码
             properties.setProperty(PropertyKeyConst.USERNAME, DEFAULT_NACOS_ACCOUNT);
-            properties.setProperty(PropertyKeyConst.PASSWORD, DEFAULT_NACOS_ACCOUNT);
+            properties.setProperty(PropertyKeyConst.PASSWORD, DEFAULT_NACOS_PASSWORD);
             if (PropertyKeyConst.USERNAME.equals(key)) {
                 properties.setProperty(PropertyKeyConst.USERNAME, value);
             } else if (PropertyKeyConst.PASSWORD.equals(key)) {
