@@ -40,7 +40,7 @@ public class CommonUtils {
     }
 
     /**
-     * 创建Redis随机过期时间
+     * 创建Redis随机过期时间 (秒)
      * 30 min + 随机秒数
      *
      * @return int

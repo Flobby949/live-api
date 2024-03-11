@@ -42,6 +42,9 @@ public class SkuOrderInfoPO {
     private String skuIdList;
     private Long userId;
     private Integer roomId;
+    /**
+     * 状态
+     */
     private Integer status;
     private String extra;
     private Date createTime;
