@@ -52,13 +52,18 @@ public class SkuStockInfoRPCImpl implements ISkuStockInfoRPC {
     }
 
     @Override
+    public boolean decrStockNumBySkuId(Long skuId, Integer num) {
+        return stockInfoService.decrStockNumBySkuId(skuId, num);
+    }
+
+    @Override
     public boolean prepareStockToRedis(Long anchorId) {
         List<Long> skuIds = anchorShopInfoService.querySkuIdByAnchorId(anchorId);
         List<SkuStockInfoPO> skuStockInfoList = stockInfoService.queryBySkuIds(skuIds);
         // 如果主播商品特別少，也可以用for简单实现，更合适的做法是使用multiSet
-        Map<String, SkuStockInfoPO> collectMap =
+        Map<String, Integer> collectMap =
                 skuStockInfoList.stream()
-                        .collect(Collectors.toMap(infoItem -> cacheKeyBuilder.buildSkuStock(infoItem.getSkuId()), x -> x));
+                        .collect(Collectors.toMap(infoItem -> cacheKeyBuilder.buildSkuStock(infoItem.getSkuId()), x -> x.getStockNum()));
         redisTemplate.opsForValue().multiSet(collectMap);
         redisTemplate.executePipelined(new SessionCallback<>() {
             @Override
@@ -69,7 +74,7 @@ public class SkuStockInfoRPCImpl implements ISkuStockInfoRPC {
                 return null;
             }
         });
-        return false;
+        return true;
     }
 
     @Override
@@ -79,7 +84,7 @@ public class SkuStockInfoRPCImpl implements ISkuStockInfoRPC {
         if (stockNum != null) {
             return (Integer) stockNum;
         }
-        return 0;
+        return null;
     }
 
     @Override
@@ -87,7 +92,9 @@ public class SkuStockInfoRPCImpl implements ISkuStockInfoRPC {
         List<Long> skuIds = anchorShopInfoService.querySkuIdByAnchorId(anchorId);
         skuIds.forEach(skuId -> {
             Integer stockNum = queryStockNumBySkuId(skuId);
-            stockInfoService.updateStockNum(skuId, stockNum);
+            if (stockNum != null) {
+                stockInfoService.updateStockNum(skuId, stockNum);
+            }
         });
         return true;
     }

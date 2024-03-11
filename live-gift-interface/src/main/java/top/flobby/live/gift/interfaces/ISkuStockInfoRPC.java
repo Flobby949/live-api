@@ -19,6 +19,15 @@ public interface ISkuStockInfoRPC {
     boolean dcrStockNumBySkuId(Long skuId, Integer num);
 
     /**
+     * 按 SKU ID 更新库存
+     *
+     * @param skuId SKU ID
+     * @param num   数量
+     * @return boolean
+     */
+    boolean decrStockNumBySkuId(Long skuId, Integer num);
+
+    /**
      * 库存值从mysql预热加载到redis
      *
      * @param anchorId 主播id

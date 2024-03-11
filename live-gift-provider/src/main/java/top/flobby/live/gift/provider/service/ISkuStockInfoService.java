@@ -47,4 +47,13 @@ public interface ISkuStockInfoService {
      * @return boolean
      */
     boolean updateStockNum(Long skuId, Integer stockNum);
+
+    /**
+     * 扣减库存，LUA脚本实现方式
+     *
+     * @param skuId SKU ID
+     * @param num   数量
+     * @return boolean
+     */
+    boolean decrStockNumBySkuId(Long skuId, Integer num);
 }

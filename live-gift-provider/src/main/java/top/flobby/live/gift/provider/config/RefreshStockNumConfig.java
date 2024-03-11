@@ -1,6 +1,7 @@
 package top.flobby.live.gift.provider.config;
 
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -18,6 +19,7 @@ import java.util.concurrent.TimeUnit;
  * @create : 2024-03-11 10:14
  **/
 
+@Slf4j
 @Configuration
 public class RefreshStockNumConfig implements InitializingBean {
     @Resource
@@ -43,6 +45,7 @@ public class RefreshStockNumConfig implements InitializingBean {
             Boolean lockStatus = redisTemplate.opsForValue().setIfAbsent(cacheKeyBuilder.buildSkuSyncLock(), 1, 14, TimeUnit.SECONDS);
             if (Boolean.TRUE.equals(lockStatus)) {
                 anchorShopInfoService.queryAllValidAnchorId().forEach(skuStockInfoRPC::syncStockToMysql);
+                log.info("RefreshStockNumJob success");
             }
         }
     }

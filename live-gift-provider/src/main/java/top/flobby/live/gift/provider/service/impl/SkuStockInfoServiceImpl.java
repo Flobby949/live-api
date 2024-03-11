@@ -3,8 +3,11 @@ package top.flobby.live.gift.provider.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import jakarta.annotation.Resource;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 import top.flobby.live.common.enums.CommonStatusEnum;
+import top.flobby.live.framework.redis.starter.key.GiftProviderCacheKeyBuilder;
 import top.flobby.live.gift.provider.dao.mapper.SkuStockInfoMapper;
 import top.flobby.live.gift.provider.dao.po.SkuStockInfoPO;
 import top.flobby.live.gift.provider.service.ISkuStockInfoService;
@@ -23,6 +26,19 @@ import java.util.List;
 public class SkuStockInfoServiceImpl implements ISkuStockInfoService {
     @Resource
     private SkuStockInfoMapper skuStockInfoMapper;
+    @Resource
+    private GiftProviderCacheKeyBuilder cacheKeyBuilder;
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
+
+    private String LUA_SCRIPT =
+            "if (redis.call('exists', KEYS[1])) == 1 then " +
+                    " local currentStock=redis.call('get',KEYS[1]) " +
+                    "  if (tonumber(currentStock)>0 and tonumber(currentStock)-tonumber(ARGV[1])>=0)  then " +
+                    "      return redis.call('decrby',KEYS[1],tonumber(ARGV[1])) " +
+                    "   else return -1 end " +
+                    "else " +
+                    "return -1 end";
 
     @Override
     public DcrStockNumBO dcrStockNumBySkuId(Long skuId, Integer num) {
@@ -50,7 +66,7 @@ public class SkuStockInfoServiceImpl implements ISkuStockInfoService {
     @Override
     public List<SkuStockInfoPO> queryBySkuIds(List<Long> skuIds) {
         LambdaQueryWrapper<SkuStockInfoPO> qw = new LambdaQueryWrapper<>();
-        qw.in(SkuStockInfoPO::getSkuId, skuIds)
+        qw.in(!skuIds.isEmpty(), SkuStockInfoPO::getSkuId, skuIds)
                 .eq(SkuStockInfoPO::getStatus, CommonStatusEnum.VALID.getCode());
         return skuStockInfoMapper.selectList(qw);
     }
@@ -63,5 +79,17 @@ public class SkuStockInfoServiceImpl implements ISkuStockInfoService {
         uw.eq(SkuStockInfoPO::getSkuId, skuId)
                 .eq(SkuStockInfoPO::getStatus, CommonStatusEnum.VALID.getCode());
         return skuStockInfoMapper.update(po, uw) > 0;
+    }
+
+    @Override
+    public boolean decrStockNumBySkuId(Long skuId, Integer num) {
+        // 1. 根据skuId查询库存
+        // 2. 判断库存，库存 >= num
+        // 3. 扣减库存
+        // 但是这种方式存在并发问题，直接使用redis命令会出现多元操作，可能会导致超卖，所以需要使用lua方案
+        DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>(LUA_SCRIPT, Long.class);
+        String cacheKey = cacheKeyBuilder.buildSkuStock(skuId);
+        Long result = redisTemplate.execute(redisScript, List.of(cacheKey), num);
+        return result >= 0;
     }
 }
