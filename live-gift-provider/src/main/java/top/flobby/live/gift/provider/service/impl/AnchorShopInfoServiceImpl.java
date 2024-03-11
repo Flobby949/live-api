@@ -30,4 +30,11 @@ public class AnchorShopInfoServiceImpl implements IAnchorShopInfoService {
         qw.eq(AnchorShopInfoPO::getStatus, CommonStatusEnum.VALID.getCode());
         return anchorShopInfoMapper.selectList(qw).stream().map(AnchorShopInfoPO::getSkuId).collect(Collectors.toList());
     }
+
+    @Override
+    public List<Long> queryAllValidAnchorId() {
+        LambdaQueryWrapper<AnchorShopInfoPO> qw = new LambdaQueryWrapper<>();
+        qw.eq(AnchorShopInfoPO::getStatus, CommonStatusEnum.VALID.getCode());
+        return anchorShopInfoMapper.selectList(qw).stream().map(AnchorShopInfoPO::getAnchorId).collect(Collectors.toList());
+    }
 }

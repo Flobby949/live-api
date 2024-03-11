@@ -3,6 +3,8 @@ package top.flobby.live.gift.provider.service;
 import top.flobby.live.gift.provider.dao.po.SkuStockInfoPO;
 import top.flobby.live.gift.provider.service.bo.DcrStockNumBO;
 
+import java.util.List;
+
 /**
  * @author : Flobby
  * @program : live-api
@@ -28,4 +30,21 @@ public interface ISkuStockInfoService {
      * @return {@link SkuStockInfoPO}
      */
     SkuStockInfoPO queryBySkuId(Long skuId);
+
+    /**
+     * 批量查询
+     *
+     * @param skuIds SKU ID
+     * @return {@link List}<{@link SkuStockInfoPO}>
+     */
+    List<SkuStockInfoPO> queryBySkuIds(List<Long> skuIds);
+
+    /**
+     * 更新库存
+     *
+     * @param skuId    SKU ID
+     * @param stockNum 库存数量
+     * @return boolean
+     */
+    boolean updateStockNum(Long skuId, Integer stockNum);
 }

@@ -17,4 +17,11 @@ public interface IAnchorShopInfoService {
      * @return {@link List}<{@link Long}>
      */
     List<Long> querySkuIdByAnchorId(Long anchorId);
+
+    /**
+     * 查询所有有效主播ID
+     *
+     * @return {@link List}<{@link Long}>
+     */
+    List<Long> queryAllValidAnchorId();
 }
