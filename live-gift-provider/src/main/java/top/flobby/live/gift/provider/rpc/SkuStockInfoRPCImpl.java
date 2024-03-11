@@ -53,7 +53,7 @@ public class SkuStockInfoRPCImpl implements ISkuStockInfoRPC {
 
     @Override
     public boolean decrStockNumBySkuId(Long skuId, Integer num) {
-        return stockInfoService.decrStockNumBySkuId(skuId, num);
+        return stockInfoService.decrStockNumBySkuIdInLua(skuId, num);
     }
 
     @Override

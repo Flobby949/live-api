@@ -14,8 +14,9 @@ public enum OrderStatusEnum {
     WAIT_PAY(0, "待支付"),
     PAYING(1, "支付中"),
     PAY_SUCCESS(2, "已支付"),
-    CANCEL(3, "撤销"),
-    INVALID(4, "无效");
+    CANCEL(3, "撤销/订单关闭"),
+    INVALID(4, "无效"),
+    ;
 
     final Byte code;
     final String desc;

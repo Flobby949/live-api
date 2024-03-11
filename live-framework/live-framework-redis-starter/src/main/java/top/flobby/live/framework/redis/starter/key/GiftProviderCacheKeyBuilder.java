@@ -33,6 +33,7 @@ public class GiftProviderCacheKeyBuilder extends RedisKeyBuilder {
     private static final String SHOP_CART = "shop_cart";
     private static final String SKU_SYNC_LOCK = "sku:sync_lock";
     private static final String USER_SKU_ORDER = "sku:user_order";
+    private static final String SKU_ORDER_INFO = "sku:order_info";
 
     public String buildGiftListKey() {
         return super.getPrefix() + GIFT_LIST_KEY;
@@ -114,5 +115,9 @@ public class GiftProviderCacheKeyBuilder extends RedisKeyBuilder {
 
     public String buildUserSkuOrder(Long userId, Integer roomId) {
         return super.getPrefix() + USER_SKU_ORDER + super.getSplitItem() + userId + super.getSplitItem() + roomId;
+    }
+
+    public String buildSkuOrderInfo(Integer orderId) {
+        return super.getPrefix() + SKU_ORDER_INFO + super.getSplitItem() + orderId;
     }
 }

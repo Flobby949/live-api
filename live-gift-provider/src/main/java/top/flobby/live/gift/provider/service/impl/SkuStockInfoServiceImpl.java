@@ -6,13 +6,18 @@ import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
+import top.flobby.live.bank.constant.OrderStatusEnum;
 import top.flobby.live.common.enums.CommonStatusEnum;
 import top.flobby.live.framework.redis.starter.key.GiftProviderCacheKeyBuilder;
+import top.flobby.live.gift.dto.RollBackStockDTO;
 import top.flobby.live.gift.provider.dao.mapper.SkuStockInfoMapper;
 import top.flobby.live.gift.provider.dao.po.SkuStockInfoPO;
+import top.flobby.live.gift.provider.service.ISkuOrderInfoService;
 import top.flobby.live.gift.provider.service.ISkuStockInfoService;
 import top.flobby.live.gift.provider.service.bo.DcrStockNumBO;
+import top.flobby.live.gift.vo.SkuOrderInfoVO;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -30,6 +35,8 @@ public class SkuStockInfoServiceImpl implements ISkuStockInfoService {
     private GiftProviderCacheKeyBuilder cacheKeyBuilder;
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
+    @Resource
+    private ISkuOrderInfoService skuOrderInfoService;
 
     private String LUA_SCRIPT =
             "if (redis.call('exists', KEYS[1])) == 1 then " +
@@ -82,7 +89,7 @@ public class SkuStockInfoServiceImpl implements ISkuStockInfoService {
     }
 
     @Override
-    public boolean decrStockNumBySkuId(Long skuId, Integer num) {
+    public boolean decrStockNumBySkuIdInLua(Long skuId, Integer num) {
         // 1. 根据skuId查询库存
         // 2. 判断库存，库存 >= num
         // 3. 扣减库存
@@ -91,5 +98,24 @@ public class SkuStockInfoServiceImpl implements ISkuStockInfoService {
         String cacheKey = cacheKeyBuilder.buildSkuStock(skuId);
         Long result = redisTemplate.execute(redisScript, List.of(cacheKey), num);
         return result >= 0;
+    }
+
+    @Override
+    public void stockRollBackHandler(RollBackStockDTO dto) {
+        SkuOrderInfoVO orderInfo = skuOrderInfoService.queryByOrderId(dto.getOrderId());
+        if (orderInfo == null || orderInfo.getStatus().equals(OrderStatusEnum.PAY_SUCCESS.getCode().intValue())) {
+            return;
+        }
+        // 状态回滚
+        skuOrderInfoService.updateStatus(dto.getOrderId(), OrderStatusEnum.CANCEL.getCode().intValue());
+        // 库存回滚
+        // 当前业务场景为了简便，每件商品只能购买一件，所以库存回滚的时候，只需要加回去即可
+        String skuIdStr = orderInfo.getSkuIdList();
+        Arrays.asList(skuIdStr.split(","))
+                .stream().map(Long::parseLong)
+                .forEach(skuId -> {
+                    String cacheKey = cacheKeyBuilder.buildSkuStock(skuId);
+                    redisTemplate.opsForValue().increment(cacheKey, 1);
+                });
     }
 }

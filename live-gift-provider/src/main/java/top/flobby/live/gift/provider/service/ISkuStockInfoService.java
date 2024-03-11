@@ -1,5 +1,6 @@
 package top.flobby.live.gift.provider.service;
 
+import top.flobby.live.gift.dto.RollBackStockDTO;
 import top.flobby.live.gift.provider.dao.po.SkuStockInfoPO;
 import top.flobby.live.gift.provider.service.bo.DcrStockNumBO;
 
@@ -55,5 +56,12 @@ public interface ISkuStockInfoService {
      * @param num   数量
      * @return boolean
      */
-    boolean decrStockNumBySkuId(Long skuId, Integer num);
+    boolean decrStockNumBySkuIdInLua(Long skuId, Integer num);
+
+    /**
+     * 库存回滚处理机
+     *
+     * @param dto DTO
+     */
+    void stockRollBackHandler(RollBackStockDTO dto);
 }

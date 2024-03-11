@@ -61,4 +61,13 @@ public interface IShopInfoService {
      * @param shopCarReq
      */
     Boolean clearShopCar(ShopCarReq shopCarReq);
+
+    /**
+     * 准备订单
+     *
+     * @param userId 用户 ID
+     * @param roomId 房间 ID
+     * @return {@link Boolean}
+     */
+    Boolean prepareOrder(Long userId, Integer roomId);
 }

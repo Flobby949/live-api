@@ -784,3 +784,11 @@ alive-gift-provider/src/main/java/top/flobby/live/gift/provider/dao/mapper/SkuOr
 Nlive-gift-interface/src/main/java/top/flobby/live/gift/dto/SkuOrderInfoVO.java,1\8\1850df3305e0f0d7989ad3e2bd148eb3541da305
 }
 Mlive-gift-interface/src/main/java/top/flobby/live/gift/vo/SkuOrderInfoVO.java,1\1\1140ae94e7bf01dbbbc45e7d91206fea8a726cea
+‚
+Rlive-gift-interface/src/main/java/top/flobby/live/gift/dto/PrepareOrderReqDTO.java,8\2\825354fee1d9b2f41eba940848a1d6bf435640c1
+~
+Nlive-gift-interface/src/main/java/top/flobby/live/gift/SkuOrderStatusEnum.java,b\b\bb0acc02d2bc143161fbc8fdb699c554fd3fcfad
+€
+Plive-gift-interface/src/main/java/top/flobby/live/gift/dto/RollBackStockDTO.java,0\9\09b977e25cf8ed68896e0a6f690a6285d290b6b4
+’
+blive-gift-provider/src/main/java/top/flobby/live/gift/provider/consumer/StockRollBackConsumer.java,a\3\a39d374cc8347b586b2e2bcd575e596527e4692c

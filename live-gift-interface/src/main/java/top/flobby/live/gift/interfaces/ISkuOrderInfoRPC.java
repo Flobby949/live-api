@@ -1,5 +1,6 @@
 package top.flobby.live.gift.interfaces;
 
+import top.flobby.live.gift.dto.PrepareOrderReqDTO;
 import top.flobby.live.gift.dto.SkuOrderInfoDTO;
 import top.flobby.live.gift.vo.SkuOrderInfoVO;
 
@@ -23,5 +24,7 @@ public interface ISkuOrderInfoRPC {
 
     boolean insertOne(SkuOrderInfoDTO skuOrderInfoDTO);
 
-    boolean updateStatus(Long orderId, Integer status);
+    boolean updateStatus(Integer orderId, Integer status);
+
+    boolean prepareOrder(PrepareOrderReqDTO prepareOrderReqDTO);
 }

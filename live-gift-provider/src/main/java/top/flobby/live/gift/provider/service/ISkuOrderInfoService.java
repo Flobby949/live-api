@@ -1,6 +1,7 @@
 package top.flobby.live.gift.provider.service;
 
 import top.flobby.live.gift.dto.SkuOrderInfoDTO;
+import top.flobby.live.gift.provider.dao.po.SkuOrderInfoPO;
 import top.flobby.live.gift.vo.SkuOrderInfoVO;
 
 /**
@@ -21,7 +22,15 @@ public interface ISkuOrderInfoService {
      */
     SkuOrderInfoVO queryLastByUserIdAndRoomId(Long userId, Integer roomId);
 
-    boolean insertOne(SkuOrderInfoDTO skuOrderInfoDTO);
+    /**
+     * 按订单 ID 查询
+     *
+     * @param orderId 订单编号
+     * @return {@link SkuOrderInfoVO}
+     */
+    SkuOrderInfoVO queryByOrderId(Integer orderId);
 
-    boolean updateStatus(Long orderId, Integer status);
+    SkuOrderInfoPO insertOne(SkuOrderInfoDTO skuOrderInfoDTO);
+
+    boolean updateStatus(Integer orderId, Integer status);
 }

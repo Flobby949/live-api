@@ -21,5 +21,6 @@ public class SkuOrderInfoDTO implements Serializable {
 
     private Long userId;
     private Integer roomId;
-    private List<Integer> skuIds;
+    private List<Long> skuIds;
+    private Integer status;
 }

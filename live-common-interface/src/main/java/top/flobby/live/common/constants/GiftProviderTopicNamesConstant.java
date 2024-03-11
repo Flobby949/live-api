@@ -13,4 +13,9 @@ public interface GiftProviderTopicNamesConstant {
 
     String SEND_GIFT = "send-gift";
     String RECEIVE_RED_PACKET = "receive-red-packet";
+
+    /**
+     * 延迟回调，回滚库存
+     */
+    String ROLL_BACK_STOCK = "roll-back-stock";
 }

@@ -14,7 +14,6 @@ import top.flobby.live.gift.provider.dao.po.SkuOrderInfoPO;
 import top.flobby.live.gift.provider.service.ISkuOrderInfoService;
 import top.flobby.live.gift.vo.SkuOrderInfoVO;
 
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -54,19 +53,30 @@ public class SkuOrderInfoServiceImpl implements ISkuOrderInfoService {
     }
 
     @Override
-    public boolean insertOne(SkuOrderInfoDTO skuOrderInfoDTO) {
-        String skuIds = StringUtils.join(skuOrderInfoDTO.getSkuIds(), ",");
-        SkuOrderInfoPO po = new SkuOrderInfoPO();
-        po.setSkuIdList(skuIds);
-        po.setUserId(skuOrderInfoDTO.getUserId());
-        po.setRoomId(skuOrderInfoDTO.getRoomId());
-        po.setStatus(0);
-        po.setCreateTime(new Date());
-        return skuOrderInfoMapper.insert(po) > 0;
+    public SkuOrderInfoVO queryByOrderId(Integer orderId) {
+        String cacheKey = cacheKeyBuilder.buildSkuOrderInfo(orderId);
+        Object cacheObj = redisTemplate.opsForValue().get(cacheKey);
+        if (cacheObj != null) {
+            return ConvertBeanUtils.convert(cacheObj, SkuOrderInfoVO.class);
+        }
+        SkuOrderInfoVO infoVo = ConvertBeanUtils.convert(skuOrderInfoMapper.selectById(orderId), SkuOrderInfoVO.class);
+        if (infoVo != null) {
+            redisTemplate.opsForValue().set(cacheKey, infoVo, CommonUtils.createRandomExpireTime(), TimeUnit.SECONDS);
+        }
+        return infoVo;
     }
 
     @Override
-    public boolean updateStatus(Long orderId, Integer status) {
+    public SkuOrderInfoPO insertOne(SkuOrderInfoDTO skuOrderInfoDTO) {
+        String skuIds = StringUtils.join(skuOrderInfoDTO.getSkuIds(), ",");
+        SkuOrderInfoPO po = ConvertBeanUtils.convert(skuOrderInfoDTO, SkuOrderInfoPO.class);
+        po.setSkuIdList(skuIds);
+        skuOrderInfoMapper.insert(po);
+        return po;
+    }
+
+    @Override
+    public boolean updateStatus(Integer orderId, Integer status) {
         SkuOrderInfoPO skuOrderInfoPO = skuOrderInfoMapper.selectById(orderId);
         skuOrderInfoPO.setStatus(status);
         boolean flag = skuOrderInfoMapper.updateById(skuOrderInfoPO) > 0;

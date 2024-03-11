@@ -14,6 +14,7 @@ import top.flobby.live.gift.dto.ShopCarReqDTO;
 import top.flobby.live.gift.dto.SkuInfoDTO;
 import top.flobby.live.gift.interfaces.IShopCarRPC;
 import top.flobby.live.gift.interfaces.ISkuInfoRPC;
+import top.flobby.live.gift.interfaces.ISkuOrderInfoRPC;
 import top.flobby.live.gift.vo.ShopCarRespVO;
 import top.flobby.live.living.interfaces.ILivingRoomRpc;
 import top.flobby.live.living.vo.LivingRoomInfoVO;
@@ -36,9 +37,10 @@ public class ShopInfoServiceImpl implements IShopInfoService {
     private ILivingRoomRpc livingRoomRpc;
     @DubboReference
     private ISkuInfoRPC skuInfoRpc;
-
     @DubboReference
     private IShopCarRPC shopCarRPC;
+    @DubboReference
+    private ISkuOrderInfoRPC skuOrderInfoRPC;
 
     @Override
     public List<SkuInfoVO> queryByRoomId(Integer roomId) {
@@ -68,16 +70,27 @@ public class ShopInfoServiceImpl implements IShopInfoService {
 
     @Override
     public ShopCarRespVO getCarInfo(ShopCarReq shopCarReq) {
-        return null;
+        ShopCarReqDTO shopCartReq = ConvertBeanUtils.convert(shopCarReq, ShopCarReqDTO.class);
+        shopCartReq.setUserId(RequestContext.getUserId());
+        return ConvertBeanUtils.convert(shopCarRPC.getCarInfo(shopCartReq), ShopCarRespVO.class);
     }
 
     @Override
     public Boolean removeFromCar(ShopCarReq shopCarReq) {
-        return null;
+        ShopCarReqDTO shopCarReqDTO = ConvertBeanUtils.convert(shopCarReq, ShopCarReqDTO.class);
+        shopCarReqDTO.setUserId(RequestContext.getUserId());
+        return shopCarRPC.removeFromCar(shopCarReqDTO);
     }
 
     @Override
     public Boolean clearShopCar(ShopCarReq shopCarReq) {
+        ShopCarReqDTO shopCarReqDTO = ConvertBeanUtils.convert(shopCarReq, ShopCarReqDTO.class);
+        shopCarReqDTO.setUserId(RequestContext.getUserId());
+        return shopCarRPC.clearShopCar(shopCarReqDTO);
+    }
+
+    @Override
+    public Boolean prepareOrder(Long userId, Integer roomId) {
         return null;
     }
 }

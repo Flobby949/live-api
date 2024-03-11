@@ -9,6 +9,7 @@ import top.flobby.live.api.vo.SkuDetailInfoVO;
 import top.flobby.live.api.vo.SkuInfoVO;
 import top.flobby.live.common.resp.CommonResp;
 import top.flobby.live.gift.vo.ShopCarRespVO;
+import top.flobby.live.web.starter.context.RequestContext;
 
 import java.util.List;
 
@@ -75,5 +76,9 @@ public class ShopInfoController {
     // 如果下单成功（库存就正常扣减了）
     // 如果到达一定时间限制没有下单（100台手机，100台库存锁定，不支付，支付倒计时， 库存回滚，订单状态会变成支付超时状态）
 
+    @PostMapping("/prepareOrder")
+    public CommonResp<Boolean> prepareOrder(Integer roomId) {
+        return CommonResp.success(shopInfoService.prepareOrder(RequestContext.getUserId(), roomId));
+    }
 
 }
