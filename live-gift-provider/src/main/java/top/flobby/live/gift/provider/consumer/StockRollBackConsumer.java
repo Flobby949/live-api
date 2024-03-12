@@ -55,6 +55,7 @@ public class StockRollBackConsumer implements InitializingBean {
                 log.error("[StockRollBackConsumer] 库存回滚消费者消费消息失败", e);
                 return ConsumeConcurrentlyStatus.RECONSUME_LATER;
             }
+            log.info("[StockRollBackConsumer] 库存回滚消费者消费消息结束");
             return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
         });
         mqPushConsumer.start();

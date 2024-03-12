@@ -3,6 +3,7 @@ package top.flobby.live.gift.provider.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ import java.util.List;
  * @create : 2024-03-08 14:04
  **/
 
+@Slf4j
 @Service
 public class SkuStockInfoServiceImpl implements ISkuStockInfoService {
     @Resource
@@ -129,6 +131,7 @@ public class SkuStockInfoServiceImpl implements ISkuStockInfoService {
     public void stockRollBackHandler(RollBackStockDTO dto) {
         SkuOrderInfoVO orderInfo = skuOrderInfoService.queryByOrderId(dto.getOrderId());
         if (orderInfo == null || orderInfo.getStatus().equals(OrderStatusEnum.PAY_SUCCESS.getCode().intValue())) {
+            log.info("[StockRollBackConsumer] 订单不存在或者订单已经支付成功，不需要进行库存回滚, orderId: {}", dto.getOrderId());
             return;
         }
         // 状态回滚

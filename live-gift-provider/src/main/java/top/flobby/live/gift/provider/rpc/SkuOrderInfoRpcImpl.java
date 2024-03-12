@@ -7,10 +7,12 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.rocketmq.client.producer.MQProducer;
 import org.apache.rocketmq.common.message.Message;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import top.flobby.live.bank.constant.OrderStatusEnum;
 import top.flobby.live.bank.interfaces.ICurrencyAccountRpc;
 import top.flobby.live.common.utils.ConvertBeanUtils;
+import top.flobby.live.framework.redis.starter.key.GiftProviderCacheKeyBuilder;
 import top.flobby.live.gift.dto.PrepareOrderReqDTO;
 import top.flobby.live.gift.dto.RollBackStockDTO;
 import top.flobby.live.gift.dto.ShopCarReqDTO;
@@ -55,6 +57,10 @@ public class SkuOrderInfoRpcImpl implements ISkuOrderInfoRPC {
     private MQProducer mqProducer;
     @DubboReference
     private ICurrencyAccountRpc accountRpc;
+    @Resource
+    private GiftProviderCacheKeyBuilder cacheKeyBuilder;
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public SkuOrderInfoVO queryLastByUserIdAndRoomId(Long userId, Integer roomId) {

@@ -83,6 +83,8 @@ public class SkuOrderInfoServiceImpl implements ISkuOrderInfoService {
         if (flag) {
             String cacheKey = cacheKeyBuilder.buildUserSkuOrder(skuOrderInfoPO.getUserId(), skuOrderInfoPO.getRoomId());
             redisTemplate.delete(cacheKey);
+            cacheKey = cacheKeyBuilder.buildSkuOrderInfo(orderId);
+            redisTemplate.delete(cacheKey);
         }
         return flag;
     }
