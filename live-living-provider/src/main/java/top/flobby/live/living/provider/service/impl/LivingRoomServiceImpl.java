@@ -1,11 +1,14 @@
 package top.flobby.live.living.provider.service.impl;
 
+import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.ibatis.annotations.Options;
+import org.apache.rocketmq.client.producer.MQProducer;
+import org.apache.rocketmq.common.message.Message;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ScanOptions;
@@ -41,6 +44,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import static top.flobby.live.common.constants.GiftProviderTopicNamesConstant.START_LIVING_ROOM_SYNC_STOCK;
+
 /**
  * @author : Flobby
  * @program : live-api
@@ -62,6 +67,8 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
     private LivingProviderCacheKeyBuilder cacheKeyBuilder;
     @DubboReference
     private ImRouterRpc imRouterRpc;
+    @Resource
+    private MQProducer mqProducer;
 
     @Override
     public LivingRoomInfoVO queryLivingRoomByRoomId(Integer roomId) {
@@ -110,7 +117,24 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
         livingRoomPO.setStartTime(new Date());
         log.info("开启直播，livingRoomPO={}", livingRoomPO);
         livingRoomMapper.insert(livingRoomPO);
+        sendStartLivingMsgToSyncStock(livingRoomPO);
         return livingRoomPO.getId();
+    }
+
+    /**
+     * 发送 Start Living 消息同步库存
+     *
+     * @param livingRoomPO 客厅 PO
+     */
+    private void sendStartLivingMsgToSyncStock(LivingRoomPO livingRoomPO) {
+        Message message = new Message();
+        message.setBody(JSON.toJSONBytes(livingRoomPO.getId()));
+        message.setTopic(START_LIVING_ROOM_SYNC_STOCK);
+        try {
+            mqProducer.send(message);
+        } catch (Exception e) {
+            log.error("发送开启直播消息到同步库存失败，livingRoomPO={}", livingRoomPO, e);
+        }
     }
 
     @Override

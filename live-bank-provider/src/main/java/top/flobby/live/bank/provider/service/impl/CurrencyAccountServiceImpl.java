@@ -85,17 +85,18 @@ public class CurrencyAccountServiceImpl implements ICurrencyAccountService {
     }
 
     @Override
-    public void decrement(Long userId, int num) {
+    public boolean decrement(Long userId, int num) {
         // 先更新redis的余额，再更新数据库的余额
         String cacheKey = cacheKeyBuilder.buildUserBalanceKey(userId);
         if (Boolean.FALSE.equals(redisTemplate.hasKey(cacheKey))) {
-            return;
+            return false;
         }
-        redisTemplate.opsForValue().decrement(cacheKey, num);
+        Long result = redisTemplate.opsForValue().decrement(cacheKey, num);
         redisTemplate.expire(cacheKey, CommonUtils.createRandomExpireTime(), TimeUnit.SECONDS);
         // 异步线程池中操作DB，扣减余额，插入流水，带有事务
         // 分布式架构下 CAP 理论，本系统中优先可用性和性能，因此不保证强一致性，采用异步刷盘的方式
         threadPoolExecutor.execute(() -> consumeDecrDbHandler(userId, num));
+        return result > 0;
     }
 
     @Override
@@ -156,7 +157,10 @@ public class CurrencyAccountServiceImpl implements ICurrencyAccountService {
             return AccountTradeVO.buildFailure(userId, "用户余额不足");
         }
         // 业务处理
-        this.decrement(userId, num);
+        boolean decrementResult = this.decrement(userId, num);
+        if (!decrementResult) {
+            return AccountTradeVO.buildFailure(userId, "支付失败");
+        }
         return AccountTradeVO.buildSuccess(userId);
     }
 

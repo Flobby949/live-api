@@ -31,8 +31,11 @@ public class CurrencyAccountRpcImpl implements ICurrencyAccountRpc {
     }
 
     @Override
-    public void decrement(Long userId, int num) {
-        currencyAccountService.decrement(userId, num);
+    public boolean decrement(Long userId, int num) {
+        if (getUserBalance(userId) < num) {
+            return false;
+        }
+        return currencyAccountService.decrement(userId, num);
     }
 
     @Override

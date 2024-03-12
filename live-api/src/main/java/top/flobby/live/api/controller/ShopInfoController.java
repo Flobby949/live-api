@@ -9,6 +9,7 @@ import top.flobby.live.api.vo.SkuDetailInfoVO;
 import top.flobby.live.api.vo.SkuInfoVO;
 import top.flobby.live.common.resp.CommonResp;
 import top.flobby.live.gift.vo.ShopCarRespVO;
+import top.flobby.live.gift.vo.SkuPrepareOrderVO;
 import top.flobby.live.web.starter.context.RequestContext;
 
 import java.util.List;
@@ -25,8 +26,8 @@ public class ShopInfoController {
         return CommonResp.success(shopInfoService.queryByRoomId(roomId));
     }
 
-    @GetMapping("/detail")
-    public CommonResp<SkuDetailInfoVO> detail(@RequestParam SkuInfoReqDTO dto) {
+    @PostMapping("/detail")
+    public CommonResp<SkuDetailInfoVO> detail(@RequestBody SkuInfoReqDTO dto) {
         return CommonResp.success(shopInfoService.detail(dto));
     }
 
@@ -59,7 +60,7 @@ public class ShopInfoController {
      * 查看购物车信息
      */
     @PostMapping("/getCarInfo")
-    public CommonResp<ShopCarRespVO> getCartInfo(ShopCarReq req) {
+    public CommonResp<ShopCarRespVO> getCartInfo(@RequestBody ShopCarReq req) {
         return CommonResp.success(shopInfoService.getCarInfo(req));
     }
 
@@ -77,8 +78,18 @@ public class ShopInfoController {
     // 如果到达一定时间限制没有下单（100台手机，100台库存锁定，不支付，支付倒计时， 库存回滚，订单状态会变成支付超时状态）
 
     @PostMapping("/prepareOrder")
-    public CommonResp<Boolean> prepareOrder(Integer roomId) {
-        return CommonResp.success(shopInfoService.prepareOrder(RequestContext.getUserId(), roomId));
+    public CommonResp<SkuPrepareOrderVO> prepareOrder(@RequestParam Integer roomId) {
+        SkuPrepareOrderVO result = shopInfoService.prepareOrder(RequestContext.getUserId(), roomId);
+        System.out.println("result:::::::" + result);
+        return result == null
+                ? CommonResp.error()
+                : CommonResp.success(result);
+    }
+
+    @PostMapping("/payNow")
+    public CommonResp<Object> payNow(@RequestParam Integer orderId) {
+        boolean flag = shopInfoService.payNow(RequestContext.getUserId(), orderId);
+        return flag ? CommonResp.success() : CommonResp.error();
     }
 
 }

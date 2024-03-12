@@ -35,7 +35,7 @@ public interface ICurrencyAccountService {
      * @param userId 用户 ID
      * @param num    数字
      */
-    void decrement(Long userId, int num);
+    boolean decrement(Long userId, int num);
 
     /**
      * 按用户 ID 查询

@@ -58,6 +58,16 @@ public interface ISkuStockInfoService {
      */
     boolean decrStockNumBySkuIdInLua(Long skuId, Integer num);
 
+
+    /**
+     * 批量扣减库存
+     *
+     * @param skuIds ids
+     * @param num    数量
+     * @return boolean
+     */
+    boolean decrStockNumBySkuIdInBatch(List<Long> skuIds, Integer num);
+
     /**
      * 库存回滚处理机
      *

@@ -1,11 +1,9 @@
 
-V
-java:S3516@"9Refactor this method to not always return the same value.(Á…º8¬ı”àâ1
+[
+java:S3516K"9Refactor this method to not always return the same value.(™»ÿÿÿÿÿ8«şçã1
 o
-java:S6204K"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(Œç«ƒ8´ı”àâ1
-I
-java:S1602N",Remove useless curly braces around statement(—­»Î8µı”àâ1
-N
-java:S1135O"2Complete the task associated to this TODO comment.(½Ùù;8·ı”àâ1
-{
-java:S2142v"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(”ı¾8»ı”àâ1
+java:S6204V"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(Œç«ƒ8³şçã1
+t
+java:S6204y"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(İÑ“–ıÿÿÿÿ8İÌèã1
+|
+java:S2142œ"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(”ı¾8àÌèã1

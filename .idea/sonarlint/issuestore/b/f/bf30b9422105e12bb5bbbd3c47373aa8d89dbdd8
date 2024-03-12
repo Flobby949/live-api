@@ -1,4 +1,7 @@
 
 f
-java:S2259d"DA "NullPointerException" could be thrown; "result" is nullable here.(Çº¼£üÿÿÿÿ8ßÃ¸àâ1
-v	java:S116)"URename this field "LUA_SCRIPT" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(³·ãÖûÿÿÿÿ8áÃ¸àâ1
+java:S2259u"DA "NullPointerException" could be thrown; "result" is nullable here.(Çº¼£üÿÿÿÿ8Öµ†ã1
+v	java:S116*"URename this field "LUA_SCRIPT" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(³·ãÖûÿÿÿÿ8Øµ†ã1
+w	java:S1166"[Rename this field "BATCH_LUA_SCRIPT" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûéÇ8Øµ†ã1
+O
+java:S61266"2Replace this String concatenation with Text block.(ûéÇ8Ûµ†ã1

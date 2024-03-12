@@ -10,12 +10,14 @@ import top.flobby.live.api.service.IShopInfoService;
 import top.flobby.live.api.vo.SkuDetailInfoVO;
 import top.flobby.live.api.vo.SkuInfoVO;
 import top.flobby.live.common.utils.ConvertBeanUtils;
+import top.flobby.live.gift.dto.PrepareOrderReqDTO;
 import top.flobby.live.gift.dto.ShopCarReqDTO;
 import top.flobby.live.gift.dto.SkuInfoDTO;
 import top.flobby.live.gift.interfaces.IShopCarRPC;
 import top.flobby.live.gift.interfaces.ISkuInfoRPC;
 import top.flobby.live.gift.interfaces.ISkuOrderInfoRPC;
 import top.flobby.live.gift.vo.ShopCarRespVO;
+import top.flobby.live.gift.vo.SkuPrepareOrderVO;
 import top.flobby.live.living.interfaces.ILivingRoomRpc;
 import top.flobby.live.living.vo.LivingRoomInfoVO;
 import top.flobby.live.web.starter.context.RequestContext;
@@ -90,7 +92,12 @@ public class ShopInfoServiceImpl implements IShopInfoService {
     }
 
     @Override
-    public Boolean prepareOrder(Long userId, Integer roomId) {
-        return null;
+    public SkuPrepareOrderVO prepareOrder(Long userId, Integer roomId) {
+        return skuOrderInfoRPC.prepareOrder(new PrepareOrderReqDTO(userId, roomId));
+    }
+
+    @Override
+    public boolean payNow(Long userId, Integer orderId) {
+        return skuOrderInfoRPC.payNow(orderId, userId);
     }
 }

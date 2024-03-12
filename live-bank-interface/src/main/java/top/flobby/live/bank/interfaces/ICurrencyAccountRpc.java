@@ -34,7 +34,7 @@ public interface ICurrencyAccountRpc {
      * @param userId 用户 ID
      * @param num    数字
      */
-    void decrement(Long userId, int num);
+    boolean decrement(Long userId, int num);
 
     /**
      * 获取用户余额

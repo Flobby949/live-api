@@ -106,7 +106,6 @@ public class WsSharkHandler extends ChannelInboundHandlerAdapter {
         if (channelFuture.isSuccess()) {
             // token中保存的就是appId
             Integer appId = JwtUtil.getJSONObject(token).getInt("appId");
-            // TODO roomId
             loginMsgHandler.loginSuccessHandler(ctx, userId, appId, roomId);
             log.info("[WsSharkHandler] handshake success, userId is {}", userId);
         }

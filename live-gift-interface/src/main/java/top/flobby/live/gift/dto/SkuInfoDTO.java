@@ -25,15 +25,12 @@ public class SkuInfoDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 7530341377552688847L;
 
-    private Long id;
     private Long skuId;
     private Integer skuPrice;
     private String skuCode;
     private String name;
     private String iconUrl;
     private String originalIconUrl;
-    private Integer status;
     private String remark;
     private Date createTime;
-    private Date updateTime;
 }

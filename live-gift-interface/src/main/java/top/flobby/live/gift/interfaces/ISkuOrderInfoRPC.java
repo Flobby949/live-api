@@ -3,6 +3,7 @@ package top.flobby.live.gift.interfaces;
 import top.flobby.live.gift.dto.PrepareOrderReqDTO;
 import top.flobby.live.gift.dto.SkuOrderInfoDTO;
 import top.flobby.live.gift.vo.SkuOrderInfoVO;
+import top.flobby.live.gift.vo.SkuPrepareOrderVO;
 
 /**
  * @author : Flobby
@@ -26,5 +27,7 @@ public interface ISkuOrderInfoRPC {
 
     boolean updateStatus(Integer orderId, Integer status);
 
-    boolean prepareOrder(PrepareOrderReqDTO prepareOrderReqDTO);
+    SkuPrepareOrderVO prepareOrder(PrepareOrderReqDTO prepareOrderReqDTO);
+
+    boolean payNow(Integer orderId, Long userId);
 }

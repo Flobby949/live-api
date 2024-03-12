@@ -18,4 +18,6 @@ public interface GiftProviderTopicNamesConstant {
      * 延迟回调，回滚库存
      */
     String ROLL_BACK_STOCK = "roll-back-stock";
+
+    String START_LIVING_ROOM_SYNC_STOCK = "start-living-room-sync-stock";
 }

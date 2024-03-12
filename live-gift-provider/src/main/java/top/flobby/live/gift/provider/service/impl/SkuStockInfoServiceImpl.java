@@ -17,6 +17,7 @@ import top.flobby.live.gift.provider.service.ISkuStockInfoService;
 import top.flobby.live.gift.provider.service.bo.DcrStockNumBO;
 import top.flobby.live.gift.vo.SkuOrderInfoVO;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -46,6 +47,22 @@ public class SkuStockInfoServiceImpl implements ISkuStockInfoService {
                     "   else return -1 end " +
                     "else " +
                     "return -1 end";
+
+    /**
+     * 批量扣减库存
+     */
+    private String BATCH_LUA_SCRIPT = "for  i=1,ARGV[2] do  \n" +
+            "    if (redis.call('exists', KEYS[i]))~= 1 then return -1 end\n" +
+            "\tlocal currentStock=redis.call('get',KEYS[i])  \n" +
+            "\tif (tonumber(currentStock)<=0 and tonumber(currentStock)-tonumber(ARGV[1])<0) then\n" +
+            "        return -1\n" +
+            "\tend\n" +
+            "end  \n" +
+            "\n" +
+            "for  j=1,ARGV[2] do \n" +
+            "\tredis.call('decrby',KEYS[j],tonumber(ARGV[1]))\n" +
+            "end  \n" +
+            "return 1";
 
     @Override
     public DcrStockNumBO dcrStockNumBySkuId(Long skuId, Integer num) {
@@ -98,6 +115,14 @@ public class SkuStockInfoServiceImpl implements ISkuStockInfoService {
         String cacheKey = cacheKeyBuilder.buildSkuStock(skuId);
         Long result = redisTemplate.execute(redisScript, List.of(cacheKey), num);
         return result >= 0;
+    }
+
+    @Override
+    public boolean decrStockNumBySkuIdInBatch(List<Long> skuIds, Integer num) {
+        DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>(BATCH_LUA_SCRIPT, Long.class);
+        List<String> stockKeyList = new ArrayList<>();
+        skuIds.forEach(skuId -> stockKeyList.add(cacheKeyBuilder.buildSkuStock(skuId)));
+        return redisTemplate.execute(redisScript, stockKeyList, num, skuIds.size()) >= 0;
     }
 
     @Override

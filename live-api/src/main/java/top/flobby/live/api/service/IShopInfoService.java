@@ -5,6 +5,7 @@ import top.flobby.live.api.dto.SkuInfoReqDTO;
 import top.flobby.live.api.vo.SkuDetailInfoVO;
 import top.flobby.live.api.vo.SkuInfoVO;
 import top.flobby.live.gift.vo.ShopCarRespVO;
+import top.flobby.live.gift.vo.SkuPrepareOrderVO;
 
 import java.util.List;
 
@@ -67,7 +68,9 @@ public interface IShopInfoService {
      *
      * @param userId 用户 ID
      * @param roomId 房间 ID
-     * @return {@link Boolean}
+     * @return {@link SkuPrepareOrderVO}
      */
-    Boolean prepareOrder(Long userId, Integer roomId);
+    SkuPrepareOrderVO prepareOrder(Long userId, Integer roomId);
+
+    boolean payNow(Long userId, Integer orderId);
 }

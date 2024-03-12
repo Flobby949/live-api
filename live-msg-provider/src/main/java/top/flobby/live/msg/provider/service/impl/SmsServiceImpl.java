@@ -63,7 +63,7 @@ public class SmsServiceImpl implements ISmsService {
         redisTemplate.opsForValue().set(codeCacheKey, code, 60, TimeUnit.SECONDS);
         // 发送验证码
         ThreadPoolManager.commonAsyncPool.execute(() -> {
-            // TODO 第三方短信服务
+            // 第三方短信服务
             boolean codeStatus = cloopenSendSms(phone, code, SmsTemplateEnum.LOGIN_CODE_TEMPLATE);
             if (codeStatus) {
                 // 保存验证码到数据库

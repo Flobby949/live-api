@@ -40,6 +40,9 @@ public class ShopCarServiceImpl implements IShopCarService {
     @Override
     public ShopCarRespVO getCarInfo(ShopCarReqDTO shopCarReqDTO) {
         String cacheKey = cacheKeyBuilder.buildUserShopCar(shopCarReqDTO.getUserId(), shopCarReqDTO.getRoomId());
+        if (!redisTemplate.hasKey(cacheKey)) {
+            return new ShopCarRespVO();
+        }
         Cursor<Map.Entry<Object, Object>> allCarData = redisTemplate.opsForHash()
                 .scan(cacheKey, ScanOptions.scanOptions().match("*").build());
         List<ShopCarItemRespVO> shopCarItemRespVoS = new ArrayList<>();
@@ -48,8 +51,8 @@ public class ShopCarServiceImpl implements IShopCarService {
             Map.Entry<Object, Object> entry = allCarData.next();
             skuCountMap.put(Long.parseLong(entry.getKey().toString()), (Integer) entry.getValue());
         }
-        List<SkuInfoPO> skuInfoDTOList = skuInfoService.queryBySkuIds(new ArrayList<>(skuCountMap.keySet()));
-        for (SkuInfoPO skuInfoPO : skuInfoDTOList) {
+        List<SkuInfoPO> skuInfoPOList = skuInfoService.queryBySkuIds(new ArrayList<>(skuCountMap.keySet()));
+        for (SkuInfoPO skuInfoPO : skuInfoPOList) {
             SkuInfoDTO skuInfoDTO = ConvertBeanUtils.convert(skuInfoPO, SkuInfoDTO.class);
             Integer count = skuCountMap.get(skuInfoDTO.getSkuId());
             shopCarItemRespVoS.add(new ShopCarItemRespVO(count, skuInfoDTO));
@@ -87,7 +90,6 @@ public class ShopCarServiceImpl implements IShopCarService {
         redisTemplate.delete(cacheKey);
         return true;
     }
-
 
     @Override
     public Boolean addCarItemNum(ShopCarReqDTO shopCarReqDTO) {

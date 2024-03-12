@@ -1,5 +1,6 @@
 package top.flobby.live.api.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -10,6 +11,7 @@ import lombok.Data;
  **/
 
 @Data
+@AllArgsConstructor
 public class ShopCarReq {
     private Long skuId;
     private Integer roomId;

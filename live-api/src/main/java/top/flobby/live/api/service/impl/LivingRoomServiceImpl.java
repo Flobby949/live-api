@@ -13,6 +13,7 @@ import top.flobby.live.common.resp.PageRespVO;
 import top.flobby.live.gift.dto.GetRedPacketDTO;
 import top.flobby.live.gift.dto.RedPacketConfigDTO;
 import top.flobby.live.gift.interfaces.IRedPacketRpc;
+import top.flobby.live.gift.interfaces.ISkuStockInfoRPC;
 import top.flobby.live.gift.vo.RedPacketReceiveVO;
 import top.flobby.live.im.common.AppIdEnum;
 import top.flobby.live.living.dto.LivingRoomPageDTO;
@@ -42,6 +43,8 @@ public class LivingRoomServiceImpl implements ILivingRoomService {
     private IUserRpc userRpc;
     @DubboReference
     private IRedPacketRpc redPacketRpc;
+    @DubboReference
+    private ISkuStockInfoRPC skuStockInfoRPC;
 
     @Override
     public PageRespVO<LivingRoomInfoVO> list(LivingRoomPageDTO livingRoomPageDTO) {
