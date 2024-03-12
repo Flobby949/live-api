@@ -49,8 +49,7 @@ public class StartLivingRoomConsumer implements InitializingBean {
         mqPushConsumer.subscribe(GiftProviderTopicNamesConstant.START_LIVING_ROOM_SYNC_STOCK, "");
         mqPushConsumer.setMessageListener((MessageListenerConcurrently) (msgs, context) -> {
             try {
-                String msgStr = String.valueOf(msgs.get(0));
-                skuStockInfoRPC.prepareStockToRedis(JSON.parseObject(msgStr, Long.class));
+                skuStockInfoRPC.prepareStockToRedis(JSON.parseObject(new String(msgs.get(0).getBody()), Long.class));
             } catch (Exception e) {
                 log.error("[StartLivingRoomConsumer] 同步库存消费者消费消息失败", e);
                 return ConsumeConcurrentlyStatus.RECONSUME_LATER;

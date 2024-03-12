@@ -50,8 +50,7 @@ public class StockRollBackConsumer implements InitializingBean {
         mqPushConsumer.subscribe(GiftProviderTopicNamesConstant.ROLL_BACK_STOCK, "");
         mqPushConsumer.setMessageListener((MessageListenerConcurrently) (msgs, context) -> {
             try {
-                String msgStr = String.valueOf(msgs.get(0));
-                skuStockInfoService.stockRollBackHandler(JSON.parseObject(msgStr, RollBackStockDTO.class));
+                skuStockInfoService.stockRollBackHandler(JSON.parseObject(new String(msgs.get(0).getBody()), RollBackStockDTO.class));
             } catch (Exception e) {
                 log.error("[StockRollBackConsumer] 库存回滚消费者消费消息失败", e);
                 return ConsumeConcurrentlyStatus.RECONSUME_LATER;
