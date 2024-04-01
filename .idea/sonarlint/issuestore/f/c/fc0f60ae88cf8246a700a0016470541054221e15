@@ -1,17 +1,17 @@
 
-L
-java:S1874,"/Remove this use of "isEmpty"; it is deprecated.(åÔ®×8İòËŸÊ1
-T
-java:S18742"2Remove this use of "getContext"; it is deprecated.(ÇÊúşÿÿÿÿ8İòËŸÊ1
-M
-java:S18742"+Remove this use of "set"; it is deprecated.(ÇÊúşÿÿÿÿ8İòËŸÊ1
-o
-java:S6204<"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹8ŞòËŸÊ1
-T
-java:S1135F"2Complete the task associated to this TODO comment.(å¼°ÿşÿÿÿÿ8€÷ã‹Ü1
-T
-java:S1874Q"2Remove this use of "getContext"; it is deprecated.(Á¬ùùÿÿÿÿ8ãòËŸÊ1
-M
-java:S1874Q"+Remove this use of "set"; it is deprecated.(Á¬ùùÿÿÿÿ8ãòËŸÊ1
-o
-java:S6204W"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹8ãòËŸÊ1
+r
+java:S1874,"/Remove this use of "isEmpty"; it is deprecated.(åÔ®×8¬‚½Æè1J$7f09d9bb-975a-4d1b-bff6-f0162bad60a6
+z
+java:S18742"2Remove this use of "getContext"; it is deprecated.(ÇÊúşÿÿÿÿ8®‚½Æè1J$bd8a96f8-62e2-483f-a924-e4e0d5073a62
+s
+java:S18742"+Remove this use of "set"; it is deprecated.(ÇÊúşÿÿÿÿ8®‚½Æè1J$e8ce9831-c4be-4ad1-89c6-10e5010283b5
+•
+java:S6204<"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹8±‚½Æè1J$ece676ed-1f14-450d-9ae0-ecd9c81f5e07
+w
+java:S1874G"/Remove this use of "isEmpty"; it is deprecated.(“ÜŸÖùÿÿÿÿ8»‚½Æè1J$58f18ef9-8c6b-4139-9e69-caa5a5c07673
+z
+java:S1874T"2Remove this use of "getContext"; it is deprecated.(Á¬ùùÿÿÿÿ8Á‚½Æè1J$9a543238-0b5e-4efd-80f4-982b820f1027
+s
+java:S1874T"+Remove this use of "set"; it is deprecated.(Á¬ùùÿÿÿÿ8Á‚½Æè1J$ee8af579-2d90-4b35-8d31-dc53bd23e71e
+•
+java:S6204Z"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹8Â‚½Æè1J$90e3bf5c-b73d-41f8-b504-e2eb0ebb8a76

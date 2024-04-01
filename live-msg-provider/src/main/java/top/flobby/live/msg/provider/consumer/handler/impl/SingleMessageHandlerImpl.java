@@ -1,6 +1,7 @@
 package top.flobby.live.msg.provider.consumer.handler.impl;
 
 import com.alibaba.fastjson2.JSON;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Component;
 import top.flobby.live.im.common.AppIdEnum;
@@ -14,6 +15,7 @@ import top.flobby.live.msg.provider.consumer.handler.MessageHandler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -23,6 +25,7 @@ import java.util.stream.Collectors;
  * @create : 2023-12-08 13:53
  **/
 
+@Slf4j
 @Component
 public class SingleMessageHandlerImpl implements MessageHandler {
 
@@ -48,6 +51,7 @@ public class SingleMessageHandlerImpl implements MessageHandler {
                     .stream()
                     .filter(x -> !x.equals(msgBody.getUserId()))
                     .collect(Collectors.toList());
+            log.info("[SingleMessageHandlerImpl] 接收消息的直播间以及用户id,roomId:{},userIdList:{}", roomId, userIdList);
             List<ImMsgBody> imMsgBodyList = new ArrayList<>();
             userIdList.forEach(userId -> {
                 ImMsgBody imMsgBody = ImMsgBody.builder()
@@ -58,7 +62,8 @@ public class SingleMessageHandlerImpl implements MessageHandler {
                         .build();
                 imMsgBodyList.add(imMsgBody);
             });
-            // TODO 暂时不做过多处理
+            // TODO 暂时不做过多处理,简单去除空值
+            imMsgBodyList.removeIf(Objects::isNull);
             imRouterRpc.batchSendMsg(imMsgBodyList);
         }
     }

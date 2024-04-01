@@ -786,9 +786,11 @@ Rlive-gift-interface/src/main/java/top/flobby/live/gift/dto/PrepareOrderReqDTO.j
 Plive-gift-interface/src/main/java/top/flobby/live/gift/dto/RollBackStockDTO.java,0\9\09b977e25cf8ed68896e0a6f690a6285d290b6b4
 ’
 blive-gift-provider/src/main/java/top/flobby/live/gift/provider/consumer/StockRollBackConsumer.java,a\3\a39d374cc8347b586b2e2bcd575e596527e4692c
-t
-Dlive-api/src/main/java/top/flobby/live/api/vo/SkuPrepareOrderVO.java,3\d\3d1f8346029d2dccc8de4e46b5ebdec04fcd182f
 €
 Plive-gift-interface/src/main/java/top/flobby/live/gift/vo/SkuPrepareOrderVO.java,b\e\becfdc66d06263f9ccd53915321114838fc00996
 ”
 dlive-gift-provider/src/main/java/top/flobby/live/gift/provider/consumer/StartLivingRoomConsumer.java,9\d\9ddcb092492b147d67854bff7e113b78a753e7c8
+¡
+qlive-framework/live-framework-web-starter/src/main/java/top/flobby/live/web/starter/context/RequestConstants.java,b\2\b2180a8e8488083ae014ad880ef79193cb7ad79d
+¤
+tlive-framework/live-framework-web-starter/src/main/java/top/flobby/live/web/starter/context/UserInfoInterceptor.java,5\3\53d21dd1f535882e5d5742e38002be59889a6cba

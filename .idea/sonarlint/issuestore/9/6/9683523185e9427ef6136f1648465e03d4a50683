@@ -1,9 +1,9 @@
 
-b	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(‹º•ù8½Í£ˆÈ1
-g	java:S112*"FDefine and throw a dedicated exception instead of using a generic one.(ùœöïşÿÿÿÿ8½Í£ˆÈ1
-T
-java:S1874"2Remove this use of "getContext"; it is deprecated.(†…Ø¢üÿÿÿÿ8ËÍ£ˆÈ1
-M
-java:S1874"+Remove this use of "get"; it is deprecated.(†…Ø¢üÿÿÿÿ8ËÍ£ˆÈ1
-Q
-java:S1874"/Remove this use of "isEmpty"; it is deprecated.(ÍÚüûÿÿÿÿ8ÌÍ£ˆÈ1
+ˆ	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(‹º•ù8½Í£ˆÈ1J$32888942-2472-43b5-9e13-1ec7e98be06d
+	java:S112*"FDefine and throw a dedicated exception instead of using a generic one.(ùœöïşÿÿÿÿ8½Í£ˆÈ1J$ec9a9d31-ca1e-469e-9e42-cc87dc7966f3
+z
+java:S1874"2Remove this use of "getContext"; it is deprecated.(†…Ø¢üÿÿÿÿ8ËÍ£ˆÈ1J$b995ed42-2ae3-4ae9-a0ea-d019a32a5329
+s
+java:S1874"+Remove this use of "get"; it is deprecated.(†…Ø¢üÿÿÿÿ8ËÍ£ˆÈ1J$b0923935-27e0-4d61-93f3-00e4a9fa7f75
+w
+java:S1874"/Remove this use of "isEmpty"; it is deprecated.(ÍÚüûÿÿÿÿ8ÌÍ£ˆÈ1J$d848c42d-bd1d-470d-8ba8-788492121f25
